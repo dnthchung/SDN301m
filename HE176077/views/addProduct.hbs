@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Submit Form</title>
+</head>
+<body>
+  <form  method="POST" action="/sanpham/add">
+    <p>{{title}}</p>
+    <hr>
+    <label for="name">Product Name: </label>
+    <input type="text" id="name" name="nameSP">
+    <hr>
+    <label for="price">Price: </label>
+    <input type="number" id="price" name="priceSP">
+    <hr>
+    <button type="submit">Submit</button>
+  </form>
+</body>
+</html>

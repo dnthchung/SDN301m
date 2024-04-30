@@ -69,4 +69,16 @@ router.get("/edit2/:idNe", function (req, res, next) {
   });
 });
 
+router.post("/change-in4", function (req, res, next) {
+  //get data from body - phụ thuộc bên view edit, bên đó name là gì thì lấy cái đó
+  var { idSP, nameSP, priceSP } = req.body;
+
+  var index = productsData.findIndex((x) => x.id == idSP);
+  //update data
+  productsData[index].name = nameSP;
+  productsData[index].price = priceSP;
+  //redirect to list product
+  res.redirect("/sanpham");
+});
+
 module.exports = router;

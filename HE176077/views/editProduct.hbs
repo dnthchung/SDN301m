@@ -6,8 +6,11 @@
   <title>edit product no.{{id}}</title>
 </head>
 <body>
-  <form  method="POST" action="/sanpham/add">
+  <form  method="POST" action="/sanpham/change-in4">
     <p>{{title}}</p>
+    <p>
+      <input type="hidden" name="idSP" value="{{details.id}}">
+    </p>
     <hr>
     <label for="name">Product Name: </label>
     <input type="text" id="name" name="nameSP" value="{{details.name}}">

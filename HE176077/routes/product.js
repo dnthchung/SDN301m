@@ -36,12 +36,37 @@ router.get("/add", function (req, res, next) {
 // get data and save add new product
 router.post("/add", function (req, res, next) {
   var { nameSP, priceSP } = req.body;
+  var _id = new Date().getTime();
   productsData.push({
-    id: productsData.length + 1,
+    // id: productsData.length + 1,
+    // id: Math.floor(Math.random() * 1000),
+    id: _id,
     name: nameSP,
     price: priceSP,
   });
   res.redirect("/sanpham");
+});
+
+//edit area, next mean khi xong function này, có thể next sang function khác á
+//http://localhost:3000/sanpham/edit?idNe=1 "idNe" must change in hbs file
+router.get("/edit", function (req, res, next) {
+  //truyen = query string
+  var masp = req.query.idNe;
+  var index = productsData.findIndex((x) => x.id == masp);
+  res.render("editProduct", {
+    title: "Edit Product",
+    details: productsData[index],
+  });
+});
+//http://localhost:3000/sanpham/edit2/1
+router.get("/edit2/:idNe", function (req, res, next) {
+  //truyen = parameter
+  var masp = req.params.idNe;
+  var index = productsData.findIndex((x) => x.id == masp);
+  res.render("editProduct", {
+    title: "Edit Product",
+    details: productsData[index],
+  });
 });
 
 module.exports = router;

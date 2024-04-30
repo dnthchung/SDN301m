@@ -1,6 +1,13 @@
 <p>{{title}}</p>
+<a href="./sanpham/add">Add product</a>
 <ul>
     {{#each myProducts}}
-        <li>{{id}} - {{name}} - {{price}}</li>
+        <li>
+            {{id}} - 
+            {{name}} - 
+            {{price}} - 
+            <a href="/sanpham/edit?idNe={{id}}">Edit1</a> -
+            <a href="/sanpham/edit2/{{id}}">Edit2</a> -
+        </li>
     {{/each}}
 </ul>

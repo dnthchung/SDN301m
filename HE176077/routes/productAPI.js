@@ -1,6 +1,7 @@
 var express = require("express");
 var router = express.Router();
 
+//===========================| API: GET |===========================
 //api get list product that available in database
 //1. call model
 var modelProduct = require("../models/productModel");
@@ -51,4 +52,15 @@ router.get("/name", async function (req, res, next) {
   res.json(dataBack);
 });
 
+//5. Api lọc ra danh sách sản phẩm có range giá từ min đến max
+//2 cách: by params và by query, by body
+router.get("/search-price", async function (req, res, next) {
+  //var min = req.query.min;
+  //var max = req.query.max;
+  //gte: greater than or equal, lớn hơn hoặc bằng - lte: less than or equal, nhỏ hơn hoặc bằng
+  //localhost:3000/product-api/search-price?min=100&max=60000
+  var { min, max } = req.query; //min, max là 2 biến trong query từ người dùng
+  var dataBack = await modelProduct.find({ price: { $gte: min, $lte: max } });
+  res.json(dataBack);
+});
 module.exports = router;

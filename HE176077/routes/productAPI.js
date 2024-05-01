@@ -63,4 +63,26 @@ router.get("/search-price", async function (req, res, next) {
   var dataBack = await modelProduct.find({ price: { $gte: min, $lte: max } });
   res.json(dataBack);
 });
+
+//CRUD
+//================================| API: POST |===========================
+//1. create new product
+router.post("/create", async function (req, res, next) {
+  try {
+    var { name, price } = req.body;
+    var productAdd = { name, price };
+
+    var dataBack = await modelProduct.create(productAdd);
+    // res.json(dataBack);
+    //đang muốn trả về Object chứa status và message
+    if (dataBack) {
+      res.json({ status: 1, message: "Thêm mới thành công!" });
+    } else {
+      res.json({ status: 0, message: "Thêm mới thất bại!" });
+    }
+  } catch (error) {
+    res.json({ status: -1, error: error });
+  }
+});
+
 module.exports = router;

@@ -4,6 +4,12 @@ var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 
+//mongoose
+const mongoose = require("mongoose");
+require("./models/productModel");
+//...
+
+//router
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 var productRouter = require("./routes/product");
@@ -13,6 +19,17 @@ var app = express();
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "hbs");
+
+//connect to mongodb
+//"mongodb://127.0.0.1:27017/HE176077"
+mongoose
+  .connect("mongodb://localhost:27017/HE176077", {})
+  .then(() => {
+    console.log("=============| Connected to the database!");
+  })
+  .catch((err) => {
+    console.log("=============| Cannot connect to the database!", err);
+  });
 
 app.use(logger("dev"));
 app.use(express.json());

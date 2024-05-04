@@ -5,6 +5,9 @@ const mongoose = require("mongoose");
 
 mongoose.connect(config.connectionString);
 
+//Api step 2
+const User = require("./models/user.model");
+
 const express = require("express");
 const cors = require("cors");
 const app = express();
@@ -24,8 +27,52 @@ app.get("/", (req, res) => {
   res.json({ message: "Hello World" });
 });
 
-//Create account
-app.post("/create-account", async (req, res) => {});
+//Api step 1 : Create account
+app.post("/create-account", async (req, res) => {
+  const { fullName, email, password } = req.body;
+
+  if (!fullName) {
+    return res
+      .status(400)
+      .json({ error: true, message: "Full name is required" });
+  }
+
+  if (!email) {
+    return res.status(400).json({ error: true, message: "Email is required" });
+  }
+
+  if (!password) {
+    return res
+      .status(400)
+      .json({ error: true, message: "Password is required" });
+  }
+
+  //check if email already exists
+  const isUserExists = await User.findOne({ email });
+  if (isUserExists) {
+    return res
+      .status(400)
+      .json({ error: true, message: "Email(User) already exists" });
+  }
+
+  const user = new User({
+    fullName,
+    email,
+    password,
+  });
+  await user.save();
+
+  const accessToken = jwt.sign({ user }, process.env.ACCESS_TOKEN_SECRET, {
+    expiresIn: "36000m",
+  });
+
+  return res.json({
+    error: false,
+    user,
+    accessToken,
+    message: "Account created successfully",
+  });
+});
 
 app.listen(8000);
 

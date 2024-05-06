@@ -65,8 +65,8 @@ router.get("/search-price", async function (req, res, next) {
 });
 
 //CRUD
-//================================| API: POST |===========================
 //1. create new product
+//http://localhost:3000/product-api/create
 router.post("/create", async function (req, res, next) {
   try {
     var { name, price } = req.body;
@@ -82,6 +82,80 @@ router.post("/create", async function (req, res, next) {
     }
   } catch (error) {
     res.json({ status: -1, error: error });
+  }
+});
+
+//2. read/get product by id
+//http://localhost:3000/product-api/detail
+router.post("/detail", async function (req, res, next) {
+  try {
+    var { id } = req.body;
+    var dataBack = await modelProduct.findById(id);
+    if (dataBack) {
+      res.json(dataBack);
+    } else {
+      res.json({ status: 0, message: "Không tìm thấy sản phẩm!" });
+    }
+  } catch (e) {
+    res.json({ status: -1, error: e, message: "Lỗi không xác định!" });
+  }
+});
+
+//3. edit/update product by id
+//http://localhost:3000/product-api/update
+router.post("/update", async function (req, res, next) {
+  try {
+    var { id, name, price } = req.body;
+    //find product by id
+    var productFound = await modelProduct.findById(id);
+    if (productFound != null) {
+      //update product
+      //if name is null, keep the old name -> nếu người dùng không nhập name thì giữ nguyên name cũ
+      productFound.name = name ? name : productFound.name;
+      //if price is null, keep the old price -> nếu người dùng không nhập price thì giữ nguyên price cũ
+      productFound.price = price ? price : productFound.price;
+      var dataBack = await productFound.save();
+      if (dataBack) {
+        res.json({ status: 1, message: "Cập nhật thành công!" });
+      } else {
+        res.json({ status: 0, message: "Cập nhật thất bại!" });
+      }
+    } else {
+      res.json({ status: 0, message: "Không tìm thấy sản phẩm!" });
+    }
+  } catch (e) {
+    res.json({ status: -1, error: e, message: "Cập nhật thất bại!" });
+  }
+});
+
+//4. delete product by id
+//http://localhost:3000/product-api/delete
+router.post("/delete-post", async function (req, res, next) {
+  try {
+    var { id } = req.body;
+    //có thể dùng find id and update (xóa mềm) hoặc findByIdAndDelete (xóa cứng)
+    var dataBack = await modelProduct.findByIdAndDelete(id);
+    if (dataBack) {
+      res.json({ status: 1, message: "Xóa thành công!" });
+    } else {
+      res.json({ status: 0, message: "Xóa thất bại! Không tìm thấy" });
+    }
+  } catch (e) {
+    res.json({ status: -1, error: e, message: "Xóa thất bại!" });
+  }
+});
+//http://localhost:3000/product-api/delete-get?id=6631342fb28c06d447cd7b69
+router.get("/delete-get", async function (req, res, next) {
+  try {
+    var { id } = req.query;
+    var dataBack = await modelProduct.findByIdAndDelete(id);
+    if (dataBack != null) {
+      res.json({ status: 1, message: "Xóa thành công!" });
+    } else {
+      res.json({ status: 0, message: "Xóa thất bại! Khong tim thay san pham" });
+    }
+  } catch (e) {
+    res.json({ status: -1, error: e, message: "Xóa thất bại!" });
   }
 });
 

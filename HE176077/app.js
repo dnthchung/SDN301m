@@ -3,6 +3,7 @@ var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
+var cors = require("cors");
 
 //mongoose
 const mongoose = require("mongoose");
@@ -38,11 +39,19 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
+//use cors
+app.use(cors(corsOptionsDelegate));
 
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/sanpham", productRouter); // Add this line
 app.use("/product-api", productAPIRouter); // Add this line
+
+// cors
+var corsOptionsDelegate = function (req, callback) {
+  var corsOptions = { origin: true };
+  callback(null, corsOptions);
+};
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Navbar from "../../components/Navbar/Navbar";
 import NoteCard from "../../components/Card/NoteCard";
 import AddEditNote from "./AddEditNote";
@@ -17,6 +18,23 @@ const Home = () => {
     Modal.setAppElement("#root"); // Assuming your root element has an id of 'root'
   }, []);
 
+  //for api backend
+  const [userInfor, setUserInfor] = useState(null);
+  const Navigate = useNavigate();
+  //get user in4
+  const getUserInfo = async () => {
+    try {
+      const response = await axiosInstance.get("/get-user");
+      if (response.data && response.data.user) {
+        setUserInfor(response.data.user);
+      }
+    } catch (error) {
+      if (error.response.status === 401) {
+        localStorage.clear();
+        Navigate("/login");
+      }
+    }
+  };
   return (
     <>
       <Navbar />

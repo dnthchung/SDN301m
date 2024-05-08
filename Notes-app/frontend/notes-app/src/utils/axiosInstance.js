@@ -1,6 +1,5 @@
 import axios from "axios";
 import { BASE_URL } from "./constants";
-import { head } from "../../../../backend";
 
 const axiosInstance = axios.create({
   baseURL: BASE_URL,
@@ -9,6 +8,7 @@ const axiosInstance = axios.create({
     "Content-Type": "application/json",
   },
 });
+
 axiosInstance.interceptors.request.use(
   (config) => {
     const accessToken = localStorage.getItem("token");

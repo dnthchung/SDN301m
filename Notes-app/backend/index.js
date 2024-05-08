@@ -29,6 +29,8 @@ app.get("/", (req, res) => {
   res.json({ message: "Hello World" });
 });
 
+// ===================== API =====================
+
 //Api Create account step 1 :
 app.post("/create-account", async (req, res) => {
   const { fullName, email, password } = req.body;
@@ -116,6 +118,29 @@ app.post("/login", async (req, res) => {
       .status(400)
       .json({ error: true, message: "Invalid email or password" });
   }
+});
+
+//Api get user
+app.get("/get-user", authenticateToken, async (req, res) => {
+  const { user } = req.user;
+
+  const isUserExists = await User.findOne({ _id: user._id });
+
+  if (!isUserExists) {
+    return res.status(401).json({ error: true, message: "User not found!" });
+  }
+
+  //data trả về - cần phải custom thông tin cơ bản cần trả về của user tránh trả về thông tin nhạy cảm
+  return res.json({
+    error: false,
+    user: {
+      fullname: isUserExists.fullName,
+      email: isUserExists.email,
+      _id: isUserExists._id,
+      createdOn: isUserExists.createdOn,
+    },
+    message: "Get User ok",
+  });
 });
 
 //Api Create note step 1 :
@@ -242,10 +267,6 @@ app.put("/update-note-pinned/:noteId", authenticateToken, async (req, res) => {
   const { user } = req.user;
   const { isPinned } = req.body;
 
-  //no change
-  if (!isPinned) {
-    return res.status(400).json({ error: true, message: "no change provided" });
-  }
   try {
     const noteFound = await Note.findOne({ _id: noteId, userId: user._id });
 
@@ -253,7 +274,9 @@ app.put("/update-note-pinned/:noteId", authenticateToken, async (req, res) => {
       return res.status(404).json({ error: true, message: "Note not found" });
     }
 
-    if (isPinned) noteFound.isPinned = isPinned;
+    //update isPinned value vì isPinned là giá trị boolean
+    //nên không cần check giá trị của nó
+    noteFound.isPinned = isPinned;
 
     await noteFound.save();
 

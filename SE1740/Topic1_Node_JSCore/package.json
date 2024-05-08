@@ -1,0 +1,13 @@
+{
+  "name": "topic1_node_jscore",
+  "version": "1.0.0",
+  "description": "node basic using js core",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index 123"
+  },
+  "keywords": ["node","JSCore"],
+  "author": "chungdt",
+  "license": "ISC"
+}

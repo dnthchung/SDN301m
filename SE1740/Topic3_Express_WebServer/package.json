@@ -1,0 +1,16 @@
+{
+  "name": "topic3_express_webserver",
+  "version": "1.0.0",
+  "description": "Create a web server using express.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "chungdt",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}

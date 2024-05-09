@@ -5,6 +5,7 @@ import NoteCard from "../../components/Card/NoteCard";
 import AddEditNote from "./AddEditNote";
 import Modal from "react-modal";
 import { MdAdd } from "react-icons/md";
+import axiosInstance from "../../utils/axiosInstance";
 
 const Home = () => {
   const [openAddEditModal, setOpenAddEditModal] = useState({
@@ -19,25 +20,31 @@ const Home = () => {
   }, []);
 
   //for api backend
-  const [userInfor, setUserInfor] = useState(null);
-  const Navigate = useNavigate();
+  const [userInfo, setUserInfo] = useState(null);
+  const navigate = useNavigate();
   //get user in4
   const getUserInfo = async () => {
     try {
       const response = await axiosInstance.get("/get-user");
       if (response.data && response.data.user) {
-        setUserInfor(response.data.user);
+        setUserInfo(response.data.user);
       }
     } catch (error) {
       if (error.response.status === 401) {
         localStorage.clear();
-        Navigate("/login");
+        navigate("/login");
       }
     }
   };
+
+  useEffect(() => {
+    getUserInfo();
+    return () => {};
+  }, []);
+
   return (
     <>
-      <Navbar />
+      <Navbar userInfo={userInfo} />
       <div className="container mx-auto">
         <div className=" grid grid-cols-3 gap-4 mt-8">
           <NoteCard

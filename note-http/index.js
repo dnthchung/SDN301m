@@ -15,9 +15,11 @@ const path = require("path");
 //   res.end("<html><body><h1>Hello, World!</h1></body></html>");
 // });
 
+//function dùng để tạo server
 const server = http.createServer((req, res) => {
   console.log("Request for " + req.url + " by method " + req.method);
 
+  //nếu method là GET thì thực hiện
   if (req.method == "GET") {
     var fileUrl;
     if (req.url == "/") fileUrl = "/index.html";

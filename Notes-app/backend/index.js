@@ -124,7 +124,8 @@ app.post("/login", async (req, res) => {
 app.get("/get-user", authenticateToken, async (req, res) => {
   const { user } = req.user;
 
-  const isUserExists = await User.find({ userId: user._id });
+  //1:43:37 _id chứ không phải userId
+  const isUserExists = await User.findOne({ _id: user._id });
   console.log(user._id ? "not null" : "null`");
   console.log(user._id);
 

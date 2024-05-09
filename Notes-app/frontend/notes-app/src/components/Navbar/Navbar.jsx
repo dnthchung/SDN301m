@@ -6,6 +6,7 @@ import SearchBar from "../SearchBar/SearchBar";
 const Navbar = ({ userInfo }) => {
   const navigate = useNavigate();
   const onLogout = () => {
+    localStorage.clear();
     navigate("/login");
   };
   const [searchQuery, setSearchQuery] = useState("");
@@ -26,7 +27,9 @@ const Navbar = ({ userInfo }) => {
         onClearSearch={onClearSearch}
       />
 
-      <ProfileInfo userInfo={userInfo} onLogout={onLogout} />
+      {userInfo ? (
+        <ProfileInfo userInfo={userInfo} onLogout={onLogout} />
+      ) : null}
     </div>
   );
 };

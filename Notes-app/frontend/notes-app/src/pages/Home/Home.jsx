@@ -36,7 +36,6 @@ const Home = () => {
       }
     }
   };
-
   useEffect(() => {
     getUserInfo();
     return () => {};

@@ -100,7 +100,8 @@ app.post("/login", async (req, res) => {
     return res.status(400).json({ error: true, message: "User not found!" });
   }
 
-  if (userInfo.email == email || userInfo.password == password) {
+  //bug: wrong operator || => &&
+  if (userInfo.email == email && userInfo.password == password) {
     const user = { user: userInfo };
     //1:20:45
     const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
@@ -125,9 +126,9 @@ app.get("/get-user", authenticateToken, async (req, res) => {
   const { user } = req.user;
 
   //1:43:37 _id chứ không phải userId
-  const isUserExists = await User.findOne({ _id: user._id });
   console.log(user._id ? "not null" : "null`");
   console.log(user._id);
+  const isUserExists = await User.findOne({ _id: user._id });
 
   if (!isUserExists) {
     return res.status(401).json({ error: true, message: "User not found!" });
@@ -137,10 +138,10 @@ app.get("/get-user", authenticateToken, async (req, res) => {
   return res.json({
     error: false,
     user: {
-      fullname: isUserExists.fullName,
-      email: isUserExists.email,
-      _id: isUserExists._id,
-      createdOn: isUserExists.createdOn,
+      fullNameNe: isUserExists.fullName,
+      emailNe: isUserExists.email,
+      _idNe: isUserExists._id,
+      createdOnNe: isUserExists.createdOn,
     },
     message: "Get User ok",
   });

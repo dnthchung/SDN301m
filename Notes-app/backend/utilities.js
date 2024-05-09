@@ -11,15 +11,17 @@ function authenticateToken(req, res, next) {
   if (!token) return res.sendStatus(401);
   //nếu có token thì verify token xem token hợp lệ không
   //(err,user) => err is the error and user is the payload, user is the payload
-  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, data) => {
+  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+    // jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, data) => {
     //log err and data to see what is in there
     console.log("========== Authenticate Token ==========");
     console.log("err", err);
-    console.log(data.user);
+    // console.log(data.user);
     //lỗi thì trả về 403 => là lỗi (forbidden) ko có quyền truy suất vô route mà người dùng đang truy xuất
     if (err) return res.sendStatus(401);
     //problem here
-    req.user = data.user;
+    // req.user = data.user;
+    req.user = user;
     next();
   });
 }

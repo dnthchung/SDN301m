@@ -1,0 +1,44 @@
+[{
+  "_id": {
+    "$oid": "65f0839d3a3860fdd6ffaac0"
+  },
+  "title": "Mặt nạ gương",
+  "year": 2021,
+  "genre": {
+    "$oid": "65f0800e645b2ffe829b3bb1"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65f083cd3a3860fdd6ffaac3"
+  },
+  "title": "Vua hải tặc",
+  "year": 2022,
+  "genre": {
+    "$oid": "65f08074645b2ffe829b3bba"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65f084dc7199a431b7b264bd"
+  },
+  "title": "Về nhà đi con",
+  "year": 2021,
+  "genre": {
+    "$oid": "65f08060645b2ffe829b3bb4"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65f10802344b7e16e1f3df51"
+  },
+  "title": "Về nhà đi con - 4",
+  "year": 2024,
+  "genre": {
+    "$oid": "65f08060645b2ffe829b3bb4"
+  },
+  "__v": 0
+}]

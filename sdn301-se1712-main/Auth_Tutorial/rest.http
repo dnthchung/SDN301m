@@ -1,0 +1,30 @@
+GET http://localhost:9999
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MDk4MDMyODAsImV4cCI6MTcwOTgxNDA4MCwiYXVkIjoiNjVlOTdiODAyMTA0NDFlNTllMTFlZjYxIiwiaXNzIjoibG9jYWxob3N0Ojk5OTkifQ.UyTvsl1JvqWQzNK-XJXHHtM8ZcGnz4SKJBRjFfEZ8b8
+###
+GET http://localhost:9999/abc-xyz
+
+###
+
+POST http://localhost:9999/auth/register
+Content-Type: application/json
+
+{
+    "email": "thopn3@fe.edu.vn",
+    "password": "1234"
+}
+
+###
+
+POST http://localhost:9999/auth/login
+Content-Type: application/json
+
+{
+    "email": "thopn3@fe.edu.vn",
+    "password": "1234"
+}
+
+###
+POST http://localhost:9999/auth/refresh-token
+
+###
+DELETE  http://localhost:9999/auth/logout

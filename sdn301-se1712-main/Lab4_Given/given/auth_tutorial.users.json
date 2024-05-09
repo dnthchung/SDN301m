@@ -1,0 +1,16 @@
+[{
+  "_id": {
+    "$oid": "65ede284a2a64be916fdf7c2"
+  },
+  "email": "thopn3@fe.edu.vn",
+  "password": "$2b$10$UG.WmbPvFgUqnwJvqvKAbermW74j0wnemtOYZcaPhnYN6jsPNFMYu",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65ee5352cb1e3d7e69bfb5e9"
+  },
+  "email": "thopn@fe.edu.vn",
+  "password": "$2b$10$VzldiHQxc4dTmZwF3h4lLOuVdA4GCKqxW4TtwnaZ1xV6qU2S7usv2",
+  "__v": 0
+}]

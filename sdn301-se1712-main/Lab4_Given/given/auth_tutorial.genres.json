@@ -1,0 +1,35 @@
+[{
+  "_id": {
+    "$oid": "65f0800e645b2ffe829b3bb1"
+  },
+  "name": "Hành động",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65f08060645b2ffe829b3bb4"
+  },
+  "name": "Tình cảm",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65f0806c645b2ffe829b3bb7"
+  },
+  "name": "Kinh dị",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65f08074645b2ffe829b3bba"
+  },
+  "name": "Hoạt hình",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65f0807b645b2ffe829b3bbd"
+  },
+  "name": "Khoa học - Nghệ thuật",
+  "__v": 0
+}]

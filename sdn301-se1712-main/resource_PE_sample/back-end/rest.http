@@ -1,0 +1,24 @@
+GET http://localhost:9999/
+
+### Test: Invalid URL
+GET http://localhost:9999/abc-xyz
+
+### GET: /products -> Get all products
+GET http://localhost:9999/products
+
+### GET: /products/:id -> Get product by id
+GET http://localhost:9999/products/65b558c6ab40ed82dd177ef8
+
+### POST: /products -> Create new product
+POST  http://localhost:9999/products
+Content-Type: application/json
+
+{
+  "name": "Product 2",
+  "price": 15,
+  "description": "Product 2 description",
+  "images": [],
+  "comments": [],
+  "category": "65b5205fc73b4cedee28eafe"
+}
+

@@ -13,3 +13,4 @@ const server = http.createServer((req, res) => {
 server.listen(port, hostname, () => {
   console.log(`Server running at http://${hostname}:${port}/`);
 });
+// Compare this snippet from Notes-app/backend/index.js:

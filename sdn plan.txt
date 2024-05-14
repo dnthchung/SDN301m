@@ -1,0 +1,35 @@
+user(id, full name, phone number , address, 
+- customer
+	+ view các page, dùng filter
+	+ xem chi tiết sp, đánh giá(1 lần / 1 sp đã mua), thêm sp vào giỏ hàng, mua hàng
+	+ chỉnh sửa, xem thông tin cá nhân
+	+ xóa tài khoản người dùng - xóa mềm
+- manager
+	+ xem thông tin người dùng , có sử dụng các filter
+	+ duyệt đơn hàng của người dùng
+	+ chỉnh sửa danh sách sản phẩm (CRUD) - xóa mềm
+	+ chỉnh sửa danh sách category  
+- admin
+	
+
+product - product detail
+	+ id
+	+ detail : {
+		- ảnh (nhiều ảnh chụp các góc độ sản phẩm)
+		- chi tiết sản phẩm
+		- thông số kĩ thuật
+	}
+	+ price
+	+ số lượng hàng còn (min = 0)
+	+ color (danh sách màu sắc có )
+	+ rate / 5sao / số lượt vote
+- ghế
+- bàn
+- phụ kiện
+
+order - order details
+
+category (id, name , tổng số lượng) 
+- ghế công thái học
+- bàn
+- phụ kiện

@@ -12,13 +12,11 @@ user(id, full name, phone number , address,
 - admin
 	
 
-product - product detail
+product
 	+ id
-	+ detail : {
-		- ảnh (nhiều ảnh chụp các góc độ sản phẩm)
-		- chi tiết sản phẩm
-		- thông số kĩ thuật
-	}
+	+ name
+	+ ảnh (nhiều ảnh chụp các góc độ sản phẩm)
+	+ chi tiết sản phẩm
 	+ price
 	+ số lượng hàng còn (min = 0)
 	+ color (danh sách màu sắc có )

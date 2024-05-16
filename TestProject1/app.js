@@ -4,8 +4,14 @@ var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 
+//add mongoose and cors
+var cors = require("cors");
+const mongoose = require("mongoose");
+
+//router
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
+var productRouter = require("./routes/product");
 
 var app = express();
 
@@ -19,8 +25,27 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
+//use cors
+app.use(cors(corsOptionsDelegate));
+var corsOptionsDelegate = function (req, callback) {
+  var corsOptions = { origin: true };
+  callback(null, corsOptions);
+};
+
+// dùng để xử lý các request đến root của ứng dụng
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
+app.use("/product", productRouter);
+
+//connect to mongodb
+mongoose
+  .connect("mongodb://localhost:27017/TestProject1", {})
+  .then(() => {
+    console.log("=============| Connected to the database!");
+  })
+  .catch((err) => {
+    console.log("=============| Cannot connect to the database!", err);
+  });
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

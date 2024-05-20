@@ -11,7 +11,7 @@ const mongoose = require("mongoose");
 //router
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
-var productRouter = require("./routes/product");
+var productRouter = require("./routes/productRouter");
 
 var app = express();
 
@@ -20,6 +20,7 @@ app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "jade");
 
 app.use(logger("dev"));
+//middleware to read json from body
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());

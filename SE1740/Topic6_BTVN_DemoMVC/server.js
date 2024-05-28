@@ -1,7 +1,7 @@
 //import express module,.env module
 import express from "express";
 import * as dotenv from "dotenv";
-import connectDB from "./database/database";
+import connectDB from "./database/database.js";
 
 dotenv.config();
 
@@ -15,9 +15,9 @@ app.get("/", (req, res) => {
 });
 
 //khai báo port cho web
-const port = process.env.PORT || 8080;
+const PORT = process.env.PORT || 8080;
 
-app.listen(port, async () => {
+app.listen(PORT, async () => {
   connectDB();
   console.log(`Server is running on port ${PORT}`);
 });

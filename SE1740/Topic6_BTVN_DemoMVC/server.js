@@ -1,7 +1,9 @@
 //import express module,.env module
-import express from "express";
+import express, { json } from "express";
 import * as dotenv from "dotenv";
 import connectDB from "./database/database.js";
+//import components router
+import { UserRouter } from "./routes/index.js";
 
 dotenv.config();
 
@@ -14,6 +16,8 @@ app.get("/", (req, res) => {
   //localhost:8080/
   res.send("Hello World!");
 });
+
+app.use("/user", UserRouter);
 
 //khai báo port cho web
 const PORT = process.env.PORT || 8080;

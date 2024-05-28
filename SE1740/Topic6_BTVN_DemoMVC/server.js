@@ -11,6 +11,7 @@ app.use(express.json());
 
 // Cấu hình hoạt động routing (định tuyến) các request gửi tới web server
 app.get("/", (req, res) => {
+  //localhost:8080/
   res.send("Hello World!");
 });
 

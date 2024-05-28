@@ -1,31 +1,5 @@
 # SDN301m
 
-### Project Structure
-
-├── controllers
-│ ├── category.js
-│ ├── index.js
-│ └── product.js
-├── database
-│ └── database.js
-├── models
-│ ├── category.js
-│ ├── index.js
-│ └── product.js
-├── repositories
-│ ├── category.js
-│ ├── index.js
-│ └── product.js
-├── routes
-│ ├── category.js
-│ ├── index.js
-│ └── product.js
-├── .env
-├── .gitignore
-├── package-lock.json
-├── package.json
-└── server.js
-
 ### Table of Contents and Their Possible Roles
 
 | **File/Folder**     | **Description**                                                                                                                |

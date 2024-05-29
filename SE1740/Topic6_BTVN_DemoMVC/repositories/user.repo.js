@@ -51,37 +51,78 @@ const getAllUsers = async () => {
 const getAnUserById = async (id) => {
   try {
     const userFound = await User.findOne({ _id: id }).populate("role").exec();
-    return userFound;
+    return userFound ? userFound : { status: 0, message: "Delete failed!" };
   } catch (error) {
     throw new Error(`Error fetching user: ${error.message}`);
   }
 };
 
-//Edit/ Update an user by id
+//Edit/ Update an user by id - ADMIN
 /**
  * { _id: id }: The query to find the document. It looks for a document with the _id matching the given id.
  * { name, price, description, images, comments, category }: The update object. This specifies the fields to be updated and their new values.
  * { new: true }: An options object. The { new: true } option tells Mongoose to return the updated document rather than the original document.
  */
-const updateUserById = async (
-  id,
-  { email, password, name, age, phone, type, role }
-) => {
+const updateUserById2 = async (id) => {
   try {
-    // Find the role by name
-    // const roleDoc = await Role.findOne({ name: role });
-    // if (!roleDoc) {
-    //   throw new Error(`Role ${role} not found`);
-    // }
-    // Update user by id
-    const userUpdated = await User.findByIdAndUpdate(
-      { _id: id },
-      { email, password, name, age, phone, type, role },
-      { new: true }
-    );
-    return userUpdated;
+    var { email, password, name, age, phone, type, role } = userData;
+    // find user by id
+    var userFound = await User.findById(id);
+    if (userFound != null) {
+      // update user
+      userFound.email = email ? email : userFound.email;
+      userFound.password = password ? password : userFound.password;
+      userFound.name = name ? name : userFound.name;
+      userFound.age = age ? age : userFound.age;
+      userFound.phone = phone ? phone : userFound.phone;
+      userFound.type = type ? type : userFound.type;
+      // userFound.role = role ? role : userFound.role;
+      var result = await userFound.save();
+
+      return result
+        ? { status: 1, message: "Update successfully!" }
+        : { status: 0, message: "Update failed!" };
+    } else {
+      return { status: 0, message: "User not found!" };
+    }
   } catch (error) {
-    throw new Error(error);
+    return { status: -1, error: error.message, message: "Update failed!" };
+  }
+};
+
+//Delete a user by id - USER | delete account
+const deleteAnUserById = async (id) => {
+  try {
+    const doit = await User.findByIdAndDelete({ _id: id });
+    return doit
+      ? { status: 1, message: "Delete successfully!" }
+      : { status: 0, message: "Delete failed!" };
+  } catch (error) {
+    return { status: -1, error: error.message, message: "Delete failed!" };
+  }
+};
+
+//Update role for a user by id - ADMIN
+const updateRoleUserById = async (id, role) => {
+  try {
+    //find user by id
+    var userFound = await User.findById(id);
+    //update role for user
+    if (userFound) {
+      userFound.role = role ? role : userFound.role;
+      var result = await userFound.save();
+      return result
+        ? { status: 1, message: "Update role successfully!" }
+        : { status: 0, message: "Update role failed!" };
+    } else {
+      return { status: 0, message: "User not found!" };
+    }
+  } catch (error) {
+    return {
+      status: -1,
+      error: error.message,
+      message: "Update role for user failed!",
+    };
   }
 };
 
@@ -89,5 +130,7 @@ export default {
   createUser,
   getAllUsers,
   getAnUserById,
-  updateUserById,
+  updateUserById2,
+  deleteAnUserById,
+  updateRoleUserById,
 };

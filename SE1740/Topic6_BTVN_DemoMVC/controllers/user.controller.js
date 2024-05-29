@@ -38,28 +38,57 @@ const getAnUserById = async (req, res) => {
     // const { id } = req.params;
     const id = req.params.id;
     const userFound = await UserRepo.getAnUserById(id);
-    res.status(200).json(userFound);
+    if (userFound === 0) {
+      res.status(404).json({ message: "User not found!" });
+    } else {
+      res.status(200).json(userFound);
+    }
   } catch (error) {
     res.status(500).json({ message: error.toString() });
   }
 };
 
-//Update/Edit an user by id
-const updateUserById = async (req, res) => {
+// Update a user by id - USER - no ROLE
+const updateUserById2 = async (req, res) => {
   try {
-    // const { id } = req.params;
-    // const { email, password, name, age, phone, type, role } = req.body;
-    // const updatedUser = await UserRepo.updateUserById(id, {
-    //   email,
-    //   password,
-    //   name,
-    //   age,
-    //   phone,
-    //   type,
-    //   role,
-    // });
-    const updatedUser2 = await UserRepo.updateUserById(req.params, req.body);
-    res.status(200).json(updatedUser2);
+    const { id } = req.params;
+    const updatedUser2 = await UserRepo.updateUserById2(id, req.body);
+    if (updatedUser2.status === 1) {
+      res.status(200).json(updatedUser2);
+    } else {
+      res.status(400).json(updatedUser2);
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.toString() });
+  }
+};
+
+//Delete a user by id - USER | delete account
+const deleteAnUserById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const deletedUser = await UserRepo.deleteAnUserById(id);
+    if (deletedUser.status === 1) {
+      res.status(200).json({ message: "Delete successfully!" });
+    } else {
+      res.status(400).json(deletedUser);
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.toString() });
+  }
+};
+
+// Update role for a user by id - ADMIN
+const updateRoleUserById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { role } = req.body;
+    const updatedRole = await UserRepo.updateRoleUserById(id, role);
+    if (updatedRole.status === 1) {
+      res.status(200).json(updatedRole);
+    } else {
+      res.status(400).json(updatedRole);
+    }
   } catch (error) {
     res.status(500).json({ message: error.toString() });
   }
@@ -69,5 +98,7 @@ export default {
   createUser,
   getAllUsers,
   getAnUserById,
-  updateUserById,
+  updateUserById2,
+  deleteAnUserById,
+  updateRoleUserById,
 };

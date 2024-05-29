@@ -26,3 +26,5 @@ app.listen(PORT, async () => {
   connectDB();
   console.log(`Server is running on port ${PORT}`);
 });
+
+//model -> repo -> index -> controller -> index -> router -> server

@@ -6,28 +6,28 @@ const UserSchema = new Schema(
     email: {
       type: String,
       required: [true, "Email is required"],
-      // unique: true,
-      // validate: {
-      //   validator: function (v) {
-      //     // Regular expression for email (contains @ and no whitespace)
-      //     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
-      //   },
-      //   message: (props) => `${props.value} is not a valid phone number!`,
-      // },
+      unique: true,
+      validate: {
+        validator: function (v) {
+          // Regular expression for email (contains @ and no whitespace)
+          return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+        },
+        message: (props) => `${props.value} is not a valid phone number!`,
+      },
     },
     password: {
       type: String,
       required: true,
-      // validate: {
-      //   validator: function (v) {
-      //     // Regular expression for password validation
-      //     return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(
-      //       v
-      //     );
-      //   },
-      //   message: (props) =>
-      //     `Password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, one number, one special character, and have no spaces!`,
-      // },
+      validate: {
+        validator: function (v) {
+          // Regular expression for password validation
+          return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(
+            v
+          );
+        },
+        message: (props) =>
+          `Password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, one number, one special character, and have no spaces!`,
+      },
     },
     name: {
       type: String,
@@ -41,13 +41,13 @@ const UserSchema = new Schema(
     phone: {
       type: String,
       required: true,
-      // validate: {
-      //   validator: function (v) {
-      //     // Regular expression for phone number (starts with 0 and contains 10 digits)
-      //     return /^0\d{9}$/.test(v);
-      //   },
-      //   message: (props) => `${props.value} is not a valid phone number!`,
-      // },
+      validate: {
+        validator: function (v) {
+          // Regular expression for phone number (starts with 0 and contains 10 digits)
+          return /^0\d{9}$/.test(v);
+        },
+        message: (props) => `${props.value} is not a valid phone number!`,
+      },
     },
     type: {
       type: String,

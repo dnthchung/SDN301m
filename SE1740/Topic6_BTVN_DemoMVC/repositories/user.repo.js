@@ -31,7 +31,7 @@ const createUser = async ({
     });
     return newUser._doc;
   } catch (error) {
-    throw new Error(error);
+    throw new Error(error.toString() + "haha");
   }
 };
 

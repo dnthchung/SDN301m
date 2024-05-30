@@ -18,7 +18,29 @@ const createUser = async (req, res) => {
     // send response to client
     res.status(201).json(newUser);
   } catch (error) {
-    res.status(500).json({ message: error.toString() });
+    res.status(500).json({ message: error.toString() + "hihi" });
+  }
+};
+
+// Create a new user
+const createUser2 = async (req, res) => {
+  try {
+    // get data from request body
+    const { email, password, name, age, phone, type, role } = req.body;
+    // create a new user
+    const newUser = await UserRepo.createUser({
+      email,
+      password,
+      name,
+      age,
+      phone,
+      type,
+      role,
+    });
+    // send response to client
+    res.status(201).json(newUser);
+  } catch (error) {
+    res.status(500).json({ message: error.toString() + "hihi" });
   }
 };
 

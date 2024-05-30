@@ -12,7 +12,7 @@ const UserSchema = new Schema(
           // Regular expression for email (contains @ and no whitespace)
           return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
         },
-        message: (props) => `${props.value} is not a valid phone number!`,
+        message: (props) => `${props.value} is not a valid email number!`,
       },
     },
     password: {

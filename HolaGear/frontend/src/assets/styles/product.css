@@ -1,0 +1,10 @@
+.product-card {
+  width: 250px;
+  height: 350px;
+  margin: 20px;
+}
+
+.product-card img {
+  height: 150px;
+  object-fit: cover;
+}

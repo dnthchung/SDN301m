@@ -62,6 +62,9 @@ const UserSchema = new Schema(
     timestamps: true,
   }
 );
+//mongoose.model() nhận 2 tham số,
+//tham số đầu tiên là collection name. Tham số thứ 2 là Schema.
 
+//Note: Mongoose sẽ tự động chuyển tên của collection thành chữ thường và chuyển sang dạng số nhiều. Ví dụ User -> users.
 const User = mongoose.model("User", UserSchema);
 export default User;

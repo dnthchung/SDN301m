@@ -3,6 +3,8 @@ import PromoSection from "../components/PromoSection";
 import Banner from "../components/Banner";
 import SaleBanner from "../components/BannerSale";
 
+import { Link } from "react-router-dom";
+
 const HomePage = ({ products, brands }) => {
   return (
     <div>

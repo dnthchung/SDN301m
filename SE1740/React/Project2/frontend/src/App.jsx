@@ -56,7 +56,8 @@ function App() {
           />
           <Route path="/home" element={<Navigate to="/" />} />
           <Route path="/about" element={<AboutPage />} />
-          <Route path="/product-detail/:id" element={<ProductDetail />} />
+          {/* product detail */}
+          <Route path="/product/:id" element={<ProductDetail />} />
           <Route path="*" element={<NotFoundPage />} />
 
           <Route path="/login" element={<LoginPage />} />

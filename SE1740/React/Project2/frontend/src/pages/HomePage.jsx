@@ -38,11 +38,13 @@ const HomePage = ({ products, brands }) => {
                 key={product.id}
                 className="bg-white rounded-lg shadow-md p-4"
               >
-                <img
-                  src={product.thumbnail}
-                  alt={product.title}
-                  className="w-full h-40 object-cover"
-                />
+                <Link to={`/product/${product.id}`}>
+                  <img
+                    src={product.thumbnail}
+                    alt={product.title}
+                    className="w-full h-40 object-cover"
+                  />
+                </Link>
                 <h3 className="mt-2 text-gray-900 text-sm">{product.title}</h3>
                 <p className="mt-1 text-gray-600">{`$${product.price.toFixed(
                   2

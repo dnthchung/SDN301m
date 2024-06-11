@@ -4,22 +4,24 @@ const Person = db.person;
 //Create a person
 async function add(req, res, next) {
   try {
-    const newPerson = new Person({
-      name: req.body.name,
-      age: req.body.age,
-      stories: req.body.stories,
-    });
-    await newPerson
-      .save()
-      .then((newDoc) => {
-        res.status(201).json(
-          //return _id, name, age , story[] - if story null return []
-          newDoc
-        );
-      })
-      .catch((error) => {
-        next(error);
+    if (req.body) {
+      const newPerson = new Person({
+        name: req.body.name,
+        age: req.body.age,
+        stories: req.body.stories,
       });
+      await newPerson
+        .save()
+        .then((newDoc) => {
+          res.status(201).json(
+            //return _id, name, age , story[] - if story null return []
+            newDoc
+          );
+        })
+        .catch((error) => {
+          next(error);
+        });
+    }
   } catch (error) {
     next(error);
   }

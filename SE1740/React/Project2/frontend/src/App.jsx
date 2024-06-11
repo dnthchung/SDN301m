@@ -21,15 +21,19 @@ import { set } from "react-hook-form";
 
 function App() {
   const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
   const navigate = useNavigate();
 
   //fetch data from backend / api
   useEffect(() => {
     (async () => {
       try {
-        const { data } = await instance.get("/products");
-        // console.log(data);
-        setProducts(data);
+        const a = (await instance.get("/products")).data;
+        const b = (await instance.get("/categories")).data;
+        console.log(a);
+        console.log(b);
+        setProducts(a);
+        setCategories(b);
       } catch (error) {
         console.log(error);
       }
@@ -41,7 +45,10 @@ function App() {
       <Header />
       <main>
         <Routes>
-          <Route path="/" element={<HomePage dataTrans={products} />} />
+          <Route
+            path="/"
+            element={<HomePage dataTrans={products} dataTrans2={categories} />}
+          />
           <Route path="/home" element={<Navigate to="/" />} />
           <Route path="/about" element={<AboutPage />} />
 

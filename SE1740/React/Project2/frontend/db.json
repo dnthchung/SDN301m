@@ -1802,19 +1802,39 @@
       "id": 1,
       "name": "groceries",
       "description": "Grocery items including fresh produce, pantry staples, and more.",
-      "image": "https://www.google.com.vn/url?sa=i&url=https%3A%2F%2Fwww.britannica.com%2Fmoney%2FAdidas-AG&psig=AOvVaw22ActdOhFXEzIU8UUYjxez&ust=1718175268046000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCKjenOX70oYDFQAAAAAdAAAAABAE"
+      "image": ""
     },
     {
       "id": 2,
       "name": "electronics",
       "description": "Electronic devices, gadgets, and accessories.",
-      "image": "https://cdn.dummyjson.com/products/categories/electronics.png"
+      "image": ""
     },
     {
       "id": 3,
       "name": "clothing",
       "description": "Apparel, footwear, and accessories",
-      "image": "https://cdn.dummyjson.com/products/categories/clothing.png"
+      "image": ""    
+    }
+  ],
+  "brands": [
+    {
+      "id": 1,
+      "name": "Adidas",
+      "description": "Sportswear and athletic shoes",
+      "image": ""
+    },
+    {
+      "id": 2,
+      "name": "Apple",
+      "description": "Consumer electronics and software",
+      "image": ""
+    },
+    {
+      "id": 3,
+      "name": "Samsung",
+      "description": "Consumer electronics and appliances",
+      "image": ""
     }
   ],
   "users": [

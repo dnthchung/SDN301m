@@ -3,40 +3,38 @@ import PromoSection from "../components/PromoSection";
 import Banner from "../components/Banner";
 import SaleBanner from "../components/BannerSale";
 
-const HomePage = ({ dataTrans, dataTrans2 }) => {
+const HomePage = ({ products, brands }) => {
   return (
     <div>
       <PromoSection />
       <Banner />
       <SaleBanner />
+      {/* Brands list */}
       <div className="bg-gray-200 min-h-screen p-8">
         <section className="mb-8">
-          <h2 className="text-2xl font-bold mb-4">Categories</h2>
-          <div className="flex space-x-4">
-            {dataTrans2.map((category) => (
+          <h2 className="text-3xl font-bold mb-10 flex justify-center">
+            Brands
+          </h2>
+          <div className="flex space-x-4 justify-center">
+            {brands.map((brand) => (
               <div
-                key={category.id}
-                className="flex-shrink-0 w-20 h-40 bg-gray-800 rounded-lg flex items-center justify-center"
+                key={brand.id}
+                className="flex-shrink-0 w-32 h-56 bg-gray-800 rounded-lg flex items-center justify-center"
               >
-                <img
-                  src={category.image}
-                  alt="Category"
-                  className="w-16 h-16"
-                />
-                <p className="text-white text-xs text-center mt-2">
-                  {category.name}
-                </p>
+                <img src={brand.image} alt="Category" className="w-16 h-16" />
               </div>
             ))}
           </div>
         </section>
+
+        {/* Trending products */}
         <section>
-          <h2 className="text-2xl font-bold mb-4">Trending Products</h2>
-          <div className="flex space-x-4 overflow-x-auto">
-            {dataTrans.map((product) => (
+          <h2 className="text-3xl font-bold mb-4">Trending Products</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
+            {products.map((product) => (
               <div
                 key={product.id}
-                className="w-40 bg-white rounded-lg shadow-md p-4"
+                className="bg-white rounded-lg shadow-md p-4"
               >
                 <img
                   src={product.thumbnail}

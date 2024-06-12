@@ -34,6 +34,7 @@ const ProductCard = ({ product }) => {
       <Link to={`/product/${product.id}`}>
         <img src={product.thumbnail} alt={product.title} className="w-full h-60 object-cover rounded-t-lg" />
         <div className="p-4">
+          <p className="text-gray-700 mb-4">{product.type}</p>
           <h3 className="text-lg font-bold">{product.title}</h3>
           <div className="flex items-center">
             {renderStars(product.rating)}

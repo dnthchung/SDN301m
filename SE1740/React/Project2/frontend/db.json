@@ -9,6 +9,7 @@
       "discountPercentage": 10,
       "rating": 4.5,
       "stock": 20,
+      "type": "Shoes",
       "tags": ["shoes", "running", "adidas"],
       "brand": "Adidas",
       "sku": "AD12345",
@@ -43,10 +44,10 @@
         "createdAt": "2024-05-23T08:56:21.618Z",
         "updatedAt": "2024-05-23T08:56:21.618Z",
         "barcode": "1234567890123",
-        "qrCode": "https://dummyjson.com/public/qr-code.png"
+        "qrCode": ""
       },
-      "images": ["https://cdn.dummyjson.com/products/images/shoes/Adidas%20Running%20Shoes/1.png"],
-      "thumbnail": "https://cdn.dummyjson.com/products/images/shoes/Adidas%20Running%20Shoes/thumbnail.png",
+      "images": [""],
+      "thumbnail": "",
       "stockDetails": {
         "#ff0000": {
           "L": 3,
@@ -70,6 +71,7 @@
       "discountPercentage": 15,
       "rating": 4.7,
       "stock": 15,
+      "type": "T-Shirt",
       "tags": ["jacket", "sports", "nike"],
       "brand": "Nike",
       "sku": "NK54321",
@@ -104,10 +106,10 @@
         "createdAt": "2024-05-23T08:56:21.618Z",
         "updatedAt": "2024-05-23T08:56:21.618Z",
         "barcode": "9876543210987",
-        "qrCode": "https://dummyjson.com/public/qr-code.png"
+        "qrCode": ""
       },
-      "images": ["https://cdn.dummyjson.com/products/images/jacket/Nike%20Sports%20Jacket/1.png"],
-      "thumbnail": "https://cdn.dummyjson.com/products/images/jacket/Nike%20Sports%20Jacket/thumbnail.png",
+      "images": [""],
+      "thumbnail": "",
       "stockDetails": {
         "#000000": {
           "M": 5,
@@ -131,6 +133,7 @@
       "discountPercentage": 5,
       "rating": 4.3,
       "stock": 25,
+      "type": "T-Shirt",
       "tags": ["t-shirt", "casual", "puma"],
       "brand": "Puma",
       "sku": "PM67890",
@@ -165,10 +168,10 @@
         "createdAt": "2024-05-23T08:56:21.618Z",
         "updatedAt": "2024-05-23T08:56:21.618Z",
         "barcode": "1230984567654",
-        "qrCode": "https://dummyjson.com/public/qr-code.png"
+        "qrCode": ""
       },
-      "images": ["https://cdn.dummyjson.com/products/images/tshirt/Puma%20T-Shirt/1.png"],
-      "thumbnail": "https://cdn.dummyjson.com/products/images/tshirt/Puma%20T-Shirt/thumbnail.png",
+      "images": [""],
+      "thumbnail": "",
       "stockDetails": {
         "#0000ff": {
           "S": 2,
@@ -193,6 +196,7 @@
       "discountPercentage": 12,
       "rating": 4.6,
       "stock": 30,
+      "type": "Pant",
       "tags": ["pants", "training", "reebok"],
       "brand": "Reebok",
       "sku": "RB12345",
@@ -227,10 +231,10 @@
         "createdAt": "2024-05-23T08:56:21.618Z",
         "updatedAt": "2024-05-23T08:56:21.618Z",
         "barcode": "9087654321098",
-        "qrCode": "https://dummyjson.com/public/qr-code.png"
+        "qrCode": ""
       },
-      "images": ["https://cdn.dummyjson.com/products/images/pants/Reebok%20Training%20Pants/1.png"],
-      "thumbnail": "https://cdn.dummyjson.com/products/images/pants/Reebok%20Training%20Pants/thumbnail.png",
+      "images": [""],
+      "thumbnail": "",
       "stockDetails": {
         "#000000": {
           "M": 10,
@@ -313,6 +317,34 @@
       "username": "chungdt",
       "confirmPassword": "111111",
       "id": 2
+    }
+  ],
+  "types": [
+    {
+      "id": 1,
+      "name": "T-Shirt",
+      "desciption": "Grocery items including fresh produce, pantry staples, and more.",
+      "image": ""
+    },
+    {
+      "id": 2,
+      "name": "Sleeve",
+      "image": ""
+    },
+    {
+      "id": 3,
+      "name": "Polo",
+      "image": ""
+    },
+    {
+      "id": 4,
+      "name": "Pant",
+      "image": ""
+    },
+    {
+      "id": 5,
+      "name": "Shoes",
+      "image": ""
     }
   ],
   "carts": [

@@ -29,9 +29,6 @@ const Header = () => {
             <Link to="/women" className="mx-2 text-lg font-semibold">
               Women
             </Link>
-            <Link to="/all" className="mx-2 text-lg font-semibold">
-              All
-            </Link>
           </nav>
         </div>
         <div className="flex items-center">

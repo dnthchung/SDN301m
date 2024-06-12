@@ -30,19 +30,12 @@ const ProductDetail = () => {
 
   const handleQuantityChange = (delta) => {
     const maxQuantity =
-      selectedColor && selectedSize
-        ? product.stockDetails[selectedColor][selectedSize]
-        : product.stock;
-    setQuantity((prevQuantity) =>
-      Math.min(Math.max(1, prevQuantity + delta), maxQuantity)
-    );
+      selectedColor && selectedSize ? product.stockDetails[selectedColor][selectedSize] : product.stock;
+    setQuantity((prevQuantity) => Math.min(Math.max(1, prevQuantity + delta), maxQuantity));
   };
 
   const handleQuantityInputChange = (event) => {
-    const value = Math.max(
-      1,
-      Math.min(Number(event.target.value), product.stock)
-    );
+    const value = Math.max(1, Math.min(Number(event.target.value), product.stock));
     setQuantity(value);
   };
 
@@ -91,53 +84,37 @@ const ProductDetail = () => {
     console.log("Buy now", { selectedColor, selectedSize, quantity });
   };
 
-  const filteredReviews = filter
-    ? product.reviews.filter((review) => review.rating === filter)
-    : product.reviews;
+  const filteredReviews = filter ? product.reviews.filter((review) => review.rating === filter) : product.reviews;
 
-  const availableSizes = selectedColor
-    ? Object.keys(product.stockDetails[selectedColor])
-    : [];
+  const availableSizes = selectedColor ? Object.keys(product.stockDetails[selectedColor]) : [];
 
   const availableStock =
-    selectedColor && selectedSize
-      ? product.stockDetails[selectedColor][selectedSize]
-      : product.stock;
+    selectedColor && selectedSize ? product.stockDetails[selectedColor][selectedSize] : product.stock;
 
   return (
     <div className="container mx-auto p-6 bg-white rounded shadow-md mt-10">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="flex justify-center">
-          <img
-            src={product.thumbnail}
-            alt={product.title}
-            className="w-3/4 h-auto rounded-lg"
-          />
+          <img src={product.thumbnail} alt={product.title} className="w-3/4 h-auto rounded-lg" />
         </div>
         <div className="flex-1">
           <h1 className="text-3xl font-bold mb-2">{product.title}</h1>
-          <p className="text-xl text-gray-800 mb-4">
-            ${product.price.toFixed(2)}
-          </p>
+          <p className="text-xl text-gray-800 mb-4">${product.price.toFixed(2)}</p>
           <div className="flex items-center mb-4">
             {[...Array(5)].map((_, i) =>
               product.rating > i ? (
                 <FaStar key={i} className="text-yellow-500" />
               ) : (
                 <FaRegStar key={i} className="text-gray-300" />
-              )
+              ),
             )}
-            <span className="text-gray-600 ml-2">
-              ({product.rating} rating)
-            </span>
+            <span className="text-gray-600 ml-2">({product.rating} rating)</span>
           </div>
+          <p className="text-gray-700 mb-4">{product.type}</p>
           <p className="text-gray-700 mb-4">{product.description}</p>
           <div className="flex items-center space-x-2 mb-4">
             {product.tags.map((tag, index) => (
-              <span
-                key={index}
-                className="inline-block bg-gray-200 text-gray-700 px-2 py-1 rounded-full text-xs"
-              >
+              <span key={index} className="inline-block bg-gray-200 text-gray-700 px-2 py-1 rounded-full text-xs">
                 {tag}
               </span>
             ))}
@@ -160,9 +137,7 @@ const ProductDetail = () => {
                 <button
                   key={size}
                   className={`px-3 py-1 border rounded ${
-                    selectedSize === size
-                      ? "bg-black text-white"
-                      : "bg-white text-black"
+                    selectedSize === size ? "bg-black text-white" : "bg-white text-black"
                   }`}
                   onClick={() => handleSizeSelect(size)}
                 >
@@ -175,10 +150,7 @@ const ProductDetail = () => {
             <div className="flex items-center mb-4">
               <span className="text-gray-700">Quantity</span>
               <div className="flex items-center mx-4">
-                <button
-                  onClick={() => handleQuantityChange(-1)}
-                  className="px-2 py-1 border rounded-l"
-                >
+                <button onClick={() => handleQuantityChange(-1)} className="px-2 py-1 border rounded-l">
                   -
                 </button>
                 <input
@@ -189,16 +161,11 @@ const ProductDetail = () => {
                   min="1"
                   max={availableStock}
                 />
-                <button
-                  onClick={() => handleQuantityChange(1)}
-                  className="px-2 py-1 border rounded-r"
-                >
+                <button onClick={() => handleQuantityChange(1)} className="px-2 py-1 border rounded-r">
                   +
                 </button>
               </div>
-              <span className="text-gray-600">
-                {availableStock} pieces available
-              </span>
+              <span className="text-gray-600">{availableStock} pieces available</span>
             </div>
             {error && <p className="text-red-500">{error}</p>}
             <div className="flex space-x-4">
@@ -209,10 +176,7 @@ const ProductDetail = () => {
                 <CiShoppingCart size={24} />
                 <span>Add to Cart</span>
               </button>
-              <button
-                className="px-4 py-2 bg-black text-white rounded"
-                onClick={handleBuyNow}
-              >
+              <button className="px-4 py-2 bg-black text-white rounded" onClick={handleBuyNow}>
                 Buy Now
               </button>
             </div>
@@ -227,9 +191,7 @@ const ProductDetail = () => {
               key={star}
               onClick={() => setFilter(star)}
               className={`px-4 py-2 border ${
-                filter === star
-                  ? "bg-yellow-500 text-white"
-                  : "bg-white text-gray-700"
+                filter === star ? "bg-yellow-500 text-white" : "bg-white text-gray-700"
               } rounded`}
             >
               {star} Star{star > 1 && "s"}
@@ -238,9 +200,7 @@ const ProductDetail = () => {
           <button
             onClick={() => setFilter(null)}
             className={`px-4 py-2 border ${
-              filter === null
-                ? "bg-yellow-500 text-white"
-                : "bg-white text-gray-700"
+              filter === null ? "bg-yellow-500 text-white" : "bg-white text-gray-700"
             } rounded`}
           >
             All
@@ -251,12 +211,7 @@ const ProductDetail = () => {
             <div key={index} className="border-b py-2">
               <div className="flex items-center">
                 {[...Array(5)].map((_, i) => (
-                  <FaStar
-                    key={i}
-                    className={`${
-                      review.rating > i ? "text-yellow-500" : "text-gray-300"
-                    }`}
-                  />
+                  <FaStar key={i} className={`${review.rating > i ? "text-yellow-500" : "text-gray-300"}`} />
                 ))}
               </div>
               <p className="text-gray-600 mt-2">{review.comment}</p>

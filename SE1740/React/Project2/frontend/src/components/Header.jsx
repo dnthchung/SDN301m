@@ -1,7 +1,6 @@
 import React from "react";
 import logo from "../assets/WEARIT.svg";
 import { Link } from "react-router-dom";
-
 import { CiUser, CiShoppingCart, CiHeart, CiLogout } from "react-icons/ci";
 
 const Header = () => {
@@ -10,9 +9,9 @@ const Header = () => {
       <div className="bg-black text-white py-2">
         <div className="container mx-auto flex justify-end items-center px-4">
           <div>
-            <Link to="/create-account">Create an account</Link>
+            <Link to="/register">Create an account</Link>
             <span className="ml-4 mr-4">|</span>
-            <Link to="/sign-in" className="mr-5">
+            <Link to="/login" className="mr-5">
               Sign in
             </Link>
           </div>
@@ -50,13 +49,13 @@ const Header = () => {
             </button>
           </Link>
           <Link to="/profile" className="mr-4">
-            <button className=" bg-white hover:bg-gray-50 text-gray-800  py-1 px-2 border border-gray-200 rounded shadow ">
+            <button className="bg-white hover:bg-gray-50 text-gray-800 py-1 px-2 border border-gray-200 rounded shadow ">
               <CiUser className="h-5 w-5 opacity-55 hover:opacity-85 text-black" />
             </button>
           </Link>
           <span className="ml-4 mr-4 opacity-25">|</span>
           <Link to="/sign-out" className="mr-7">
-            <button className=" bg-white hover:bg-gray-50 text-gray-800  py-1 px-2 border border-gray-200 rounded shadow ">
+            <button className="bg-white hover:bg-gray-50 text-gray-800 py-1 px-2 border border-gray-200 rounded shadow ">
               <CiLogout className="h-5 w-5 opacity-55 hover:opacity-85 text-black" />
             </button>
           </Link>

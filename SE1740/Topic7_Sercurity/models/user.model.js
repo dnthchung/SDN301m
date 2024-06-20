@@ -14,8 +14,7 @@ const userSchema = new Schema(
           // Regular expression for email (contains @ and no whitespace)
           return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
         },
-        message: (props) =>
-          `input email -> ${props.value} is not a valid email number!`,
+        message: (props) => `input email -> ${props.value} is not a valid email number!`,
       },
     },
     password: {
@@ -30,13 +29,10 @@ const userSchema = new Schema(
         required: true,
       },
     },
-    role: {
-      type: Schema.Types.ObjectId,
-      ref: "role",
-    },
+    roles: [{ type: Schema.Types.ObjectId, ref: "role" }],
   },
 
-  { timestamps: true }
+  { timestamps: true },
 );
 
 module.exports = mongoose.model("User", userSchema);

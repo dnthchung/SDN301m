@@ -16,6 +16,8 @@ import Dashboard from "./pages/admin/Dashboard";
 import AddProduct from "./pages/admin/AddProduct";
 import ProductForm from "./pages/admin/ProductForm";
 
+import Todo from "./pages/Todo";
+
 import instance from "./axios/index";
 import { set } from "react-hook-form";
 
@@ -118,6 +120,7 @@ function App() {
       <main>
         <Routes>
           <Route path="/" element={<HomePage dataTrans={products} />} />
+          <Route path="/todo" element={<Todo />} />
           <Route path="/home" element={<Navigate to="/" />} />
           <Route path="/about" element={<AboutPage />} />
           {/* roduct detail */}

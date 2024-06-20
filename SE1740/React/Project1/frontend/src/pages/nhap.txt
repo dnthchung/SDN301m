@@ -1,0 +1,27 @@
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+
+const Todo = () => {
+  const [todos, setTodos] = useState([]);
+
+  //mỗi lần trang web, component được render lại, kểu làm bất cứ thay đổi gì ở đây, useEffect sẽ chạy lại
+  //muốn cho nó thực hiện 1 lần duy nhất, thì thêm 1 cái mảng rỗng vào cuối
+  useEffect(() => {
+    const getTodos = async () => {
+      try {
+        const myData = await axios.get(
+          "https://jsonplaceholder.typicode.com/todos?_limit=10"
+        );
+        //   setTodos(data);
+        console.log(myData.data);
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
+    getTodos();
+  }, []);
+
+  return <div>Todo</div>;
+};
+
+export default Todo;

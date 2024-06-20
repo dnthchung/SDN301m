@@ -48,9 +48,9 @@ function App() {
           <Route path="/men" element={<ProductList products={products} category="men" />} />
           <Route path="/women" element={<ProductList products={products} category="women" />} />
           <Route path="/product/:id" element={<ProductDetail />} />
-          <Route path="*" element={<NotFoundPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<Register />} />
+          <Route path="*" element={<NotFoundPage />} />
           <Route path="/admin" element={<PrivateRoute />}>
             <Route path="/admin/dashboard" element={<Dashboard />} />
           </Route>

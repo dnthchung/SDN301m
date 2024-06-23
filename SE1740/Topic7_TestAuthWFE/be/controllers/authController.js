@@ -11,6 +11,8 @@ function generateAccessToken(user) {
   return jwt.sign(
     {
       id: user.id,
+      username: user.username,
+      email: user.email,
       role: user.role,
     },
     process.env.JWT_ACCESS_KEY,
@@ -86,12 +88,6 @@ async function signup(req, res, next) {
 
       // Assign role based on input from frontend
       if (req.body.role) {
-        // Find role in the database by name - bước này dùng middleware trong verifySignUp.js
-        // const role = await Role.findOne({ name: req.body.role }).exec();
-        // if (!role) {
-        //   return res.status(400).json({ message: "Invalid role provided" });
-        // }
-        // Assign role ObjectId to the new user
         const roleFound = req.body.role;
         newUser.role = roleFound._id;
       } else {
@@ -130,21 +126,15 @@ async function signin(req, res, next) {
 
     // Send response with tokens and user information
     res.cookie("refreshToken", refreshToken, {
-      httpOnly: true, // Ensures the cookie is sent only over HTTP(S), not accessible via JavaScript
-      secure: false, // Ensures the cookie is sent only over HTTPS in production
-      sameSite: "Strict", // Controls whether a cookie is sent with cross-origin requests
+      httpOnly: true,
+      secure: false,
+      sameSite: "Strict",
       path: "/",
     });
 
     res.status(201).json({
       message: "Logged in successfully",
       accessToken,
-      user: {
-        id: user.id,
-        username: user.username,
-        email: user.email,
-        role: user.role.name,
-      },
     });
   } catch (error) {
     next(error);

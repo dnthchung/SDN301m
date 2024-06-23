@@ -1,23 +1,38 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { jwtDecode } from "jwt-decode"; // Corrected import statement
+import { UserContext } from "../../App";
+import { toast } from "react-hot-toast";
 
 const UserAuthForm = ({ myType }) => {
-  console.log("UserAuthForm: myType:", myType);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
+  const { userAuth, setUserAuth } = useContext(UserContext);
   const navigate = useNavigate();
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    if (myType === "sign-in") {
-      // Handle sign-in logic here
-      console.log("Sign In:", { username, password });
-    } else {
-      // Handle sign-up logic here
-      console.log("Sign Up:", { username, password, email });
+  const userAuthThroughServer = async (serverRoute, formData) => {
+    try {
+      const { data } = await axios.post(`http://localhost:9999/api/auth${serverRoute}`, formData);
+      const { accessToken } = data;
+      const decodedToken = jwtDecode(accessToken);
+
+      sessionStorage.setItem("accessToken", accessToken);
+      sessionStorage.setItem("user", JSON.stringify(decodedToken));
+
+      setUserAuth({ accessToken: accessToken, user: decodedToken });
+      navigate("/"); // Navigate to home page after successful login
+    } catch (error) {
+      toast.error(error.response?.data?.message || "An error occurred");
     }
-    navigate("/");
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const serverRoute = myType === "sign-in" ? "/signin" : "/signup";
+    const formData = { username, password, ...(myType === "sign-up" && { email }) };
+    userAuthThroughServer(serverRoute, formData);
   };
 
   return (

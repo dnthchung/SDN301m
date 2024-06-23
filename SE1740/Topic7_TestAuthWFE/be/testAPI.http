@@ -1,0 +1,14 @@
+###sign up
+POST http://localhost:9999/api/auth/signup 
+Content-Type: application/json
+
+{
+    "email": "",
+    "password" : "abc123",
+    "type": "system",
+    "roles": [
+        "mod",
+        "admin"
+    ]
+}
+

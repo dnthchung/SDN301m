@@ -7,6 +7,7 @@ const User = db.user;
 const Role = db.role;
 
 //generate access token : chứa thông tin user trả về, muốn nó trả về cái gì thì thêm vào object
+//thiếu hạn sử dụng, nếu không thì nó sẽ mặc định là 15 phút :       expiresIn: "15m",
 function generateAccessToken(user) {
   return jwt.sign(
     {
@@ -16,7 +17,9 @@ function generateAccessToken(user) {
       role: user.role,
     },
     process.env.JWT_ACCESS_KEY,
-    { expiresIn: "30s" },
+    {
+      expiresIn: "5min",
+    },
   );
 }
 
@@ -35,7 +38,6 @@ function generateRefreshToken(user) {
 //request refresh token
 async function requestRefreshToken(req, res, next) {
   try {
-    // console.log("refreshToken");
     const refreshToken = req.cookies.refreshToken;
     if (!refreshToken) return res.status(401).json({ message: "Refresh token is required" });
 
@@ -89,7 +91,8 @@ async function signup(req, res, next) {
       // Assign role based on input from frontend
       if (req.body.role) {
         const roleFound = req.body.role;
-        newUser.role = roleFound._id;
+        const roleFoundInDB = await Role.findOne({ name: roleFound }).exec();
+        newUser.role = roleFoundInDB._id;
       } else {
         // Default role assignment if no role is provided
         const defaultRole = await Role.findOne({ name: "user" }).exec();

@@ -1,8 +1,10 @@
 import React, { useState, useEffect, createContext } from "react";
 import { Routes, Route } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
 import "./App.css";
 import Header from "./components/main/Header";
 import UserAuthForm from "./pages/user/UserAuthForm";
+import DashBoardUser from "./pages/admin/DashBoardUser";
 
 export const UserContext = createContext({});
 
@@ -21,11 +23,13 @@ const App = () => {
 
   return (
     <UserContext.Provider value={{ userAuth, setUserAuth }}>
+      <Toaster />
       <Header />
       <Routes>
         <Route path="/" element={<div>Home Page</div>} />
         <Route path="/signin" element={<UserAuthForm myType="sign-in" />} />
         <Route path="/signup" element={<UserAuthForm myType="sign-up" />} />
+        <Route path="/dashboard" element={<DashBoardUser />} />
       </Routes>
     </UserContext.Provider>
   );

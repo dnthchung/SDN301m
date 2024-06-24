@@ -18,11 +18,18 @@ const UserAuthForm = ({ myType }) => {
       const { accessToken } = data;
       const decodedToken = jwtDecode(accessToken);
 
-      sessionStorage.setItem("accessToken", accessToken);
-      sessionStorage.setItem("user", JSON.stringify(decodedToken));
-
-      setUserAuth({ accessToken: accessToken, user: decodedToken });
-      navigate("/"); // Navigate to home page after successful login
+      let date = new Date();
+      if (decodedToken.exp < date.getTime() / 1000) {
+        console.log("Token expired");
+        sessionStorage.clear();
+        toast.error("Session expired. Please sign in again.");
+      } else {
+        sessionStorage.setItem("accessToken", accessToken);
+        sessionStorage.setItem("user", JSON.stringify(decodedToken));
+        setUserAuth({ accessToken: accessToken, user: decodedToken });
+        toast.success(myType === "sign-in" ? "Signed in successfully!" : "Signed up successfully!");
+        navigate("/");
+      }
     } catch (error) {
       toast.error(error.response?.data?.message || "An error occurred");
     }

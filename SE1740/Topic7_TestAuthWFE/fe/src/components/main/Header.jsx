@@ -23,6 +23,11 @@ const Header = () => {
           {userAuth && userAuth.accessToken ? (
             <>
               <span className="text-white mr-4">Hello, {userAuth.user.username}</span>
+              {userAuth.user.role.name === "admin" && (
+                <Link to="/dashboard" className="bg-yellow-500 text-white py-2 px-4 rounded mr-2 hover:bg-yellow-700">
+                  Manage Users
+                </Link>
+              )}
               <button onClick={handleLogout} className="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-700">
                 Logout
               </button>

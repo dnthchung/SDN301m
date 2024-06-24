@@ -6,7 +6,6 @@ async function verifyToken(req, res, next) {
   const token = req.headers.token;
   if (token) {
     const secretToken = token.split(" ")[1];
-    //   console.log(secretToken);
     jwt.verify(secretToken, process.env.JWT_ACCESS_KEY, (err, user) => {
       if (err) {
         //forbidden - ngăn cấm
@@ -34,8 +33,6 @@ async function verifyTokenIsUserAndAdmin(req, res, next) {
 //just admin can access
 async function verifyTokenIsAdmin(req, res, next) {
   verifyToken(req, res, () => {
-    console.log(req.user);
-
     if (req.user.role.name === "admin") {
       next();
     } else {
@@ -43,6 +40,9 @@ async function verifyTokenIsAdmin(req, res, next) {
     }
   });
 }
+
+//check time of token = get token from session storage
+// async function
 
 module.exports = {
   verifyToken,

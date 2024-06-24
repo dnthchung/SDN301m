@@ -9,10 +9,20 @@ const { userRouter, roleRouter, authRouter } = require("./routes");
 require("dotenv").config();
 
 const app = express();
+
+// CORS configuration
+app.use(
+  cors({
+    origin: "http://localhost:5173", // Your frontend domain
+    credentials: true, // Allow credentials (cookies)
+  }),
+);
+
 app.use(morgan("dev"));
 app.use(cors());
 app.use(cookieParser());
 app.use(bodyParser.json());
+
 app.use("/api/user", userRouter);
 app.use("/api/role", roleRouter);
 app.use("/api/auth", authRouter);

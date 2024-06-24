@@ -8,7 +8,7 @@ const userRouter = express.Router();
 userRouter.use(bodyParser.json());
 
 //create router
-userRouter.post("/create", UserController.create);
+userRouter.post("/create", verifyJWT.verifyTokenIsAdmin, UserController.create);
 //get all users
 userRouter.get("/", verifyJWT.verifyTokenIsAdmin, UserController.getAll);
 

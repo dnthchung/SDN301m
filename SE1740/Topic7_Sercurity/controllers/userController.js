@@ -29,6 +29,26 @@ async function create(req, res, next) {
 
 //Delete an user
 
+async function allAccess(req, res) {
+  res.send("Public Content.");
+}
+
+async function memberAccess(req, res) {
+  res.send("Member Content.");
+}
+
+async function adminAccess(req, res) {
+  res.send("Admin Content.");
+}
+
+async function moderatorAccess(req, res) {
+  res.send("Moderator Content.");
+}
+
 module.exports = {
   create,
+  allAccess,
+  memberAccess,
+  adminAccess,
+  moderatorAccess,
 };

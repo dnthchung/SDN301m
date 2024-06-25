@@ -8,5 +8,5 @@ authRouter.use(bodyParser.json());
 
 //sign up
 authRouter.post("/signup", [verifySignUp.checkExistRole, verifySignUp.checkExistUser], AuthController.signup);
-
+authRouter.post("/signin", AuthController.signin);
 module.exports = authRouter;

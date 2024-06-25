@@ -1,5 +1,8 @@
 const db = require("../models");
-const brycpt = require("bcrypt");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+
+const config = require("../config/auth.config");
 
 //gọi ra các đối tượng từ db
 const User = db.user;
@@ -42,7 +45,31 @@ async function signup(req, res, next) {
 }
 
 //sign in action
-async function signin(req, res, next) {}
+async function signin(req, res, next) {
+  try {
+    const existUser = await User.findOne({ email: req.body.email }).populate("roles", "-__v").exec();
+    if (!existUser) {
+      return res.status(404).json({ message: "User Not found." });
+    }
+    const passwordIsValid = bcrypt.compareSync(req.body.password, existUser.password);
+    if (!passwordIsValid) throw createError(401, "Invalid Password!");
+
+    //jwt
+    const token = jwt.sign({ id: existUser.id }, config.secret, {
+      expiresIn: config.jwtExpiration,
+    });
+    const authorities = [];
+    for (let i = 0; i < existUser.roles.length; i++) {
+      authorities.push("ROLE_" + existUser.roles[i].name);
+    }
+    res.status(200).json({
+      id: existUser._id,
+      email: existUser.email,
+      accessToken: token,
+      roles: authorities,
+    });
+  } catch (error) {}
+}
 
 module.exports = {
   signup,

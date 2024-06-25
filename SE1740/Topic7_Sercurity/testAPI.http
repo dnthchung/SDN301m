@@ -3,12 +3,22 @@ POST http://localhost:9999/api/auth/signup
 Content-Type: application/json
 
 {
-    "email": "",
-    "password" : "abc123",
-    "type": "system",
-    "roles": [
-        "mod",
-        "admin"
-    ]
+    "email": "admin1@gmail.com",
+    "password" : "123",
+    "type" : "system"
 }
 
+
+###sign in
+POST http://localhost:9999/api/auth/signin
+Content-Type: application/json
+
+{
+    "email": "admin1@gmail.com",
+    "password" : "123",
+    "type" : "system"
+}
+
+###sign in
+GET http://localhost:9999/api/user/all
+Content-Type: application/json

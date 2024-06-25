@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { jwtDecode } from "jwt-decode"; // Corrected import statement
+import { jwtDecode } from "jwt-decode";
 import { UserContext } from "../../App";
 import { toast } from "react-hot-toast";
 

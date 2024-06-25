@@ -18,7 +18,7 @@ function generateAccessToken(user) {
     },
     process.env.JWT_ACCESS_KEY,
     {
-      expiresIn: "5min",
+      expiresIn: "15s",
     },
   );
 }

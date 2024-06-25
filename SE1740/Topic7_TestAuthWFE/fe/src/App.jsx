@@ -1,10 +1,11 @@
 import React, { useState, useEffect, createContext } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import "./App.css";
 import Header from "./components/main/Header";
 import UserAuthForm from "./pages/user/UserAuthForm";
 import DashBoardUser from "./pages/admin/DashBoardUser";
+import PrivateRoute from "./utils/PrivateRoute";
 
 export const UserContext = createContext({});
 
@@ -29,7 +30,14 @@ const App = () => {
         <Route path="/" element={<div>Home Page</div>} />
         <Route path="/signin" element={<UserAuthForm myType="sign-in" />} />
         <Route path="/signup" element={<UserAuthForm myType="sign-up" />} />
-        <Route path="/dashboard" element={<DashBoardUser />} />
+        <Route
+          path="/dashboard"
+          element={
+            <PrivateRoute requiredRole="admin">
+              <DashBoardUser />
+            </PrivateRoute>
+          }
+        />
       </Routes>
     </UserContext.Provider>
   );

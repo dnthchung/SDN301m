@@ -1,8 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
-import axios from "axios";
-import { jwtDecode } from "jwt-decode"; // Ensure you have this package installed
 import { toast } from "react-hot-toast";
 import { UserContext } from "../../App";
+import axiosInstance from "../../utils/axiosInstance";
 
 const DashBoardUser = () => {
   const [users, setUsers] = useState([]);
@@ -12,44 +11,22 @@ const DashBoardUser = () => {
   const [role, setRole] = useState("seller");
   const { userAuth, setUserAuth } = useContext(UserContext);
 
-  const axioJWT = axios.create();
-
-  // Add Axios interceptor
-  axioJWT.interceptors.request.use(
-    async (config) => {
-      const token = sessionStorage.getItem("accessToken");
-      if (token) {
-        const decodedToken = jwtDecode(token);
-        let date = new Date();
-        if (decodedToken.exp < date.getTime() / 1000) {
-          console.log("Token expired");
-          sessionStorage.removeItem("user");
-          sessionStorage.removeItem("accessToken");
-          setUserAuth({ accessToken: null, user: null });
-          window.location.href = "/signin";
-        }
-        // Set the token in the header
-        config.headers["token"] = `Bearer ${token}`;
-      }
-      return config;
-    },
-    (error) => {
-      return Promise.reject(error);
-    },
-  );
-
   useEffect(() => {
     const token = sessionStorage.getItem("accessToken");
     if (token) {
       fetchUsers(token);
+    } else {
+      window.location.href = "/signin";
     }
   }, []);
+
   const fetchUsers = async (token) => {
     try {
-      const response = await axioJWT.get("http://localhost:9999/api/user");
+      const response = await axiosInstance.get("/api/user");
       setUsers(response.data);
     } catch (error) {
-      toast.error("Error fetching users");
+      //move to 404 page
+      toast.error("Error fetching users" + error.message);
     }
   };
 
@@ -60,8 +37,7 @@ const DashBoardUser = () => {
       if (!token) throw new Error("No token found");
 
       const newUser = { email, password, username, role };
-      toast.success(newUser.role);
-      await axioJWT.post("http://localhost:9999/api/user/create", newUser);
+      await axiosInstance.post("/api/user/create", newUser);
       toast.success("User added successfully");
       fetchUsers(token);
     } catch (error) {

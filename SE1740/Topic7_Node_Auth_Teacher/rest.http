@@ -1,0 +1,30 @@
+### SignUp request
+POST http://localhost:9999/api/auth/signup
+Content-Type: application/json
+
+{
+    "email": "admin@fpt.edu.vn",
+    "password": "abc@123",
+    "type": "system",
+    "roles": ["member", "admin"]
+}
+
+### SignUp request default
+POST http://localhost:9999/api/auth/signup
+Content-Type: application/json
+
+{
+    "email": "admin2@fpt.edu.vn",
+    "password": "abc@123",
+    "type": "system",
+    "roles": ["member"]
+}
+
+### SignIn request
+POST http://localhost:9999/api/auth/signin
+Content-Type: application/json
+
+{
+    "email": "mod1@fpt.edu.vn",
+    "password": "abc@123"
+}

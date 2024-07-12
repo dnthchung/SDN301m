@@ -1,7 +1,5 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const cors = require("cors");
-const cookieParser = require("cookie-parser");
 const morgan = require("morgan");
 const httpError = require("http-errors");
 const db = require("./models");
@@ -9,18 +7,12 @@ const { userRouter, roleRouter, authRouter } = require("./routes");
 require("dotenv").config();
 
 const app = express();
-
-// CORS configuration
-const corsOptions = {
-  origin: "http://localhost:5173", // Your front-end URL
-  credentials: true, // Allow credentials (cookies, authorization headers)
-};
-
-app.use(cors(corsOptions));
 app.use(morgan("dev"));
-app.use(cookieParser());
 app.use(bodyParser.json());
 
+app.get("/", (req, res, next) => {
+  res.status(200).json({ message: "Welcome to SE1740" });
+});
 app.use("/api/user", userRouter);
 app.use("/api/role", roleRouter);
 app.use("/api/auth", authRouter);

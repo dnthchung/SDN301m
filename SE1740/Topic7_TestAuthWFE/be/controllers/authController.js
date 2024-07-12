@@ -18,7 +18,7 @@ function generateAccessToken(user) {
     },
     process.env.JWT_ACCESS_KEY,
     {
-      expiresIn: "15s",
+      expiresIn: "5s",
     },
   );
 }
@@ -39,7 +39,7 @@ function generateRefreshToken(user) {
 async function requestRefreshToken(req, res, next) {
   try {
     const refreshToken = req.cookies.refreshToken;
-    if (!refreshToken) return res.status(401).json({ message: "Refresh token is required" });
+    if (!refreshToken) return res.status(401).json({ message: "You 're not Authenticated." });
 
     jwt.verify(refreshToken, process.env.JWT_REFRESH_KEY, async (err, user) => {
       if (err) return res.status(403).json({ message: "Refresh token is not valid" });
@@ -64,6 +64,44 @@ async function requestRefreshToken(req, res, next) {
   }
 }
 
+let refreshTokens = [];
+
+//request refresh token
+async function requestRefreshToken2(req, res, next) {
+  try {
+    const refreshToken = req.cookies.refreshToken;
+    console.log(refreshToken);
+    if (!refreshToken) return res.status(401).json({ message: "You 're not Authenticated." });
+    //check xem refresh token có phải của mình không hay của người khác
+    if (!refreshTokens.includes(refreshToken)) return res.status(403).json({ message: "Refresh token is not your." });
+    jwt.verify(refreshToken, process.env.JWT_REFRESH_KEY, async (err, user) => {
+      if (err) return res.status(403).json({ message: "Refresh token is not valid" });
+
+      //lọc ra refresh token của mình, bây giờ có re token mới rồi thì lọc cái cũ ra
+      refreshTokens = refreshTokens.filter((token) => token !== refreshToken);
+
+      const foundUser = await User.findById(user.id).populate("role").exec();
+      if (!foundUser) return res.status(404).json({ message: "User not found" });
+
+      const newAccessToken = generateAccessToken(foundUser);
+      const newRefreshToken = generateRefreshToken(foundUser);
+
+      //add refresh token mới vào mảng
+      refreshTokens.push(newRefreshToken);
+
+      res.cookie("refreshToken", newRefreshToken, {
+        httpOnly: true,
+        secure: false,
+        sameSite: "Strict",
+        path: "/",
+      });
+
+      res.status(200).json({ accessToken: newAccessToken });
+    });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+}
 //sign up action
 async function signup(req, res, next) {
   /**
@@ -126,6 +164,10 @@ async function signin(req, res, next) {
     // Generate tokens
     const accessToken = generateAccessToken(user);
     const refreshToken = generateRefreshToken(user);
+    // console.log(refreshToken);
+
+    // Save refresh token to the database - ở đây không có db nên save tạm vào mảng refreshTokens
+    refreshTokens.push(refreshToken);
 
     // Send response with tokens and user information
     res.cookie("refreshToken", refreshToken, {
@@ -138,6 +180,12 @@ async function signin(req, res, next) {
     res.status(201).json({
       message: "Logged in successfully",
       accessToken,
+      user: {
+        id: user._id,
+        username: user.username,
+        email: user.email,
+        role: user.role.name,
+      },
     });
   } catch (error) {
     next(error);
@@ -148,4 +196,5 @@ module.exports = {
   signup,
   signin,
   requestRefreshToken,
+  requestRefreshToken2,
 };

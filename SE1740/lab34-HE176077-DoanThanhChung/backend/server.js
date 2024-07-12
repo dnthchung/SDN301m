@@ -1,29 +1,29 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const cors = require("cors");
-const cookieParser = require("cookie-parser");
 const morgan = require("morgan");
 const httpError = require("http-errors");
+const cors = require("cors");
 const db = require("./models");
-const { userRouter, roleRouter, authRouter } = require("./routes");
+const { userRouter, authRouter, employeeRoute, departmentRoute, projectRoute } = require("./routes");
 require("dotenv").config();
 
 const app = express();
 
 // CORS configuration
 const corsOptions = {
-  origin: "http://localhost:5173", // Your front-end URL
-  credentials: true, // Allow credentials (cookies, authorization headers)
+  origin: ["http://localhost:3000", "http://localhost:9999"],
+  optionsSuccessStatus: 200, // Some legacy browsers choke on 204
 };
 
 app.use(cors(corsOptions));
 app.use(morgan("dev"));
-app.use(cookieParser());
 app.use(bodyParser.json());
 
 app.use("/api/user", userRouter);
-app.use("/api/role", roleRouter);
 app.use("/api/auth", authRouter);
+app.use("/projects", projectRoute);
+app.use("/employees", employeeRoute);
+app.use("/departments", departmentRoute);
 
 app.use(async (req, res, next) => {
   next(httpError.NotFound());

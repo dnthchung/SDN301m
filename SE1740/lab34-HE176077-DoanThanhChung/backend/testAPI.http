@@ -1,0 +1,50 @@
+### ===============| Part 2 |===========
+###sign up
+POST http://localhost:9999/api/auth/signup
+Content-Type: application/json
+
+{
+    "userName": "admin1",
+    "email": "admin1@gmail.com",
+    "password": "123"
+}
+
+
+###sign in
+POST http://localhost:9999/api/auth/signin
+Content-Type: application/json
+
+{
+    "email": "admin1@gmail.com",
+    "password": "123"
+}
+
+
+###Get all project for FE
+GET http://localhost:9999/projects/all
+Content-Type: application/json
+token: : Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2N2Q1ZDU2MWFkNDViMTNkN2U0YTlkZSIsInVzZXJOYW1lIjoiYWRtaW4xIiwiZW1haWwiOiJhZG1pbjFAZ21haWwuY29tIiwiaWF0IjoxNzE5NDk0NjMwLCJleHAiOjE3MTk0OTQ2NjB9.76Lij--DoYQj1asp_K29LmCFHH8LZIRXfB9Bc9cqFAU
+
+###=================|  Part 1  |======================
+###1.1 : get all projects
+GET http://localhost:9999/projects
+Content-Type: application/json
+
+
+###1.2 : get project by id
+GET http://localhost:9999/employees/65d6d2e6eee18931e983e2e8
+Content-Type: application/json
+
+
+###1.3 : create project
+POST http://localhost:9999/projects
+Content-Type: application/json
+
+{
+    "name": "ana db update",
+    "description" : "project1 test description",
+    "startDate" : "2021-09-01",
+    "type" : "Consulting Project",
+    "department" : "65d6d25e047a5b498cd18ce8"
+}
+

@@ -3,7 +3,10 @@ const bodyParser = require("body-parser");
 const morgan = require("morgan");
 const httpError = require("http-errors");
 const db = require("./models");
-const { userRouter, roleRouter, leaderRouter, personRouter, storyRouter } = require("./routes");
+////=============================1. Phải import routes===================
+const { cakeRouter, toppingRouter, optionRouter } = require("./routes");
+//============================================================================
+
 require("dotenv").config();
 
 const app = express();
@@ -13,13 +16,13 @@ app.use(bodyParser.json());
 app.get("/", (req, res, next) => {
   res.status(200).json({ message: "Welcome to SE1740" });
 });
-app.use("/user", userRouter);
-app.use("/role", roleRouter);
-app.use("/leader", leaderRouter);
-//lab2
-app.use("/api/person", personRouter);
-app.use("/api/story", storyRouter);
+//====================2. để ý là mẫu họ đòi URL trông ntn ==================
+app.use("/cake", cakeRouter);
+app.use("/topping", toppingRouter);
+app.use("/option", optionRouter);
 
+//============================================================================
+// error handle
 app.use(async (req, res, next) => {
   next(httpError.NotFound());
 });

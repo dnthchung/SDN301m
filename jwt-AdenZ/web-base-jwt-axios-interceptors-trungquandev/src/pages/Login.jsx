@@ -13,8 +13,10 @@ import axios from "axios";
 import authorizedAxiosInstance from "~/utils/authorizedAxios";
 import { toast } from "react-toastify";
 import { API_ROOT } from "~/utils/constants";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -23,8 +25,18 @@ function Login() {
 
   const submitLogIn = async (data) => {
     const res = await authorizedAxiosInstance.post(`${API_ROOT}/v1/users/login`, data);
-    console.log(res.data);
-    toast.success(res.data?.message);
+    const userInfo = {
+      id: res.data.result?.id,
+      email: res.data.result?.email,
+    };
+
+    //can using react hook
+    localStorage.setItem("userInfo", JSON.stringify(userInfo));
+    localStorage.setItem("accessToken", res.data.result?.accessToken);
+    localStorage.setItem("refreshToken", res.data.result?.refreshToken);
+
+    toast.success(res.data?.result.message);
+    navigate("/dashboard");
   };
 
   return (

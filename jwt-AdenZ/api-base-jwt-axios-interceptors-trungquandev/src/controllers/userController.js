@@ -27,7 +27,10 @@ const REFRESH_TOKEN_SECRET_SIGNATURE = "fcCjhnpeopVn2Hg1jG75MUi62051yL";
 
 const login = async (req, res) => {
   try {
-    if (req.body.email !== MOCK_DATABASE.USER.EMAIL || req.body.password !== MOCK_DATABASE.USER.PASSWORD) {
+    if (
+      req.body.email !== MOCK_DATABASE.USER.EMAIL ||
+      req.body.password !== MOCK_DATABASE.USER.PASSWORD
+    ) {
       res.status(StatusCodes.FORBIDDEN).json({ message: "Your email or password is incorrect!" });
       return;
     }
@@ -39,16 +42,37 @@ const login = async (req, res) => {
       email: MOCK_DATABASE.USER.EMAIL,
     };
 
-    // Tạo Access Token
-    const accessToken = await JwtProvider.generateToken(userInformation, ACCESS_TOKEN_SECRET_SIGNATURE, ms("15s"));
+    // Tạo Access Token - 5s het han - '1h' - thời gian sống của token đê kiểu ntn hoặc '1h', còn để kiểu ms là đi
+    const accessToken = await JwtProvider.generateToken(
+      userInformation,
+      ACCESS_TOKEN_SECRET_SIGNATURE,
+      5,
+    );
 
-    // Tạo Refresh Token
-    const refreshToken = await JwtProvider.generateToken(userInformation, REFRESH_TOKEN_SECRET_SIGNATURE, ms("7d"));
+    // Tạo Refresh Token - 1h
+    const refreshToken = await JwtProvider.generateToken(
+      userInformation,
+      REFRESH_TOKEN_SECRET_SIGNATURE,
+      3600,
+    );
 
-    // Trả về cho Client
+    // Cookie này là ở host của BE, nên phải set secure: true, sameSite: "none" để tránh lỗi CORS.
+    //Ngoài ra bên FE thì cần khai báo cái credentials true là FE đã lấy dc token trong cookie từ BE (nhớ là cần khai báo cookie parser trong server.js của BE)
     // tg sống của cookie khác với tg sống của token.
-    res.cookie("accessToken", accessToken, { httpOnly: true, secure: true, sameSite: "none", maxAge: ms("7d") });
-    res.cookie("refreshToken", refreshToken, { httpOnly: true, secure: true, sameSite: "none", maxAge: ms("7d") });
+    //maxAge để như kiểu dưới, sửa là đi
+    //hiểu đnư giản đây là cách save token vào cookie của BE, để xác nhận quyền thì cái middleware sẽ lấy token từ cookie này (phía be) ra và xác thực
+    res.cookie("accessToken", accessToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
+      maxAge: ms("50s"),
+    });
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
+      maxAge: ms("1h"),
+    });
 
     //trẻ về cho fe nếu họ cần lưu vào local storage
     res.status(StatusCodes.OK).json({

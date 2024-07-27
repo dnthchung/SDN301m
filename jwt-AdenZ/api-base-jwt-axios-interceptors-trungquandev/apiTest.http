@@ -6,3 +6,11 @@ Content-Type: application/json
     "email": "trungquandev.official@gmail.com",
     "password": "trungquandev@123"
 }
+
+### gen new access token
+PUT http://localhost:8017/v1/users/refresh_token
+Content-Type: application/json
+
+{
+    "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InRydW5ncXVhbmRldi1zYW1wbGUtaWQtMTIzNDU2NzgiLCJlbWFpbCI6InRydW5ncXVhbmRldi5vZmZpY2lhbEBnbWFpbC5jb20iLCJpYXQiOjE3MjIxMTEwNTQsImV4cCI6MTcyMjExNDY1NH0.E6GspqHNLmpg9gy5yxt9ii8d-EBTCzzFwB-9GaOkDW4"
+}

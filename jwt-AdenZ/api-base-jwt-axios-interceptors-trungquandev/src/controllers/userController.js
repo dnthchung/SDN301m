@@ -1,8 +1,8 @@
 // Author: TrungQuanDev: https://youtube.com/@trungquandev
 import { StatusCodes } from "http-status-codes";
-import ms from "ms";
 import { JwtProvider } from "~/providers/JwtProvider";
-
+import ms from "ms";
+import "dotenv/config";
 /**
  * Mock nhanh thông tin user thay vì phải tạo Database rồi query.
  * Nếu muốn học kỹ và chuẩn chỉnh đầy đủ hơn thì xem Playlist này nhé:
@@ -102,10 +102,45 @@ const logout = async (req, res) => {
 
 const refreshToken = async (req, res) => {
   try {
-    // Do something
-    res.status(StatusCodes.OK).json({ message: " Refresh Token API success." });
+    // Cách 1: Lấy refresh token luôn từ Cookie đã đính kèm vào request
+    const refreshTokenFromCookie = req.cookies?.refreshToken;
+    console.log("---------");
+    console.log("refreshTokenFromCookie", refreshTokenFromCookie);
+    // Cách 2: Từ local storage phía FE sẽ truyền vào body khi gọi API
+    const refreshTokenFromBody = req.body?.refreshToken;
+    console.log("refreshTokenFromBody", refreshTokenFromBody);
+    // Verify / giải mã cái refresh token xem có hợp lệ không - use 1 trong 2 cách trên
+    const decoded = await JwtProvider.verifyToken(
+      refreshTokenFromBody,
+      process.env.REFRESH_TOKEN_SECRET_SIGNATURE,
+    );
+    // Đoạn này vì chúng ta chỉ lưu những thông tin unique và cố định của user trong token rồi, vì vậy có thể lấy luôn từ decoded ra, tiết kiệm query vào DB để lấy data mới.
+    const userInfo = {
+      id: decoded.id,
+      email: decoded.email,
+    };
+
+    // Tạo accessToken mới - user info từ decoded
+    const accessToken = await JwtProvider.generateToken(
+      userInfo,
+      process.env.ACCESS_TOKEN_SECRET_SIGNATURE,
+      "10s",
+    );
+
+    // Res lại cookie accessToken mới cho trường hợp sử dụng cookie
+    res.cookie("accessToken", accessToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
+      maxAge: ms("10m"),
+    });
+
+    // Trả về accessToken mới cho trường hợp FE cần update lại trong Local storage
+
+    res.status(StatusCodes.OK).json({ accessToken });
   } catch (error) {
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error);
+    //trong trường hợp refresh token là 1 cái chuỗi linh tinh
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: "Refresh token failed!" });
   }
 };
 

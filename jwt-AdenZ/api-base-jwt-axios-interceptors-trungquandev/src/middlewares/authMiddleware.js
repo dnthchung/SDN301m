@@ -30,9 +30,9 @@ export const isAuthorized = async (req, res, next) => {
     return;
   }
 
-  console.log("---");
-  console.log("accessTokenFromCookie --", accessTokenFromCookie);
-  console.log("accessTokenFromHeader --", accessTokenFromHeader);
+  // console.log("---");
+  // console.log("accessTokenFromCookie --", accessTokenFromCookie);
+  // console.log("accessTokenFromHeader --", accessTokenFromHeader);
 
   try {
     /**

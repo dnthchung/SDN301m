@@ -17,7 +17,7 @@ const MOCK_DATABASE = {
 };
 
 /**
- * 2 cái chữ ký bí mật quan trọng trong dự án. Dành cho JWT - Jsonwebtokens
+ * 2 cái chữ ký bí mật quan trọng trong dự án. Dành cho JWT - Json web tokens
  * Lưu ý phải lưu vào biến môi trường ENV trong thực tế cho bảo mật.
  * Ở đây mình làm Demo thôi nên mới đặt biến const và giá trị random ngẫu nhiên trong code nhé.
  * Xem thêm về biến môi trường: https://youtu.be/Vgr3MWb7aOw
@@ -46,7 +46,7 @@ const login = async (req, res) => {
     const accessToken = await JwtProvider.generateToken(
       userInformation,
       ACCESS_TOKEN_SECRET_SIGNATURE,
-      5,
+      "10s",
     );
 
     // Tạo Refresh Token - 1h
@@ -65,7 +65,7 @@ const login = async (req, res) => {
       httpOnly: true,
       secure: true,
       sameSite: "none",
-      maxAge: ms("50s"),
+      maxAge: ms("10m"),
     });
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
@@ -87,50 +87,13 @@ const login = async (req, res) => {
     res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error);
   }
 };
-// const login = async (req, res) => {
-//   try {
-//     console.log("req.body", req.body);
-//     if (req.body.email !== MOCK_DATABASE.USER.EMAIL || req.body.password !== MOCK_DATABASE.USER.PASSWORD) {
-//       res.status(StatusCodes.FORBIDDEN).json({ message: "Your email or password is incorrect!" });
-//       return;
-//     }
-
-//     // Trường hợp nhập đúng thông tin tài khoản, tạo token và trả về cho phía Client
-//     //Tạo thông tin để đính kèm vào payload của Token
-//     const userInformation = {
-//       id: MOCK_DATABASE.USER.ID,
-//       email: MOCK_DATABASE.USER.EMAIL,
-//     };
-
-//     // Tạo Access Token
-//     const accessToken = await JwtProvider.generateToken(userInformation, ACCESS_TOKEN_SECRET_SIGNATURE, ms("15s"));
-
-//     // Tạo Refresh Token
-//     const refreshToken = await JwtProvider.generateToken(userInformation, REFRESH_TOKEN_SECRET_SIGNATURE, ms("7d"));
-
-//     // Trả về cho Client
-//     // tg sống của cookie khác với tg sống của token.
-//     res.cookie("accessToken", accessToken, { httpOnly: true, secure: true, sameSite: "none", maxAge: ms("7d") });
-//     res.cookie("refreshToken", refreshToken, { httpOnly: true, secure: true, sameSite: "none", maxAge: ms("7d") });
-
-//     //trẻ về cho fe nếu họ cần lưu vào local storage
-//     res.status(StatusCodes.OK).json({
-//       result: {
-//         message: "Login API success!",
-//         ...userInformation,
-//         accessToken,
-//         refreshToken,
-//       },
-//     });
-//   } catch (error) {
-//     console.error("Error during login:", error); // Enhanced error logging
-//     res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: "Internal Server Error", error });
-//   }
-// };
 
 const logout = async (req, res) => {
   try {
-    // Do something
+    //xóa cookie
+    res.clearCookie("accessToken");
+    res.clearCookie("refreshToken");
+
     res.status(StatusCodes.OK).json({ message: "Logout API success!" });
   } catch (error) {
     res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error);

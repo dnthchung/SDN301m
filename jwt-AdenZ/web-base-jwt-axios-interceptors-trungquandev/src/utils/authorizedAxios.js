@@ -18,7 +18,7 @@ authorizedAxiosInstance.interceptors.request.use(
     // Lấy access token từ localStorage và đính kèm vào header của mỗi request
     const accessToken = localStorage.getItem("accessToken");
     if (accessToken) {
-      console.log("accessToken", accessToken);
+      // console.log("accessToken", accessToken);
       // Cần thêm "Bearer " vì chúng ta nên tuân thủ theo tiêu chuẩn OAuth 2.0 trong việc xác định loại token đang sử dụng
       // Bearer là định nghĩa loại token dành cho việc xác thực và ủy quyền, tham khảo các loại token khác như: Basic token, Digest token, OAuth token, ...vv
       // config.headers["Authorization"] = `Bearer ${accessToken}`;

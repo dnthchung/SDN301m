@@ -8,6 +8,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Divider from "@mui/material/Divider";
 import Button from "@mui/material/Button";
 import authorizedAxiosInstance from "~/utils/authorizedAxios";
+import { handleLogoutAPI } from "~/apis";
 
 import { toast } from "react-toastify";
 import { API_ROOT } from "~/utils/constants";
@@ -29,15 +30,12 @@ function Dashboard() {
   }, []);
   //handle logout
   const handleLogout = async () => {
-    //Cách 1 : header - dùng localStorage - chỉ cần xóa thông tin user trong localStorage
-    localStorage.removeItem("userInfo");
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("refreshToken");
+    //call api logout
+    const res = await handleLogoutAPI();
+    //nếu mà dùng cookie thì cần xóa user info trong localStorage - mở comment dòng dưới
+    // localStorage.removeItem("userInfo");
 
-    //Cách 2:  cookie - dùng http only cookie - cần gửi request lên server để xóa cookie trong headers của BE
-    const res = await authorizedAxiosInstance.delete(`${API_ROOT}/v1/users/logout`);
     setUser(null);
-
     toast.success(res.data.message);
     navigate("/login");
   };

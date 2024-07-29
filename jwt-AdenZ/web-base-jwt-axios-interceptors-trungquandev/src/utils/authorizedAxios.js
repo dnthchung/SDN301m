@@ -1,5 +1,6 @@
 // Author: TrungQuanDev: https://youtube.com/@trungquandev
 import axios from "axios";
+import { handleLogoutAPI, handleCallRefreshTokenAPI } from "~/apis";
 
 //khởi tạo 1 đối tượng axios (authorizedAxiosInstance) mục đích để custom và cấu hình chung cho dự án
 let authorizedAxiosInstance = axios.create();
@@ -41,10 +42,56 @@ authorizedAxiosInstance.interceptors.response.use(
   },
   (error) => {
     // mọi status code nằm trong khoảng 200-299 -> error sẽ vào đây
-    // phần này sẽ sử dụng để hiển thị các thông báo lỗi trả về tự mọi api ( viết 1 lần dùng chung cho cả dự án) -> tránh try catch nhiều, -> trừ những mục đặc biệt.
-    //410 -> mã GONE -> sẽ không hiển thị lỗi này -> để sd khi mà access token hết hạn -> để api biết đay là lỗi access token hết hạn -> cần phải TỰ ĐỘNG refresh token
+    /**======================== xử lý auto refresh token =================== */
+    //Nếu 401 từ BE => refresh token hết hạn => log out luôn
+    if (error.response?.status === 401) {
+      handleLogoutAPI().then(() => {
+        //nếu mà dùng cookie thì cần xóa user info trong localStorage - mở comment dòng dưới
+        // localStorage.removeItem("userInfo");
 
-    if (error.response?.status === 410) {
+        //điều hướng dùng js thuần vì đây là .js file không phải .jsx file => dùng hook hơi trôn
+        location.href = "/login";
+      });
+    }
+    //Nếu 410 -> mã GONE -> sẽ không hiển thị lỗi này -> để sd khi mà access token hết hạn -> để api biết đay là lỗi access token hết hạn -> cần phải TỰ ĐỘNG refresh token
+    //Đầu tiên lấy được các request API đang bị lỗi thông qua error.config
+    const originalRequest = error.config;
+    console.log("originalRequest", originalRequest);
+    if (error.response?.status === 410 && !originalRequest._retry) {
+      // gán thêm giá trị _retry luôn = true trong khoảng thời gian chờ, để việc refresh token này chỉ luôn gọi 1 lần tại 1 thời điểm
+      originalRequest._retry = true;
+      //lấy refresh token từ localStorage
+      const refreshToken = localStorage.getItem("refreshToken");
+      //call api refresh token
+      return handleCallRefreshTokenAPI(refreshToken)
+        .then((res) => {
+          //lấy và gán lại access token mới từ response trả về vào localStorage (cho trương hợp dùng localStorage)
+          const { accessToken } = res.data;
+          localStorage.setItem("accessToken", accessToken);
+          //gán lại access token mới vào header của axios
+          authorizedAxiosInstance.defaults.headers.authorization = `Bearer ${accessToken}`;
+
+          //Đồng thời lưu ý là access token cũng đã được update lại ở cookie (httpOnly cookie)
+          //Bước cuối quan trọng : return lại axios instance kết hợp với cái original config để gọi lại NHỮNG API BAN ĐÂU BỊ LỖI
+          return authorizedAxiosInstance(originalRequest);
+        })
+        .catch((_error) => {
+          //nếu nhận bất kỳ lỗi nào từ việc call api refresh token thì cũng phải log out luôn
+          handleLogoutAPI().then(() => {
+            //nếu mà dùng cookie thì cần xóa user info trong localStorage - mở comment dòng dưới
+            // localStorage.removeItem("userInfo");
+
+            //điều hướng dùng js thuần vì đây là .js file không phải .jsx file => dùng hook hơi trôn
+            location.href = "/login";
+          });
+
+          return Promise.reject(_error);
+        });
+    }
+
+    /** Xử lý tập trung phần hiển thị thông báo lỗi trả về của mọi API ở đây(viết 1 dùng cả dời -> clean code) */
+    //Nhận tất cả mọi mã code lỗi từ BE trừ 410(GONE)
+    if (error.response?.status !== 410) {
       toast.error(error.response?.data?.message || error?.message);
     }
     return Promise.reject(error);

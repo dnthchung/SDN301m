@@ -12,5 +12,5 @@ PUT http://localhost:8017/v1/users/refresh_token
 Content-Type: application/json
 
 {
-    "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InRydW5ncXVhbmRldi1zYW1wbGUtaWQtMTIzNDU2NzgiLCJlbWFpbCI6InRydW5ncXVhbmRldi5vZmZpY2lhbEBnbWFpbC5jb20iLCJpYXQiOjE3MjIxMTEwNTQsImV4cCI6MTcyMjExNDY1NH0.E6GspqHNLmpg9gy5yxt9ii8d-EBTCzzFwB-9GaOkDW4"
-}
+    "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InRydW5ncXVhbmRldi1zYW1wbGUtaWQtMTIzNDU2NzgiLCJlbWFpbCI6InRydW5ncXVhbmRldi5vZmZpY2lhbEBnbWFpbC5jb20iLCJpYXQiOjE3MjIyNTEyNjMsImV4cCI6MTcyMjI1NDg2M30.0mgqh1f7MRvquWt9UEUZGARbtEai_D1vxgWGgLz8xeg"
+  }

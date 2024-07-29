@@ -46,7 +46,8 @@ const login = async (req, res) => {
     const accessToken = await JwtProvider.generateToken(
       userInformation,
       ACCESS_TOKEN_SECRET_SIGNATURE,
-      "10s",
+      // "1m",
+      5,
     );
 
     // Tạo Refresh Token - 1h
@@ -75,6 +76,13 @@ const login = async (req, res) => {
     });
 
     //trẻ về cho fe nếu họ cần lưu vào local storage
+
+    // console.log("------------- login func:  Token Check --------------");
+    // console.log("Cookie --", req);
+    // console.log("accessTokenFromCookie --", accessTokenFromCookie);
+    // console.log("accessTokenFromHeader --", accessTokenFromHeader);
+    // console.log("-----------------------------");
+
     res.status(StatusCodes.OK).json({
       result: {
         message: "Login API success!",
@@ -103,41 +111,47 @@ const logout = async (req, res) => {
 const refreshToken = async (req, res) => {
   try {
     // Cách 1: Lấy refresh token luôn từ Cookie đã đính kèm vào request
-    const refreshTokenFromCookie = req.cookies?.refreshToken;
-    console.log("---------");
-    console.log("refreshTokenFromCookie", refreshTokenFromCookie);
+    const refreshTokenFromCookie = req.cookies;
+
     // Cách 2: Từ local storage phía FE sẽ truyền vào body khi gọi API
     const refreshTokenFromBody = req.body?.refreshToken;
+
+    console.log(
+      "================================== CHECK TOKEN GET FROM COOKIE AND BODY IN REFRESH TOKEN ==================================",
+    );
+    console.log("refreshTokenFromCookie", refreshTokenFromCookie);
     console.log("refreshTokenFromBody", refreshTokenFromBody);
-    // Verify / giải mã cái refresh token xem có hợp lệ không - use 1 trong 2 cách trên
-    const decoded = await JwtProvider.verifyToken(
-      refreshTokenFromBody,
-      process.env.REFRESH_TOKEN_SECRET_SIGNATURE,
-    );
-    // Đoạn này vì chúng ta chỉ lưu những thông tin unique và cố định của user trong token rồi, vì vậy có thể lấy luôn từ decoded ra, tiết kiệm query vào DB để lấy data mới.
-    const userInfo = {
-      id: decoded.id,
-      email: decoded.email,
-    };
 
-    // Tạo accessToken mới - user info từ decoded
-    const accessToken = await JwtProvider.generateToken(
-      userInfo,
-      process.env.ACCESS_TOKEN_SECRET_SIGNATURE,
-      "10s",
-    );
+    // // Verify / giải mã cái refresh token xem có hợp lệ không - use 1 trong 2 cách trên
+    // const decoded = await JwtProvider.verifyToken(
+    //   refreshTokenFromBody,
+    //   process.env.REFRESH_TOKEN_SECRET_SIGNATURE,
+    // );
 
-    // Res lại cookie accessToken mới cho trường hợp sử dụng cookie
-    res.cookie("accessToken", accessToken, {
-      httpOnly: true,
-      secure: true,
-      sameSite: "none",
-      maxAge: ms("10m"),
-    });
+    // // Đoạn này vì chúng ta chỉ lưu những thông tin unique và cố định của user trong token rồi, vì vậy có thể lấy luôn từ decoded ra, tiết kiệm query vào DB để lấy data mới.
+    // const userInfo = {
+    //   id: decoded.id,
+    //   email: decoded.email,
+    // };
 
-    // Trả về accessToken mới cho trường hợp FE cần update lại trong Local storage
+    // // Tạo accessToken mới - user info từ decoded
+    // const accessToken = await JwtProvider.generateToken(
+    //   userInfo,
+    //   process.env.ACCESS_TOKEN_SECRET_SIGNATURE,
+    //   "10s",
+    // );
 
-    res.status(StatusCodes.OK).json({ accessToken });
+    // // Res lại cookie accessToken mới cho trường hợp sử dụng cookie
+    // res.cookie("accessToken", accessToken, {
+    //   httpOnly: true,
+    //   secure: true,
+    //   sameSite: "none",
+    //   maxAge: ms("10m"),
+    // });
+
+    // // Trả về accessToken mới cho trường hợp FE cần update lại trong Local storage
+
+    // res.status(StatusCodes.OK).json({ accessToken });
   } catch (error) {
     //trong trường hợp refresh token là 1 cái chuỗi linh tinh
     res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: "Refresh token failed!" });

@@ -24,8 +24,8 @@ const verifyToken = async (token, secretSignature) => {
   try {
     return JWT.verify(token, secretSignature);
   } catch (error) {
-    console.error("Error in verifyToken:", error); // Enhanced error logging
-    throw new Error("Failed to verify token");
+    // console.error("Error in verifyToken:", error); // Enhanced error logging
+    throw new Error("Failed to verify token in middleware verify token. And :" + error);
   }
 };
 

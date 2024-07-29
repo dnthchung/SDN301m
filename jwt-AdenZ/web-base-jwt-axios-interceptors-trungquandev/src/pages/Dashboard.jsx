@@ -22,12 +22,20 @@ function Dashboard() {
     const fetchData = async () => {
       //bỏ try catch vì đã bắt lỗi ở axiosInstance
       const res = await authorizedAxiosInstance.get(`${API_ROOT}/v1/dashboards/access`);
-      const userInfoFromLocalStorage = JSON.parse(localStorage.getItem("userInfo"));
+
+      //vấn đề gọi nhiều api, solution 10
+      // await authorizedAxiosInstance.get(`${API_ROOT}/v1/dashboards/access`);
+      // await authorizedAxiosInstance.get(`${API_ROOT}/v1/dashboards/access`);
+      // await authorizedAxiosInstance.get(`${API_ROOT}/v1/dashboards/access`);
+      // await authorizedAxiosInstance.get(`${API_ROOT}/v1/dashboards/access`);
+
+      // const userInfoFromLocalStorage = JSON.parse(localStorage.getItem("userInfo"));
       // console.log("userInfoFromLocalStorage", userInfoFromLocalStorage);
       setUser(res.data);
     };
     fetchData();
   }, []);
+
   //handle logout
   const handleLogout = async () => {
     //call api logout

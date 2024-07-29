@@ -42,26 +42,28 @@ export const isAuthorized = async (req, res, next) => {
      * Bước 03: Cho phép cái request đi tiếp
      */
     const accessTokenDecoded = await JwtProvider.verifyToken(
-      accessTokenFromCookie,
+      // accessTokenFromCookie,
+      accessTokenFromHeader,
       process.env.ACCESS_TOKEN_SECRET_SIGNATURE,
     );
     req.jwtDecoded = accessTokenDecoded;
     next();
   } catch (error) {
-    console.log("------------- isAuthorized middleware --------------");
-    console.error("Error in isAuthorized middleware");
-    console.log("check err ->" + error);
-    if (error.message?.includes("jwt expired")) {
-      console.log("true");
-    } else {
-      console.log("false");
-    }
+    // console.log("------------- isAuthorized middleware --------------");
+    // console.error("Error in isAuthorized middleware");
+    // console.log("check err ->" + error);
+    // if (error.message?.includes("jwt expired")) {
+    //   console.log("true");
+    // } else {
+    //   console.log("false");
+    // }
     /**
      * Trường hợp lỗi 01: Nếu cái accessToken nó bị hết hạn (expired) thì mình cần trả về một cái mã lỗi GONE - 410 cho phía FE biết để gọi api refreshToken
      * Trường hợp lỗi 02: Nếu như cái accessToken nó không hợp lệ do bất kỳ điều gì khác vụ hết hạn thì chúng ta cứ thẳng tay trả về mã 401 cho phía FE xử lý Logout / hoặc gọi API Logout tùy trường hợp
      * (nhiều trường hợp nhỡ bị bên nào đó dùng post man hay gì đó đủn token linh tinh lên thì chúng ta cần phải xử lý chung về 1 lỗi 401 - trường hợp 2)
      */
     if (error.message?.includes("jwt expired")) {
+      console.log("true 410 : jwt expired ========================");
       res.status(StatusCodes.GONE).json({ message: "Need to refresh token" });
       return;
     }

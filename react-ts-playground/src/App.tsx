@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useState, useEffect } from "react";
 import { CreateNewTodo } from "./components/CreateNewTodo";
 import { TodoList } from "./components/TodoList";
 import { Container, Typography } from "@mui/material";
@@ -14,6 +14,19 @@ export type TodoType = {
 function App() {
   const [todoList, setTodoList] = useState<TodoType[]>([]);
   const [newTodoString, setNewTodoString] = useState<string>("");
+
+  // Load todo list from localStorage on component mount
+  useEffect(() => {
+    const savedTodoList = localStorage.getItem("todoList");
+    if (savedTodoList) {
+      setTodoList(JSON.parse(savedTodoList));
+    }
+  }, []);
+
+  // Save todo list to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem("todoList", JSON.stringify(todoList));
+  }, [todoList]);
 
   // Event handler
   const onNewTodoChange = (e: ChangeEvent<HTMLInputElement>) => {

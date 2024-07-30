@@ -1,6 +1,24 @@
 import React from "react";
 
-const Count = ({ count, setCount }: { count: number; setCount: React.Dispatch<React.SetStateAction<number>> }) => {
+/**
+ * 2 ways to define props
+ * - using interface without "="
+ * - using type with "=" - custom type
+ *
+ * const Count = ({ count, setCount }: { count: number; setCount: React.Dispatch<React.SetStateAction<number>> }) => {
+ */
+// interface ICountProps {
+//   count: number;
+//   setCount: React.Dispatch<React.SetStateAction<number>>;
+// }
+type CountProps = {
+  count: number;
+  setCount: React.Dispatch<React.SetStateAction<number>>;
+  total: (num1: number, num2: number) => string;
+};
+
+export const Count = ({ count, setCount, total }: CountProps) => {
+  console.log(total(1, 2));
   return (
     <>
       <div className="card">
@@ -12,5 +30,3 @@ const Count = ({ count, setCount }: { count: number; setCount: React.Dispatch<Re
     </>
   );
 };
-
-export default Count;

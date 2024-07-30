@@ -75,6 +75,17 @@ function App() {
     daughterName: "Jane Doe",
   };
 
+  //typeof keyword
+  const employee3: typeof employee1 = {
+    name: "John Doe",
+    age: 25,
+    location: "Nigeria",
+    jobTitle: "Software Engineer",
+    degree: "BSc",
+    sonName: "John Doe Jr",
+    daughterName: "Jane Doe",
+  };
+
   function total(num1: number, num2: number): string {
     return String(num1 + num2);
   }
@@ -87,7 +98,11 @@ function App() {
     });
   }, []);
 
-  console.log(people, employee1, employee2);
+  console.log("people : ", people);
+  console.log("employee1 : ", employee1);
+  console.log("employee2 : ", employee2);
+  console.log("employee3 : ", employee3);
+
   return (
     <>
       <div>

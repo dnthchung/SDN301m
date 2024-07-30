@@ -49,9 +49,64 @@ interface IEmployee extends IPeople, IRelationship {
   level?: number | string | Degree; //- optional
 }
 
+//============================================= GENERIC TYPE =================================================
+// type ApiResponse = {
+//   data: {
+//     id: number;
+//     name: string;
+//   };
+//   status: "success" | "failure";
+// };
+
+// type BookResponse = {
+//   data: {
+//     id: number;
+//     bookName: string;
+//   };
+//   status: "success" | "failure";
+// };
+type ApiResponse<DataTypeNe> = {
+  data: DataTypeNe;
+  status: "success" | "failure";
+};
+
 function App() {
   const [count, setCount] = useState<number>(0);
   const [people, setPeople] = useState<People>();
+
+  //Generic type
+  //code lặp lại nhiều lần
+  // const userResponse: ApiResponse = {
+  //   data: {
+  //     id: 1,
+  //     name: "John Doe",
+  //   },
+  //   status: "success",
+  // };
+
+  // const bookResponse: BookResponse = {
+  //   data: {
+  //     id: 1,
+  //     bookName: "React Note Book",
+  //   },
+  //   status: "success",
+  // };
+
+  //giải pháp
+  const userResponse: ApiResponse<{ id: number; name: string }> = {
+    data: {
+      id: 1,
+      name: "John Doe",
+    },
+    status: "success",
+  };
+  const bookResponse: ApiResponse<{ id: number; bookName: string }> = {
+    data: {
+      id: 1,
+      bookName: "React Note Book",
+    },
+    status: "success",
+  };
 
   //type
   const employee1: Employee = {
@@ -102,6 +157,8 @@ function App() {
   console.log("employee1 : ", employee1);
   console.log("employee2 : ", employee2);
   console.log("employee3 : ", employee3);
+  console.log("userResponse : ", userResponse);
+  console.log("bookResponse : ", bookResponse);
 
   return (
     <>

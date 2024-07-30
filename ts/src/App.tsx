@@ -24,7 +24,14 @@ type Employee = People &
     jobTitle: string;
     degree: string;
   };
-
+//============================================= ENUM =================================================
+/**Có thể gán giá trị cho enum, nhưng nên thống nhất, 1 là gán hết 2 là đ gán ok */
+enum Degree {
+  BSc,
+  MSc,
+  PhD = "PhD",
+}
+//================================================================================================
 interface IPeople {
   name: string;
   age: number;
@@ -38,7 +45,8 @@ interface IRelationship {
 
 interface IEmployee extends IPeople, IRelationship {
   jobTitle: string;
-  degree: string;
+  degree: Degree;
+  level?: number | string | Degree; //- optional
 }
 
 function App() {
@@ -62,7 +70,7 @@ function App() {
     age: 25,
     location: "Nigeria",
     jobTitle: "Software Engineer",
-    degree: "BSc",
+    degree: Degree.BSc, // trả về số thứ tự của enum - ý là trả về cái index của th cu BSc này trong enum ở index mấy,
     sonName: "John Doe Jr",
     daughterName: "Jane Doe",
   };

@@ -65,9 +65,10 @@ interface IEmployee extends IPeople, IRelationship {
 //   };
 //   status: "success" | "failure";
 // };
-type ApiResponse<DataTypeNe> = {
+type ApiResponse<DataTypeNe, MessageType> = {
   data: DataTypeNe;
   status: "success" | "failure";
+  message?: MessageType;
 };
 
 function App() {
@@ -93,19 +94,20 @@ function App() {
   // };
 
   //giải pháp
-  const userResponse: ApiResponse<{ id: number; name: string }> = {
+  const userResponse: ApiResponse<{ id: number; name: string }, string | number | boolean | { message: string } | { code: number }> = {
     data: {
       id: 1,
       name: "John Doe",
     },
     status: "success",
   };
-  const bookResponse: ApiResponse<{ id: number; bookName: string }> = {
+  const bookResponse: ApiResponse<{ id: number; bookName: string }, { message: string; code: number; data: string; status: string }> = {
     data: {
       id: 1,
       bookName: "React Note Book",
     },
     status: "success",
+    message: { message: "Success", code: 200, data: "Success", status: "success" },
   };
 
   //type

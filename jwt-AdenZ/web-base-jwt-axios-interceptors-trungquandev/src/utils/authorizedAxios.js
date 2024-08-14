@@ -87,7 +87,7 @@ authorizedAxiosInstance.interceptors.response.use(
             //nếu nhận bất kỳ lỗi nào từ việc call api refresh token thì cũng phải log out luôn
             handleLogoutAPI().then(() => {
               //nếu mà dùng cookie thì cần xóa user info trong localStorage - mở comment dòng dưới
-              // localStorage.removeItem("userInfo");
+              localStorage.removeItem("userInfo");
 
               //điều hướng dùng js thuần vì đây là .js file không phải .jsx file => dùng hook hơi trôn
               location.href = "/login";

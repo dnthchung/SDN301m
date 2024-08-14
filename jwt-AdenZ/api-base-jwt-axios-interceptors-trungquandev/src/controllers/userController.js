@@ -122,9 +122,10 @@ const refreshToken = async (req, res) => {
     // console.log("refreshTokenFromCookie", refreshTokenFromCookie);
     // console.log("refreshTokenFromBody", refreshTokenFromBody);
 
-    // Verify / giải mã cái refresh token xem có hợp lệ không - use 1 trong 2 cách trên
+    // // Verify / giải mã cái refresh token xem có hợp lệ không - use 1 trong 2 cách trên
     const decoded = await JwtProvider.verifyToken(
-      refreshTokenFromBody,
+      refreshTokenFromCookie.refreshToken,
+      // refreshTokenFromBody,
       process.env.REFRESH_TOKEN_SECRET_SIGNATURE,
     );
 

@@ -2,6 +2,7 @@ import { Controller, Get, Param, Post, Put, Delete } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { ResponseData } from 'src/global/globalClass';
 import { HttpMessage, HttpStatusCode } from 'src/global/globalEnum';
+import { Product } from 'src/models/product.model';
 
 /**
  * - khi truy cập url /products thì sẽ khởi tạo 1 đối tượng ProductService và gọi tới phương thức tương ứng, ví dụ: getAllProducts
@@ -16,16 +17,16 @@ export class ProductController {
 
   //get
   @Get()
-  getAllProducts(): ResponseData<string> {
+  getAllProducts(): ResponseData<Product[]> {
     try {
       //khởi tạo đối tượng ResponseData và trả về dữ liệu"
-      return new ResponseData<string>(
+      return new ResponseData<Product[]>(
         this.productService.getAllProducts(),
         HttpStatusCode.SUCCESS,
         HttpMessage.SUCCESS,
       );
     } catch (error) {
-      return new ResponseData<string>(
+      return new ResponseData<Product[]>(
         null,
         HttpStatusCode.ERROR,
         HttpMessage.ERROR,

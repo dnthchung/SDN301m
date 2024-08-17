@@ -1,8 +1,17 @@
-import { Controller, Get, Param, Post, Put, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Param,
+  Post,
+  Put,
+  Delete,
+  Body,
+} from '@nestjs/common';
 import { ProductService } from './product.service';
 import { ResponseData } from 'src/global/globalClass';
 import { HttpMessage, HttpStatusCode } from 'src/global/globalEnum';
 import { Product } from 'src/models/product.model';
+import { ProductDTO } from 'src/dto/product.dto';
 
 /**
  * - khi truy cập url /products thì sẽ khởi tạo 1 đối tượng ProductService và gọi tới phương thức tương ứng, ví dụ: getAllProducts
@@ -59,16 +68,18 @@ export class ProductController {
 
   // Create a product
   @Post()
-  createProduct(): ResponseData<string> {
+  createProduct(
+    @Body() productDTOClientInput: ProductDTO,
+  ): ResponseData<ProductDTO> {
     try {
       const result = this.productService.createProduct();
-      return new ResponseData<string>(
-        result,
+      return new ResponseData<ProductDTO>(
+        productDTOClientInput,
         HttpStatusCode.SUCCESS,
         HttpMessage.SUCCESS,
       );
     } catch (error) {
-      return new ResponseData<string>(
+      return new ResponseData<ProductDTO>(
         null,
         HttpStatusCode.ERROR,
         HttpMessage.ERROR,

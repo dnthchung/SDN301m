@@ -14,11 +14,11 @@ export class ProductService {
     return 'Get product details by id : ' + `${idInput}`;
   }
 
-  updateProduct(): string {
-    return 'Update a product';
+  updateProduct(myIdInput: string): string {
+    return 'Update a product ' + `${myIdInput}`;
   }
 
-  deleteProduct(): string {
-    return 'Delete a product';
+  deleteProduct(myIdDelete: string): string {
+    return 'Delete a product ' + `${myIdDelete}`;
   }
 }

@@ -5,9 +5,16 @@
 [circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
 [circleci-url]: https://circleci.com/gh/nestjs/nest
 
-## B3 - App Modules
+##
+
+#### B3 - App Modules
 
 ![alt text](image.png)
+
+#### B4 - Controller
+
+- code các api trong controller trước, sau đó export chúng
+- phía module thì nhận về và khai báo bên trong `controllers`
 
 ## Installation
 

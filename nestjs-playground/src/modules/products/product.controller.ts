@@ -73,14 +73,14 @@ export class ProductController {
     @Body() productDTOClientInput: ProductDTO,
   ): ResponseData<ProductDTO> {
     try {
-      const result = this.productService.createProduct();
-      return new ResponseData<ProductDTO>(
-        productDTOClientInput,
+      const result = this.productService.createProduct(productDTOClientInput);
+      return new ResponseData<Product>(
+        result,
         HttpStatusCode.SUCCESS,
         HttpMessage.SUCCESS,
       );
     } catch (error) {
-      return new ResponseData<ProductDTO>(
+      return new ResponseData<Product>(
         null,
         HttpStatusCode.ERROR,
         HttpMessage.ERROR,

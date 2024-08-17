@@ -16,6 +16,10 @@
 - code các api trong controller trước, sau đó export chúng
 - phía module thì nhận về và khai báo bên trong `controllers`
 
+#### B5 - Provider
+
+- providers trong module là chứa các service
+
 ## Installation
 
 ```bash

@@ -6,6 +6,7 @@ import {
   Put,
   Delete,
   Body,
+  ValidationPipe,
 } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { ResponseData } from 'src/global/globalClass';

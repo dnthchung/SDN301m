@@ -10,6 +10,7 @@ import { Product } from 'src/models/product.model';
  * - còn các properties của ResponseData thì lấy từ globalEnum
  * - ban đầu :"// return this.productService.getAllProducts()"
  *
+ * -
  */
 @Controller('products')
 export class ProductController {
@@ -34,18 +35,21 @@ export class ProductController {
     }
   }
 
-  // Create a product
-  @Post()
-  createProduct(): ResponseData<string> {
+  // Get product details by ID
+  @Get('/:id')
+  getProductDetails(@Param('id') myId: string): ResponseData<Product> {
     try {
-      const result = this.productService.createProduct();
-      return new ResponseData<string>(
-        result,
+      //   const productDetails = this.productService.getProductDetails(myId);
+      const productDetails = this.productService.getProductDetails(
+        Number(myId),
+      );
+      return new ResponseData<Product>(
+        productDetails,
         HttpStatusCode.SUCCESS,
         HttpMessage.SUCCESS,
       );
     } catch (error) {
-      return new ResponseData<string>(
+      return new ResponseData<Product>(
         null,
         HttpStatusCode.ERROR,
         HttpMessage.ERROR,
@@ -53,13 +57,13 @@ export class ProductController {
     }
   }
 
-  // Get product details by ID
-  @Get('/:id')
-  getProductDetails(@Param('id') myId: string): ResponseData<string> {
+  // Create a product
+  @Post()
+  createProduct(): ResponseData<string> {
     try {
-      const productDetails = this.productService.getProductDetails(myId);
+      const result = this.productService.createProduct();
       return new ResponseData<string>(
-        productDetails,
+        result,
         HttpStatusCode.SUCCESS,
         HttpMessage.SUCCESS,
       );

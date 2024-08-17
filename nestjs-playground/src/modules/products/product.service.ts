@@ -39,8 +39,12 @@ export class ProductService {
     return 'Create a product';
   }
 
-  getProductDetails(idInput: string): string {
-    return 'Get product details by id : ' + `${idInput}`;
+  getProductDetails(idInput: number): Product {
+    //The + operator before idInput is a shorthand way(viết tắt) to convert the idInput string to a number
+    // return this.products.find((product) => product.id === +idInput);
+    //phải ép kiểu vì id của product là number, còn idInput là string
+    // return this.products.find((product) => product.id === Number(idInput));
+    return this.products.find((product) => product.id === idInput);
   }
 
   updateProduct(myIdInput: string): string {

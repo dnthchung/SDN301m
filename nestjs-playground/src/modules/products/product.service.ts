@@ -55,11 +55,33 @@ export class ProductService {
     return this.products.find((product) => product.id === idInput);
   }
 
-  updateProduct(myIdInput: string): string {
-    return 'Update a product ' + `${myIdInput}`;
+  // updateProduct(myIdInput: string): string {
+  updateProduct(myProductFromController: ProductDTO, myId: number): Product {
+    //get id from myProductFromController
+    const idProduct = Number(myId);
+    //find product by id
+    const product = this.products.find(
+      (productItem) => productItem.id === idProduct,
+    );
+    //update product
+    //    //if name is null, keep the old name -> nếu người dùng không nhập name thì giữ nguyên name cũ
+    // productFound.name = name ? name : productFound.name;
+    product.productName = myProductFromController.productName;
+    product.price = myProductFromController.price;
+    //return product updated
+    return product;
   }
 
-  deleteProduct(myIdDelete: string): string {
-    return 'Delete a product ' + `${myIdDelete}`;
+  deleteProduct(myIdDelete: number): boolean {
+    //find product by id
+    const product = this.products.find(
+      (productItem) => productItem.id === myIdDelete,
+    );
+    //delete product
+    this.products = this.products.filter(
+      (productItem) => productItem.id !== myIdDelete,
+    );
+    //return true if delete success
+    return true;
   }
 }

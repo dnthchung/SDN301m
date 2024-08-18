@@ -1,0 +1,39 @@
+# Get all products
+GET http://localhost:3000/products
+Accept: application/json
+
+###
+
+# Get product details by ID
+GET http://localhost:3000/products/1
+Accept: application/json
+
+###
+
+# Create a new product
+POST http://localhost:3000/products
+Content-Type: application/json
+
+{
+  "categoryId": 1,
+  "productName": "Iphone 12 Pro Max",
+  "price": 1000
+}
+
+###
+
+# Update a product by ID
+PUT http://localhost:3000/products/1
+Content-Type: application/json
+
+{
+  "categoryId": 1,
+  "productName": "Iphone 12 Pro Max Updated",
+  "price": 1100
+}
+
+###
+
+# Delete a product by ID
+DELETE http://localhost:3000/products/1
+Accept: application/json

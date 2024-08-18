@@ -90,16 +90,19 @@ export class ProductController {
 
   // Update a product by ID
   @Put('/:id')
-  updateProduct(@Param('id') myId: string): ResponseData<string> {
+  updateProduct(
+    @Param('id') myId: number,
+    @Body() productInputDTO: ProductDTO,
+  ): ResponseData<Product> {
     try {
-      const result = this.productService.updateProduct(myId);
-      return new ResponseData<string>(
+      const result = this.productService.updateProduct(productInputDTO, myId);
+      return new ResponseData<Product>(
         result,
         HttpStatusCode.SUCCESS,
         HttpMessage.SUCCESS,
       );
     } catch (error) {
-      return new ResponseData<string>(
+      return new ResponseData<Product>(
         null,
         HttpStatusCode.ERROR,
         HttpMessage.ERROR,
@@ -109,16 +112,16 @@ export class ProductController {
 
   // Delete a product by ID
   @Delete('/:id')
-  deleteProduct(@Param('id') myId: string): ResponseData<string> {
+  deleteProduct(@Param('id') myId: number): ResponseData<boolean> {
     try {
       const result = this.productService.deleteProduct(myId);
-      return new ResponseData<string>(
+      return new ResponseData<boolean>(
         result,
         HttpStatusCode.SUCCESS,
         HttpMessage.SUCCESS,
       );
     } catch (error) {
-      return new ResponseData<string>(
+      return new ResponseData<boolean>(
         null,
         HttpStatusCode.ERROR,
         HttpMessage.ERROR,

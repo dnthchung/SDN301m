@@ -1,6 +1,19 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
-@Schema()
+@Schema({
+  timestamps: true,
+  versionKey: false,
+})
+
+// ==== Trường hợp vẫn muốn có __v vào db nhưng mà data trả về không có __v ====
+// @Schema({
+//   toJSON: {
+//     transform: (doc, ret) => {
+//       delete ret.__v;
+//       return ret;
+//     },
+//   },
+// })
 export class User {
   @Prop({
     unique: true,

@@ -15,7 +15,7 @@ POST http://localhost:3000/users
 Content-Type: application/json
 
 {
-  "username": "hi hi 1234567890",
+  "username": "hi hi 1234567890189",
   "settings":{
     "receiveNotifications": true
   }
@@ -28,7 +28,7 @@ GET http://localhost:3000/users
 
 ###
 # Get user by id
-GET http://localhost:3000/users/66c3181bbeded1b9e920e68e
+GET http://localhost:3000/users/66c40a1813fd9c5824b67abf
 
 ###
 # Update user by id

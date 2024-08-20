@@ -31,11 +31,9 @@ export class UsersService {
     return this.userModel.find().exec();
   }
 
-  async getUserById(id: string) {
-    // console.log('id', id);
-    const isValid = mongoose.Types.ObjectId.isValid(id);
+  getUserById(id: string) {
+    const userFound = this.userModel.findById(id).populate('settings');
 
-    const userFound = await this.userModel.findById(id);
     return userFound;
   }
 

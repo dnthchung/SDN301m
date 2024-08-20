@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose from 'mongoose';
+import { Post } from './Post.schema';
 
 @Schema({
   timestamps: true,
@@ -37,6 +38,12 @@ export class User {
     ref: 'UserSettings',
   })
   settings?: string;
+
+  @Prop({
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Post',
+  })
+  postNe: Post[]; // 1 user có nhiều post
 }
 
 // This is a factory function that returns a schema object

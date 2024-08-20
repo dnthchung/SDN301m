@@ -4,12 +4,25 @@ import mongoose, { Model, mongo } from 'mongoose';
 import { User } from 'src/schemas/user.schema';
 import { CreateUserDto } from './dto/CreateUser.dto';
 import { UpdateUserDTO } from './dto/UpdateUser.dto';
+import { UserSettings } from 'src/schemas/userSetting.schema';
 
 @Injectable()
 export class UsersService {
-  constructor(@InjectModel(User.name) private userModel: Model<User>) {}
+  constructor(
+    @InjectModel(User.name) private userModel: Model<User>,
+    @InjectModel('UserSettings') private userSettingsModel: Model<UserSettings>,
+  ) {}
 
-  createUser(createUserDto: CreateUserDto) {
+  async createUser({ settings, ...createUserDto }: CreateUserDto) {
+    if (settings) {
+      const newUserSettings = new this.userSettingsModel(settings);
+      const saveNewSettings = await newUserSettings.save();
+      const newUser = new this.userModel({
+        ...createUserDto,
+        settings: saveNewSettings._id,
+      });
+      return newUser.save();
+    }
     const newUser = new this.userModel(createUserDto);
     return newUser.save();
   }
@@ -30,17 +43,5 @@ export class UsersService {
     return this.userModel.findByIdAndUpdate(id, body, {
       new: true,
     });
-    // const isValid = mongoose.Types.ObjectId.isValid(id);
-    // if (!isValid) {
-    //   return 'Invalid id';
-    // }
-    // const userFound = await this.userModel.findById(id);
-    // if (!userFound) {
-    //   return 'User not found';
-    // }
-
-    // userFound.displayName = body.displayName;
-    // userFound.avatarUrl = body.avatarUrl;
-    // return userFound.save();
   }
 }

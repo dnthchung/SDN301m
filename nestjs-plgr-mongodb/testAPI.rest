@@ -4,9 +4,22 @@ POST http://localhost:3000/users
 Content-Type: application/json
 
 {
-  "username": "hi hi 123"
+  "username": "hi hi 12345",
+  "displayName": "hi ha",
+  "avatarUrl": "https://www.google2.com"
 }
 
+###
+# Create a new user with setting
+POST http://localhost:3000/users
+Content-Type: application/json
+
+{
+  "username": "hi hi 1234567890",
+  "settings":{
+    "receiveNotifications": true
+  }
+}
 
 ### 
 # Get all users
@@ -28,3 +41,4 @@ Content-Type: application/json
 }
 
 ###
+

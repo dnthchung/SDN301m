@@ -1,4 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import mongoose from 'mongoose';
 
 @Schema({
   timestamps: true,
@@ -30,6 +31,12 @@ export class User {
     required: false,
   })
   avatarUrl?: string;
+
+  @Prop({
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'UserSettings',
+  })
+  settings?: string;
 }
 
 // This is a factory function that returns a schema object

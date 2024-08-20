@@ -41,4 +41,13 @@ Content-Type: application/json
 }
 
 ###
+# Create post
+POST http://localhost:3000/posts
+Content-Type: application/json
+
+{
+  "title": "post 2",
+  "content": "content 1",
+  "userId" : "66c40e9313fd9c5824b67ad1"
+}
 

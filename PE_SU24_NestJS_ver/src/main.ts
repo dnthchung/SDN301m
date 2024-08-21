@@ -16,6 +16,7 @@
 import { NestFactory } from "@nestjs/core";
 import { AppModule } from "./app.module";
 import mongoose from "mongoose";
+import { ValidationPipe } from "@nestjs/common";
 
 declare const module: any;
 
@@ -23,6 +24,9 @@ async function bootstrap() {
   try {
     // Create the NestJS application
     const app = await NestFactory.create(AppModule);
+
+    // enable validation pipe
+    app.useGlobalPipes(new ValidationPipe());
 
     // Start listening on port 9999
     await app.listen(9999, () => {

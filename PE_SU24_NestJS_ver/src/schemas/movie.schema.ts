@@ -5,8 +5,8 @@ export type MovieDocument = HydratedDocument<Movie>;
 
 @Schema({ timestamps: true })
 export class Movie {
-  @Prop() title: string;
-  @Prop() release: Date;
+  @Prop({ required: true }) title: string;
+  @Prop({ type: Date }) release: Date;
   @Prop() description: string;
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: "Producer" }) producer: mongoose.Schema.Types.ObjectId; // object id
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: "Director" }) director: mongoose.Schema.Types.ObjectId; // object id

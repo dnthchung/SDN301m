@@ -1,7 +1,8 @@
-import { Controller } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 import { MovieService } from './movies.service';
+import { CreateMovieDto } from './dtos/createMovie.dto';
 
-@Controller('movie')
+@Controller('api/movie')
 export class MovieController {
   /**
    * 1. create constructor
@@ -13,4 +14,16 @@ export class MovieController {
     // inject service to constructor
     private movieService: MovieService,
   ) {}
+
+  //get all movies
+  @Get()
+  async getAllMovies() {
+    return await this.movieService.getAllMovies();
+  }
+
+  //Q1 : create new movie
+  @Post('create')
+  async createMovie(@Body() infoIP: CreateMovieDto) {
+    return await this.movieService.createMovie(infoIP);
+  }
 }

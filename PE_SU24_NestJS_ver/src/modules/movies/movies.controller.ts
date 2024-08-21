@@ -1,8 +1,11 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
-import { MovieService } from './movies.service';
-import { CreateMovieDto } from './dtos/createMovie.dto';
+import { Body, Controller, Get, Post } from "@nestjs/common";
+import { MovieService } from "./movies.service";
+import { CreateMovieDto } from "./dtos/createMovie.dto";
+import { ResponseData } from "src/common/global/globalClass";
+import { Movie } from "src/schemas/movie.schema";
+import { HttpMessage, HttpStatusCode } from "src/common/global/globalEnum";
 
-@Controller('api/movie')
+@Controller("api/movie")
 export class MovieController {
   /**
    * 1. create constructor
@@ -17,12 +20,17 @@ export class MovieController {
 
   //get all movies
   @Get()
-  async getAllMovies() {
-    return await this.movieService.getAllMovies();
+  async getAllMovies(): Promise<ResponseData<Movie[]>> {
+    // return await this.movieService.getAllMovies();
+    try {
+      return new ResponseData<Movie[]>(await this.movieService.getAllMovies(), HttpStatusCode.SUCCESS, HttpMessage.SUCCESS);
+    } catch (error) {
+      return new ResponseData<Movie[]>([], HttpStatusCode.ERROR, HttpMessage.ERROR);
+    }
   }
 
   //Q1 : create new movie
-  @Post('create')
+  @Post("create")
   async createMovie(@Body() infoIP: CreateMovieDto) {
     return await this.movieService.createMovie(infoIP);
   }

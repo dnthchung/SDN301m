@@ -1,9 +1,9 @@
-import { Body, Controller, Get, Post } from "@nestjs/common";
+import { BadRequestException, Body, Controller, Get, Param, Post } from "@nestjs/common";
 import { MovieService } from "./movies.service";
 import { CreateMovieDto } from "./dtos/createMovie.dto";
 import { ResponseData } from "src/common/global/globalClass";
 import { Movie } from "src/schemas/movie.schema";
-import { HttpMessage, HttpStatusCode } from "src/common/global/globalEnum";
+import { Genre, HttpMessage, HttpStatusCode } from "src/common/global/globalEnum";
 import { GetAllMoviesDto } from "./dtos/getAllMovies.dto";
 
 @Controller("api/movie")
@@ -36,6 +36,20 @@ export class MovieController {
     // return await this.movieService.getAllMovies();
     try {
       return new ResponseData<GetAllMoviesDto[]>(await this.movieService.getAllMovies(), HttpStatusCode.SUCCESS, HttpMessage.SUCCESS);
+    } catch (error) {
+      return new ResponseData<GetAllMoviesDto[]>([], HttpStatusCode.ERROR, HttpMessage.ERROR);
+    }
+  }
+
+  //Q3: List all movie by genre
+  @Get("by-genre/:genre")
+  async getAllMoviesByGenre(@Param("genre") genreIP: string): Promise<ResponseData<GetAllMoviesDto[]>> {
+    // return await this.movieService.getAllMovies();
+    if (!(genreIP in Genre)) {
+      throw new BadRequestException("This movie genre does not exist");
+    }
+    try {
+      return new ResponseData<GetAllMoviesDto[]>(await this.movieService.getAllMoviesByGenre(genreIP), HttpStatusCode.SUCCESS, HttpMessage.SUCCESS);
     } catch (error) {
       return new ResponseData<GetAllMoviesDto[]>([], HttpStatusCode.ERROR, HttpMessage.ERROR);
     }

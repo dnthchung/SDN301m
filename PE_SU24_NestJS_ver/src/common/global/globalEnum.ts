@@ -13,3 +13,10 @@ export enum Status {
   INACTIVE = "inactive",
   DELETED = "deleted",
 }
+
+export enum Genre {
+  Action = "Action",
+  Drama = "Drama",
+  Comedy = "Comedy",
+  Cartoon = "Cartoon",
+}

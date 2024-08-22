@@ -1,5 +1,12 @@
 import { Type } from "class-transformer";
-import { IsDate, IsNotEmpty, IsString } from "class-validator";
+import { IsDate, IsEnum, IsNotEmpty, IsString } from "class-validator";
+
+export enum MovieGenres {
+  Action = "Action",
+  Drama = "Drama",
+  Comedy = "Comedy",
+  Cartoon = "Cartoon",
+}
 
 export class CreateMovieDto {
   @IsString()
@@ -14,6 +21,9 @@ export class CreateMovieDto {
   @IsString() description: string;
   @IsString() producer: string;
   @IsString() director: string;
-  @IsString({ each: true }) genres: string[];
+
+  @IsEnum(MovieGenres, { each: true, message: "The genre ? is not supported. Supported genres are: Action, Drama, Comedy, Cartoon." })
+  genres: MovieGenres[];
+
   @IsString({ each: true }) stars: string[];
 }

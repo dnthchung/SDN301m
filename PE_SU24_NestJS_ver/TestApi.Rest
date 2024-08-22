@@ -9,13 +9,13 @@ POST http://localhost:9999/api/movie/create
 Content-type: application/json
 
 {
-  "title": "New movie 2",
+  "title": "New movie 3",
   "release": "2024-05-11",
   "description": "New movie description",
   "producer": "665f2cce86531e91c6e33c58",
   "director": "665f2fcb6b449f0d1437b6f8",
   "genres": [
-    "Comedy",
+    "Comedy1",
     "Action"
   ],
   "stars": [

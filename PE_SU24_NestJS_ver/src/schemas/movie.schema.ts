@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import mongoose, { HydratedDocument } from "mongoose";
+import mongoose, { HydratedDocument, Types, Schema as MongooseSchema } from "mongoose";
 
 export type MovieDocument = HydratedDocument<Movie>;
 
@@ -10,7 +10,7 @@ export class Movie {
   @Prop() description: string;
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: "Producer" }) producer: mongoose.Schema.Types.ObjectId; // object id
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: "Director" }) director: mongoose.Schema.Types.ObjectId; // object id
-  @Prop({ type: [String] }) genres: string[]; // array of string
+  @Prop({ type: [String], enum: ["Action", "Drama", "Comedy", "Cartoon"] }) genres: string[]; // array of string
   @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: "Star" }] }) stars: mongoose.Schema.Types.ObjectId[]; // array of object id
 }
 

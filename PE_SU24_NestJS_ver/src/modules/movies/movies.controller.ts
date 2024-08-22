@@ -5,6 +5,7 @@ import { ResponseData } from "src/common/global/globalClass";
 import { Movie } from "src/schemas/movie.schema";
 import { Genre, HttpMessage, HttpStatusCode } from "src/common/global/globalEnum";
 import { GetAllMoviesDto } from "./dtos/getAllMovies.dto";
+import { CountMoviesByProductDto } from "./dtos/countMoviesByProduct.dto";
 
 @Controller("api/movie")
 export class MovieController {
@@ -52,6 +53,16 @@ export class MovieController {
       return new ResponseData<GetAllMoviesDto[]>(await this.movieService.getAllMoviesByGenre(genreIP), HttpStatusCode.SUCCESS, HttpMessage.SUCCESS);
     } catch (error) {
       return new ResponseData<GetAllMoviesDto[]>([], HttpStatusCode.ERROR, HttpMessage.ERROR);
+    }
+  }
+
+  //Q4: statistic of the number of movies by producer name
+  @Get("count-by-producer/:producerName")
+  async getStatisticMoviesByProducer(@Param("producerName") producerNameIP: string): Promise<ResponseData<CountMoviesByProductDto>> {
+    try {
+      return new ResponseData<CountMoviesByProductDto>(await this.movieService.getStatisticMoviesByProducer(producerNameIP), HttpStatusCode.SUCCESS, HttpMessage.SUCCESS);
+    } catch (error) {
+      return error.response;
     }
   }
 }

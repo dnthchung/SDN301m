@@ -1,3 +1,7 @@
 {
-  "cSpell.words": ["nestjs"]
+  "workbench.tree.renderIndentGuides": "always",
+  "editor.guides.bracketPairs": "active",
+  "editor.guides.highlightActiveBracketPair": false,
+  "prettier.bracketSameLine": false,
+  "editor.bracketPairColorization.independentColorPoolPerBracketType": false
 }

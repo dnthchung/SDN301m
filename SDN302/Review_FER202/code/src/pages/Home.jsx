@@ -105,7 +105,7 @@ const Home = () => {
       return;
     }
 
-    // check trùng khóa học
+    // check var trùng khóa học
     const alreadyEnrolled = enrollments.some((enrollment) => enrollment.courseId === parseInt(courseId, 10));
 
     if (alreadyEnrolled) {
@@ -117,7 +117,7 @@ const Home = () => {
       const newEnrollment = { studentId: selectedStudent, courseId: parseInt(courseId, 10) };
       const response = await axios.post("http://localhost:3000/enrollments", newEnrollment);
 
-      setEnrollments([...enrollments, response.data]); // Update enrollments state with new enrollment
+      setEnrollments([...enrollments, response.data]);
       alert("Student enrolled in the course successfully!");
     } catch (error) {
       console.log(error);

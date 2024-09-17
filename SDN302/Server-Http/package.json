@@ -1,0 +1,15 @@
+{
+  "name": "server-http",
+  "version": "1.0.0",
+  "description": "create server = http module",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
+  },
+  "author": "chun",
+  "license": "ISC",
+  "dependencies": {
+    "nodemon": "^3.1.4"
+  }
+}

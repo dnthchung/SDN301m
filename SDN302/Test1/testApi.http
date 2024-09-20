@@ -1,0 +1,49 @@
+### 1. Get 
+GET http://localhost:3000/users
+Accept: application/json
+
+
+### 2. Get by account sai
+GET http://localhost:3000/users/1
+Accept: application/json
+
+### 2. get nma data true
+GET http://localhost:3000/users/user1
+
+### 3. post
+POST http://localhost:3000/users
+Content-Type: application/json
+
+{
+    "account": "chunchun",
+    "password": "111",
+    "name": "doan chung",
+    "gender": 1,
+    "email": "hihi@gmail2.com"
+}
+
+###post
+POST http://localhost:3000/users
+Content-Type: application/json
+
+{
+        "account": "admin123",
+        "name": "Thich tu do",
+        "gender": 0,
+        "email": "tudo23@gmail.com",
+        "password": "123"
+}
+
+
+### 4. put
+PUT http://localhost:3000/users/admin1/123
+Content-Type: application/json
+
+{
+    "name": "doan chung ne",
+    "gender"  : 1
+}
+
+
+### 5. delete
+DELETE http://localhost:3000/users/chunchun

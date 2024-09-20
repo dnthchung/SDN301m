@@ -1,0 +1,45 @@
+### 1. Get all students
+GET http://localhost:9000/students
+Accept: application/json
+
+###
+
+### 2. Add a new student (POST)
+POST http://localhost:9000/students
+Content-Type: application/json
+
+{
+  "code": "",
+  "name": "",
+  "mark": ""
+}
+
+###
+
+### 3. Get a student by ID (GET)
+GET http://localhost:9000/students/SV04
+Accept: application/json
+
+###
+
+### 4. Update a student by code (PUT)
+PUT http://localhost:9000/students
+Content-Type: application/json
+
+{
+  "code": "SV04",
+  "name": "Nguyen Van D Updated",
+  "mark": 100
+}
+
+###
+
+### 5. Delete a student by code (DELETE)
+DELETE http://localhost:9000/students
+Content-Type: application/json
+
+{
+  "code": "SV04"
+}
+
+###

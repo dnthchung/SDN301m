@@ -1,0 +1,34 @@
+### cau1
+POST http://localhost:8888/api/movie/create
+Content-Type: application/json
+
+{
+        "title": "new title 12345678",
+        "release": "2024-05-10" ,
+        "description": "ládassa",
+        "producer": "665f2c7186531e91c6e33c50",
+        "director": "665f2fcb6b449f0d1437b6f8",
+        "genres": ["Comedy", "Action"],
+        "stars": ["665f309c253b0c0839f666ee","665f309c253b0c0839f666f1"]
+}
+
+
+### cau2
+GET http://localhost:8888/api/movie/list
+
+
+### cau3
+GET http://localhost:9999/api/movie/by-genre/Cartoon
+
+### cau3 - error situation
+GET http://localhost:9999/api/movie/by-genre/Cartoon123
+
+
+### cau4
+GET http://localhost:9999/api/movie/count-by-producer/Corie    Awde
+
+### cau4 - error situation
+GET http://localhost:9999/api/movie/count-by-producer/Corie Awde123
+
+### cau5
+PUT http://localhost:9999/api/movie/665f3dd57281d373d1a044cf/remove-star/665f309c253b0c0839f666ee

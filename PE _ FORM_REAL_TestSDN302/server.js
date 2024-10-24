@@ -4,7 +4,6 @@ const morgan = require("morgan");
 const httpError = require("http-errors");
 const db = require("./models");
 ////=============================1. Phải import routes===================
-// const { cakeRouter, toppingRouter, optionRouter } = require("./routes");
 const { movieRouter } = require("./routes");
 
 //============================================================================
@@ -14,7 +13,13 @@ require("dotenv").config();
 const app = express();
 app.use(morgan("dev"));
 app.use(bodyParser.json());
-// error handle
+
+//====================2. để ý là mẫu họ đòi URL trông ntn ==================
+app.use("/api/movie", movieRouter);
+
+//============================================================================
+
+// error handle = thằng ni phải để cuối cùng nha nếu không mọi api khi gọi đến đều sẽ 404
 app.use(async (req, res, next) => {
   next(httpError.NotFound());
 });
@@ -27,14 +32,6 @@ app.use((error, req, res, next) => {
     },
   });
 });
-
-//====================2. để ý là mẫu họ đòi URL trông ntn ==================
-// app.use("/cake", cakeRouter);
-// app.use("/topping", toppingRouter);
-// app.use("/option", optionRouter);
-
-app.use("/api/movie", movieRouter);
-//============================================================================
 
 app.listen(process.env.PORT, process.env.HOST_NAME, () => {
   console.log(

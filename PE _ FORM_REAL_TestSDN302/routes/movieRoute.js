@@ -64,7 +64,6 @@ async function getAll(req, res, next) {
 const movieRouter = express.Router();
 movieRouter.use(bodyParser.json());
 
-// movieRouter.post("/register", register);
 movieRouter.post("/create", getAllMovies);
 movieRouter.get("/list", getAll);
 

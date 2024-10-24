@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-// ================ import all models here ================
+// ================1. import all models here ================
 const Producer = require("./producer.model");
 const Director = require("./director.model");
 const Movie = require("./movie.model");
@@ -9,7 +9,7 @@ const Star = require("./star.model");
 mongoose.Promise = global.Promise;
 const db = {};
 
-// ================ create schema here ================
+// ================2. create schema here ================
 db.producer = Producer;
 db.director = Director;
 db.movie = Movie;

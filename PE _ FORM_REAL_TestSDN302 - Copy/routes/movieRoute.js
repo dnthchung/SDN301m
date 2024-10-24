@@ -4,13 +4,20 @@ const express = require("express");
 // ========== / controller /==========
 const db = require("../models");
 const mongoose = require("mongoose");
+
 const Movie = db.movie;
 const Star = db.star;
+const Producer = db.producer;
+const Director = db.director;
 
 //cau 1
 async function getAllMovies(req, res, next) {
   try {
-    console.log(req.body);
+    // console.log(req.body);
+    // const title = req.body.title;
+    // const release = req.body.release;
+    // const description = req.body.description;
+
     const newMovie = new Movie({
       title: req.body.title,
       release: req.body.release,

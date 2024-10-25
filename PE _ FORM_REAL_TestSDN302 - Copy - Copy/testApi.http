@@ -1,5 +1,5 @@
 ### cau1
-POST http://localhost:8888/api/movie/create
+POST http://localhost:9999/api/movie/create
 Content-Type: application/json
 
 {
@@ -14,7 +14,7 @@ Content-Type: application/json
 
 
 ### cau2
-GET http://localhost:8888/api/movie/list
+GET http://localhost:9999/api/movie/list
 
 
 ### cau 3a

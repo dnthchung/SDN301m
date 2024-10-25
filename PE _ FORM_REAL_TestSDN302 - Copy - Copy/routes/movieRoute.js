@@ -126,11 +126,35 @@ async function findMovieByStar(req, res, next) {
   }
 }
 
+// ================ Trial ==========
+
+async function create(req, res, next) {
+  // const titleInput = req.body.title;
+  // if(){
+
+  // }
+
+  const newMovie = new Movie({
+    title: req.body.title,
+    release: req.body.release,
+    description: req.body.description,
+    producer: req.body.producer,
+    director: req.body.director,
+    genres: req.body.genres,
+    stars: req.body.stars,
+  });
+
+  const saveResult = await newMovie.save();
+
+  return res.status(201).json(saveResult);
+}
+
 // ========== / routes /==========
 const movieRouter = express.Router();
 movieRouter.use(bodyParser.json());
 
-movieRouter.post("/create", getAllMovies);
+// movieRouter.post("/create", getAllMovies);
+movieRouter.post("/create", create);
 movieRouter.get("/list", getAll);
 movieRouter.get("/by-star/:starId", findMovieByStar);
 

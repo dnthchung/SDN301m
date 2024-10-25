@@ -1,0 +1,21 @@
+### cau1
+POST http://localhost:8888/api/movie/create
+Content-Type: application/json
+
+{
+        "title": "new title 12345678",
+        "release": "2024-05-10" ,
+        "description": "ládassa",
+        "producer": "665f2c7186531e91c6e33c50",
+        "director": "665f2fcb6b449f0d1437b6f8",
+        "genres": ["Comedy", "Action"],
+        "stars": ["665f309c253b0c0839f666ee","665f309c253b0c0839f666f1"]
+}
+
+
+### cau2
+GET http://localhost:8888/api/movie/list
+
+
+### cau 3a
+GET http://localhost:8888/api/movie/by-star/665f309c253b0c0839f666ee

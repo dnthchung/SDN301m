@@ -1,0 +1,4 @@
+be : npx nodemon server.js
+fe : npm start
+
+be : Using ES6

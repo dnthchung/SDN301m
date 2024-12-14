@@ -1,0 +1,27 @@
+### cau 1.1
+GET http://localhost:9999/tutorials
+
+
+### cau 1.2
+GET http://localhost:9999/tutorials/652c1cd546a765d027fb163c/comments
+
+
+
+### cau 1.3
+POST http://localhost:9999/tutorials/create
+Content-Type: application/json
+
+{
+  "title": "Google Charts Tutorial 123",
+  "description": "Tutorial about Google Charts",
+  "images": [
+    { "path": "/sites/images/google-1.png", "url": "/images/google-1.png", "caption": "google-1" },
+    { "path": "/sites/images/google-2.png", "url": "/images/google-2.png", "caption": "google-2" }
+  ],
+  "category": "64f1b7c0fd4c000000000001",
+  "comments": []
+}
+
+
+### cau 1.4 : get all categories
+GET http://localhost:9999/categories

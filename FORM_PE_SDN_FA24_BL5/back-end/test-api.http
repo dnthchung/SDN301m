@@ -1,0 +1,27 @@
+### cau 1.1
+GET http://localhost:9999/tutorials
+
+
+### cau 1.2
+GET http://localhost:9999/tutorials/652c1cd546a765d027fb163c/comments
+
+
+
+### cau 1.3
+POST http://localhost:9999/tutorials/create
+Content-Type: application/json
+
+{
+  "title": "Google Charts Tutorial 1234",
+  "author" : "Teddy Walker",
+  "category": "652c04a6b766198f0e43c605",
+  "images": [
+    { "path": "/sites/images/google-3.png", "url": "/images/google-3.png", "caption": "google-1" },
+    { "path": "/sites/images/google-4.png", "url": "/images/google-4.png", "caption": "google-2" }
+  ],
+  "comments": []
+}
+
+
+### cau 1.4 : get all categories
+GET http://localhost:9999/categories

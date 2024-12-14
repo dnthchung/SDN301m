@@ -1,0 +1,32 @@
+[
+  {
+    "_id": { "$oid": "64f1b7c0fd4c000000000003" },
+    "name": "John Doe",
+    "dob": { "$date": "1985-06-15T00:00:00Z" },
+    "gender": "Male",
+    "position": "Senior Engineer",
+    "department": { "$oid": "64f1b7c0fd4c000000000001" },
+    "createdAt": { "$date": "2024-12-14T00:00:00Z" },
+    "updatedAt": { "$date": "2024-12-14T00:00:00Z" }
+  },
+  {
+    "_id": { "$oid": "64f1b7c0fd4c000000000004" },
+    "name": "Jane Smith",
+    "dob": { "$date": "1990-03-21T00:00:00Z" },
+    "gender": "Female",
+    "position": "Junior Engineer",
+    "department": { "$oid": "64f1b7c0fd4c000000000001" },
+    "createdAt": { "$date": "2024-12-14T00:00:00Z" },
+    "updatedAt": { "$date": "2024-12-14T00:00:00Z" }
+  },
+  {
+    "_id": { "$oid": "64f1b7c0fd4c000000000005" },
+    "name": "Sarah Johnson",
+    "dob": { "$date": "1988-09-10T00:00:00Z" },
+    "gender": "Female",
+    "position": "Marketing Coordinator",
+    "department": { "$oid": "64f1b7c0fd4c000000000002" },
+    "createdAt": { "$date": "2024-12-14T00:00:00Z" },
+    "updatedAt": { "$date": "2024-12-14T00:00:00Z" }
+  }
+]

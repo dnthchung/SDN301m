@@ -1,0 +1,26 @@
+### ====== API BACKEND LIST =====
+
+### cau 1.1
+GET http://localhost:9999/projects
+CONTENT-TYPE: application/json
+
+
+###cau 1.2 
+GET http://localhost:9999/employees/64f1b7c0fd4c000000000001
+CONTENT-TYPE: application/json
+
+
+###cau 1.3
+POST http://localhost:9999/projects
+Content-Type: application/json
+
+{
+  "name": "Annual Maria DB Upgrade",
+  "description": "We require our MariaDB infrastructure to remain current and supportable. We will look to upgrade to latest stable and supported versions of MariaDB.",
+  "startDate": "2019-12-12",
+  "type": "Consulting Project",
+  "department": "64f1b7c0fd4c000000000001"  
+}
+
+###cau 1.4 - thêm get all department cho cu 2.3 của fe
+GET http://localhost:9999/departments

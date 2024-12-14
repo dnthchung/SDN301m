@@ -1,0 +1,165 @@
+{
+  "info": {
+    "_postman_id": "c261a521-8d23-4f84-a9e8-96c961287cfc",
+    "name": "Movie API Collection",
+    "description": "A collection of movie API endpoints for testing.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "cau1 - Create Movie",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"title\": \"new title 12345678\",\n    \"release\": \"2024-05-10\",\n    \"description\": \"ládassa\",\n    \"producer\": \"665f2c7186531e91c6e33c50\",\n    \"director\": \"665f2fcb6b449f0d1437b6f8\",\n    \"genres\": [\"Comedy\", \"Action\"],\n    \"stars\": [\"665f309c253b0c0839f666ee\", \"665f309c253b0c0839f666f1\"]\n}"
+        },
+        "url": {
+          "raw": "http://localhost:9999/api/movie/create",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "9999",
+          "path": [
+            "api",
+            "movie",
+            "create"
+          ]
+        }
+      }
+    },
+    {
+      "name": "cau2 - List Movies",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:9999/api/movie/list",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "9999",
+          "path": [
+            "api",
+            "movie",
+            "list"
+          ]
+        }
+      }
+    },
+    {
+      "name": "cau3 - Get Movies by Genre (Cartoon)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:9999/api/movie/by-genre/Cartoon",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "9999",
+          "path": [
+            "api",
+            "movie",
+            "by-genre",
+            "Cartoon"
+          ]
+        }
+      }
+    },
+    {
+      "name": "cau3 - Error Situation (Invalid Genre: Cartoon123)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:9999/api/movie/by-genre/Cartoon123",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "9999",
+          "path": [
+            "api",
+            "movie",
+            "by-genre",
+            "Cartoon123"
+          ]
+        }
+      }
+    },
+    {
+      "name": "cau4 - Get Movie Count by Producer (Corie Awde)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:9999/api/movie/count-by-producer/Corie Awde",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "9999",
+          "path": [
+            "api",
+            "movie",
+            "count-by-producer",
+            "Corie Awde"
+          ]
+        }
+      }
+    },
+    {
+      "name": "cau4 - Error Situation (Invalid Producer: Corie Awde123)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:9999/api/movie/count-by-producer/Corie Awde123",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "9999",
+          "path": [
+            "api",
+            "movie",
+            "count-by-producer",
+            "Corie Awde123"
+          ]
+        }
+      }
+    },
+    {
+      "name": "cau5 - Remove a Star from a Movie",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:9999/api/movie/665f3dd57281d373d1a044cf/remove-star/665f309c253b0c0839f666ee",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "9999",
+          "path": [
+            "api",
+            "movie",
+            "665f3dd57281d373d1a044cf",
+            "remove-star",
+            "665f309c253b0c0839f666ee"
+          ]
+        }
+      }
+    }
+  ]
+}

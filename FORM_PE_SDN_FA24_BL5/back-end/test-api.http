@@ -2,7 +2,7 @@
 GET http://localhost:9999/tutorials
 
 
-### cau 1.2
+### cau 1.2 - get all comments of tutorial 
 GET http://localhost:9999/tutorials/652c1cd546a765d027fb163c/comments
 
 

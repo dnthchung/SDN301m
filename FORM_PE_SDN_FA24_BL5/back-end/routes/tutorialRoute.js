@@ -14,12 +14,37 @@ const Category = db.category;
 // ========== /2. CONTROLLERS /==================================|
 async function getTutorials(req, res, next) {
   try {
-    const tutorials = await Tutorial.find()
-      .populate("images")
-      .populate("comments")
-      .populate("category", "name description");
+    const tutorials = await Tutorial.find().populate("images").populate("comments").populate("category", "name description");
 
-    res.status(200).json(tutorials);
+    const dataBack = tutorials.map((tutorial) => {
+      return {
+        _id: tutorial._id,
+        title: tutorial.title,
+        author: tutorial.author,
+        images: tutorial.images.map((myImage) => {
+          return {
+            _id: myImage._id,
+            url: myImage.url,
+            caption: myImage.caption,
+          };
+        }),
+        comments: tutorial.comments.map((myComment) => {
+          return {
+            _id: myComment._id,
+            username: myComment.username,
+            text: myComment.text,
+            createdAt: myComment.createdAt,
+          };
+        }),
+        category: {
+          _id: tutorial.category._id,
+          name: tutorial.category.name,
+          description: tutorial.category.description,
+        },
+      };
+    });
+
+    res.status(200).json(dataBack);
   } catch (error) {
     next(error);
   }
@@ -54,12 +79,11 @@ async function createTutorial(req, res, next) {
   try {
     const { title, author, category, images } = req.body;
 
-    // 1. Validate the required fields
     if (!title || !author || !category || !Array.isArray(images)) {
       return res.status(400).json({ message: "Missing required fields" });
     }
 
-    // 2. Save images to the Images collection
+    //Save images to the Images collection
     const savedImages = await Promise.all(
       images.map(async (image) => {
         const newImage = new db.image({
@@ -73,28 +97,22 @@ async function createTutorial(req, res, next) {
           url: savedImage.url,
           caption: savedImage.caption,
         };
-      })
+      }),
     );
 
-    // 3. Create a new tutorial with the saved images
+    //Create a new tutorial with the saved images
     const newTutorial = new db.tutorial({
       title,
       author,
       category,
-      images: savedImages, // Save images with url and caption into the schema
-      comments: [], // Initialize comments as an empty array
+      images: savedImages,
+      comments: [],
     });
 
-    // 4. Save the tutorial
     const savedTutorial = await newTutorial.save();
-
-    // 5. Send the response
-    res.status(201).json({
-      message: "Tutorial created successfully",
-      tutorial: savedTutorial,
-    });
+    res.status(201).json(savedTutorial);
   } catch (error) {
-    next(error); // Pass any errors to the error handler
+    next(error);
   }
 }
 

@@ -6,7 +6,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 import db from "./models/index.js";
 //============================= /1. PHẢI IMPORT ROUTER VÀO ĐÂY /===================|
-import { tutorialRouter } from "./routes/index.js";
+import { tutorialRouter, categoryRouter } from "./routes/index.js";
 
 //===================================================================================|
 dotenv.config();
@@ -18,7 +18,7 @@ app.use(bodyParser.json());
 
 //====================2. ĐỂ Ý LÀ ĐỀ YÊU CẦU URL / API TRÔNG NTN =====================|
 app.use("/tutorials", tutorialRouter);
-// app.use("/categories", categoryRouter);
+app.use("/categories", categoryRouter);
 
 //============================================================================
 app.use(async (req, res, next) => {
@@ -38,7 +38,7 @@ app.use((error, req, res, next) => {
 app.listen(process.env.PORT, process.env.HOST_NAME, () => {
   console.log(
     `Server is running on port ${process.env.PORT} 
-      and at : https://${process.env.HOST_NAME}:${process.env.PORT}`
+      and at : https://${process.env.HOST_NAME}:${process.env.PORT}`,
   );
   db.connectDB();
 });

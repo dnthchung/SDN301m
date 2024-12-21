@@ -1,0 +1,7 @@
+// command để chạy code
+be : npx nodemon server.js
+fe : npm start
+
+//ghi chú
+be : Using ES6
+

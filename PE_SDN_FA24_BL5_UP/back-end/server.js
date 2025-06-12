@@ -6,7 +6,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 import db from "./models/index.js";
 //============================= /1. PHẢI IMPORT ROUTER VÀO ĐÂY /===================|
-import {} from "./routes/index.js";
+import { tutorialRouter } from "./routes/index.js";
 //===================================================================================|
 dotenv.config();
 const app = express();
@@ -15,7 +15,7 @@ app.use(cors());
 app.use(morgan("dev"));
 app.use(bodyParser.json());
 //====================2. ĐỂ Ý LÀ ĐỀ YÊU CẦU URL / API TRÔNG NTN =====================|
-
+app.use("/tutorials", tutorialRouter);
 //============================================================================
 app.use(async (req, res, next) => {
   next(httpError.NotFound());

@@ -52,3 +52,15 @@
   | **Vị trí trong Event Loop** | `timers` phase | `timers` phase |
   | **Dễ bị lệch (drift)** | Không đáng kể (chỉ chạy 1 lần) | Dễ bị **trễ dần** nếu callback mất thời gian lâu hơn `delay` |
   | **Dùng khi** | Cần chạy **1 lần sau một khoảng trễ** (ví dụ delay request, animation delay, v.v.) | Cần **chạy lặp đều đặn** (polling, heartbeat, auto-save, logging, v.v.) |
+
+#### Đọc thêm
+
+- https://medium.com/@ktachyon/javascript-concurrency-model-dc98dacab527
+
+- https://manhhomienbienthuy.github.io/2022/04/11/nodejs-blocking-non-blocking-io.html#concurrency-throughput
+
+- https://www.linkedin.com/pulse/javascript-l%C3%A0-single-thread-nh%C6%B0ng-t%E1%BA%A1i-sao-server-nodejs-thanh-vo-mgoac/
+
+- https://blog.vietnamlab.vn/multhreading-trong-nodejs/
+
+- https://viblo.asia/p/nghien-cuu-ve-thread-trong-nodejs-y37LdjKm4ov

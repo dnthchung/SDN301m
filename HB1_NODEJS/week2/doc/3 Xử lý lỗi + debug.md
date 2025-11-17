@@ -63,3 +63,20 @@ async function getData() {
 
 getData();
 ```
+
+### Debug với console
+
+#### Console
+
+- Một số các console func hay dùng :
+  - console.log()
+  - console.error()
+  - console.table() - quan sát data dạng mảng hoặc object
+
+#### Debug
+
+- 3 cách thường dùng
+
+  - Dùng console, log ra message, point, flag đã đánh dấu + dùng stack đẻ xme lỗi nằm ở đâu → truy vết cho dễ
+  - Dùng `debugger` với vscode - Đặt breakpoint + chọn `Run and Debug` - chọn `NodeJS`
+  - Dùng `debugger` với brower - chrome : Chrome sẽ dừng tại line code tên là `debugger` nếu DevTools đang mở

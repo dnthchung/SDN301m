@@ -1,0 +1,43 @@
+### 1. Lấy danh sách books
+GET http://localhost:3000/api/books
+Content-Type: application/json
+
+
+### 2. Lấy book theo ID tồn tại
+GET http://localhost:3000/api/books/1
+Content-Type: application/json
+
+
+### 3. Lấy book không tồn tại => test error middleware
+GET http://localhost:3000/api/books/999
+Content-Type: application/json
+
+
+### 4. Tạo book mới (hợp lệ)
+POST http://localhost:3000/api/books
+Content-Type: application/json
+
+{
+  "title": "New Book",
+  "author": "New Author",
+  "year": 2025
+}
+
+
+### 5. Tạo book thiếu field => test validate lỗi
+POST http://localhost:3000/api/books
+Content-Type: application/json
+
+{
+  "author": "Someone"
+}
+
+
+### 6. Test lỗi internal bất ngờ
+GET http://localhost:3000/api/books/demo/error/internal
+Content-Type: application/json
+
+
+### 7. Test route không tồn tại
+GET http://localhost:3000/api/unknown
+Content-Type: application/json

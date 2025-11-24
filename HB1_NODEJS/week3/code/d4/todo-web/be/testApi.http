@@ -1,0 +1,58 @@
+@baseUrl = http://localhost:3000/api/v1/todos
+@contentType = application/json
+
+### -------------------------------------------------------
+### 1. Lấy danh sách Todo (Ban đầu rỗng)
+GET {{baseUrl}}
+
+### -------------------------------------------------------
+### 2. Tạo mới Todo (Thành công)
+# @name createRequest
+POST {{baseUrl}}
+Content-Type: {{contentType}}
+
+{
+    "title": "Học TypeScript với Express"
+}
+
+### -------------------------------------------------------
+### 3. Tạo mới Todo (Lỗi Validate - Title quá ngắn)
+POST {{baseUrl}}
+Content-Type: {{contentType}}
+
+{
+    "title": "A"
+}
+
+### -------------------------------------------------------
+### 4. Lưu ID vừa tạo vào biến (Biến này tự động lấy từ request số 2)
+@todoId = {{createRequest.response.body.data.id}}
+
+
+### -------------------------------------------------------
+### 5. Cập nhật Todo (Dùng ID vừa tạo ở trên)
+PATCH {{baseUrl}}/{{todoId}}
+Content-Type: {{contentType}}
+
+{
+    "title": "Học TypeScript và Zod Validation",
+    "completed": true
+}
+
+### -------------------------------------------------------
+### 6. Xóa Todo (Dùng ID vừa tạo)
+DELETE {{baseUrl}}/{{todoId}}
+
+
+### -------------------------------------------------------
+### 7. Kiểm tra lại danh sách (Sẽ rỗng sau khi xóa)
+GET {{baseUrl}}
+
+### -------------------------------------------------------
+### 8. Thử cập nhật ID không tồn tại (Test lỗi 404)
+PATCH {{baseUrl}}/fake-id-1234
+Content-Type: {{contentType}}
+
+{
+    "completed": true
+}

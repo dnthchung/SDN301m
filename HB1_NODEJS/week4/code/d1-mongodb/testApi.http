@@ -1,0 +1,66 @@
+# Ai viết
+@baseUrl = http://localhost:3000/api/todos
+@contentType = application/json
+
+### -------------------------------------------------------
+### 1. Lấy danh sách Todo (Ban đầu có thể rỗng)
+GET {{baseUrl}}
+
+### -------------------------------------------------------
+### 2. Tạo mới Todo (Thành công & Lưu Response)
+# @name createRequest
+POST {{baseUrl}}
+Content-Type: {{contentType}}
+
+{
+    "title": "Học REST Client Automation",
+    "description": "Bài tập test API tự động lấy ID",
+    "isCompleted": false
+}
+
+### -------------------------------------------------------
+### 3. Tạo mới Todo (Lỗi Validate - Title rỗng)
+# Test này để đảm bảo Zod hoạt động
+POST {{baseUrl}}
+Content-Type: {{contentType}}
+
+{
+    "title": ""
+}
+
+### -------------------------------------------------------
+### 4. Cập nhật Todo (TỰ ĐỘNG LẤY ID TỪ BƯỚC 2)
+# Syntax: {{createRequest.response.body.data._id}}
+# Lưu ý: MongoDB dùng "_id", và Model dùng "isCompleted"
+PATCH {{baseUrl}}/{{createRequest.response.body.data._id}}
+Content-Type: {{contentType}}
+
+{
+    "title": "Học REST Client Automation (Đã xong)",
+    "isCompleted": true
+}
+
+### -------------------------------------------------------
+### 5. Kiểm tra chi tiết Todo vừa sửa (Dùng ID từ bước 2)
+GET {{baseUrl}}/{{createRequest.response.body.data._id}}
+
+
+### -------------------------------------------------------
+### 6. Xóa Todo (Dùng ID từ bước 2)
+DELETE {{baseUrl}}/{{createRequest.response.body.data._id}}
+
+
+### -------------------------------------------------------
+### 7. Kiểm tra lại ID đó sau khi xóa (Mong đợi 404 Not Found)
+# Test Error Middleware & logic findById
+GET {{baseUrl}}/{{createRequest.response.body.data._id}}
+
+
+### -------------------------------------------------------
+### 8. Thử cập nhật ID sai định dạng (Test lỗi CastError/Zod)
+PATCH {{baseUrl}}/id-nay-chac-chan-sai-format
+Content-Type: {{contentType}}
+
+{
+    "isCompleted": true
+}

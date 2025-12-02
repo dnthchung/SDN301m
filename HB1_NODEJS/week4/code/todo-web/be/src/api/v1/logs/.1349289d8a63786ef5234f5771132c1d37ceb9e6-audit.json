@@ -19,6 +19,11 @@
             "date": 1764663194359,
             "name": "D:\\github-hblab\\SDN301m\\HB1_NODEJS\\week4\\code\\todo-web\\be\\src\\api\\v1\\logs\\application-2025-12-02-15.error.log",
             "hash": "1f358a489f2377f064b8b54db2fc32cab7176dafc5bd1d3290cb245a35cbca62"
+        },
+        {
+            "date": 1764666382636,
+            "name": "D:\\github-hblab\\SDN301m\\HB1_NODEJS\\week4\\code\\todo-web\\be\\src\\api\\v1\\logs\\application-2025-12-02-16.error.log",
+            "hash": "e342d33e1d1a4ad947f9fd460304f91dce6e08ae7c9689d4e90ab77be937e98a"
         }
     ],
     "hashType": "sha256"

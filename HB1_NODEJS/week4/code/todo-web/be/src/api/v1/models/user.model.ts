@@ -13,7 +13,7 @@ export const userSchema = new Schema<IUser>(
       trim: true,
       match: [/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/, UserMessage.EMAIL_IS_INVALID],
     },
-    fullName: { type: String, required: [true, UserMessage.FULL_NAME_IS_REQUIRED] },
+    fullName: { type: String, required: false },
     phoneNumber: { type: String, trim: true, match: [/^[0-9+\-\s()]+$/, UserMessage.PHONE_NUMBER_INVALID] },
     dateOfBirth: {
       type: Date,

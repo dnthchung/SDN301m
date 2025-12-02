@@ -9,8 +9,8 @@ export class TodoService {
   }
 
   // GET ALL TODOS
-  async getAllTodos(userId: string): Promise<ITodo[]> {
-    return await this.todoRepository.getAllTodos(userId);
+  async getAllTodos(userId: string, search?: string): Promise<ITodo[]> {
+    return await this.todoRepository.getAllTodos(userId, search);
   }
 
   // CREATE TODO

@@ -13,7 +13,7 @@ export class UserController {
         try {
             const { email } = req.body;
             if (!email) {
-                throw new Error("Email is required");
+                throw new Error("Email is required123");
             }
             const user = await this.userService.login(email);
             new SuccessResponse("Login success", 200, user).send(res);

@@ -14,10 +14,11 @@ export class TodoController {
   getTodos = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const userId = req.headers["x-user-id"] as string;
+      const search = req.query.search as string;
       if (!userId) {
         throw new UnauthorizedError("User ID is required");
       }
-      const todos = await this.todoService.getAllTodos(userId);
+      const todos = await this.todoService.getAllTodos(userId, search);
       new SuccessResponse('Get list OK', 200, todos).send(res);
     } catch (error) {
       next(error);

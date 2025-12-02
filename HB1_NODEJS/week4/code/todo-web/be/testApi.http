@@ -1,58 +1,83 @@
-@baseUrl = http://localhost:3000/api/v1/todos
+@baseUrl = http://localhost:3000/api/v1
 @contentType = application/json
+@email = test_user_02@example.com
 
 ### -------------------------------------------------------
-### 1. Lấy danh sách Todo (Ban đầu rỗng)
-GET {{baseUrl}}
-
-### -------------------------------------------------------
-### 2. Tạo mới Todo (Thành công)
-# @name createRequest
-POST {{baseUrl}}
+### 1. Create User
+# @name createUserRequest
+POST {{baseUrl}}/users
 Content-Type: {{contentType}}
 
 {
-    "title": "Học TypeScript với Express"
+    "email": "{{email}}",
+    "role": "user",
+    "fullName": "Test User 02"
 }
 
 ### -------------------------------------------------------
-### 3. Tạo mới Todo (Lỗi Validate - Title quá ngắn)
-POST {{baseUrl}}
+### 2. Login
+# @name loginRequest
+POST {{baseUrl}}/users/login
 Content-Type: {{contentType}}
 
 {
-    "title": "A"
+    "email": "{{email}}"
 }
 
 ### -------------------------------------------------------
-### 4. Lưu ID vừa tạo vào biến (Biến này tự động lấy từ request số 2)
-@todoId = {{createRequest.response.body.data.id}}
-
+### 3. Extract User ID
+@userId = {{loginRequest.response.body.data.id}}
 
 ### -------------------------------------------------------
-### 5. Cập nhật Todo (Dùng ID vừa tạo ở trên)
-PATCH {{baseUrl}}/{{todoId}}
+### 4. Get Todos (Initially Empty)
+GET {{baseUrl}}/todos
+x-user-id: {{userId}}
+
+### -------------------------------------------------------
+### 5. Create Todo 1 (Learn TypeScript)
+# @name createTodo1
+POST {{baseUrl}}/todos
 Content-Type: {{contentType}}
+x-user-id: {{userId}}
 
 {
-    "title": "Học TypeScript và Zod Validation",
+    "title": "Learn TypeScript"
+}
+
+### -------------------------------------------------------
+### 6. Create Todo 2 (Learn Docker)
+# @name createTodo2
+POST {{baseUrl}}/todos
+Content-Type: {{contentType}}
+x-user-id: {{userId}}
+
+{
+    "title": "Learn Docker"
+}
+
+### -------------------------------------------------------
+### 7. Search Todos (Filter by 'Docker')
+GET {{baseUrl}}/todos?search=Docker
+x-user-id: {{userId}}
+
+### -------------------------------------------------------
+### 8. Update Todo 1 (Mark as completed)
+@todoId1 = {{createTodo1.response.body.data.id}}
+PATCH {{baseUrl}}/todos/{{todoId1}}
+Content-Type: {{contentType}}
+x-user-id: {{userId}}
+
+{
     "completed": true
 }
 
 ### -------------------------------------------------------
-### 6. Xóa Todo (Dùng ID vừa tạo)
-DELETE {{baseUrl}}/{{todoId}}
-
-
-### -------------------------------------------------------
-### 7. Kiểm tra lại danh sách (Sẽ rỗng sau khi xóa)
-GET {{baseUrl}}
+### 9. Delete Todo 2
+@todoId2 = {{createTodo2.response.body.data.id}}
+DELETE {{baseUrl}}/todos/{{todoId2}}
+x-user-id: {{userId}}
 
 ### -------------------------------------------------------
-### 8. Thử cập nhật ID không tồn tại (Test lỗi 404)
-PATCH {{baseUrl}}/fake-id-1234
-Content-Type: {{contentType}}
-
-{
-    "completed": true
-}
+### 10. Get Todos (Verify Todo 2 is deleted)
+GET {{baseUrl}}/todos
+x-user-id: {{userId}}

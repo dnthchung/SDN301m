@@ -1,4 +1,4 @@
-import { Schema } from "mongoose";
+import { Schema, model } from "mongoose";
 import { GenderObject } from "~/api/v1/constants/common.constant";
 import { UserMessage } from "~/api/v1/constants/messages.constant";
 import { IUser } from "~/api/v1/types/user.type";
@@ -32,6 +32,11 @@ export const userSchema = new Schema<IUser>(
       },
       default: GenderObject.other,
     },
+    role: {
+      type: String,
+      enum: ["user", "admin"],
+      default: "user",
+    },
   },
   {
     timestamps: true,
@@ -39,3 +44,5 @@ export const userSchema = new Schema<IUser>(
     toObject: { virtuals: true },
   },
 );
+
+export const User = model<IUser>("User", userSchema);

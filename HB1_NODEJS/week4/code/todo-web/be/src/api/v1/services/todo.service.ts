@@ -1,45 +1,30 @@
-import { v4 as uuidv4 } from "uuid";
-import { Todo, todosDatabase } from "~/api/v1/models/todo.model";
-import { AppError } from "~/api/v1/utils/AppError";
+import { ITodo } from "~/api/v1/types/todo.type";
+import { TodoRepository } from "~/api/v1/repositories/todo.repository";
 
 export class TodoService {
   private todoRepository: TodoRepository;
 
+  constructor() {
+    this.todoRepository = new TodoRepository();
+  }
+
   // GET ALL TODOS
-  static getAllTodos(): Todo[] {
-    return todosDatabase;
+  async getAllTodos(userId: string): Promise<ITodo[]> {
+    return await this.todoRepository.getAllTodos(userId);
   }
 
   // CREATE TODO
-  static createTodo(title: string): Todo {
-    const newTodo: Todo = {
-      id: uuidv4(),
-      title,
-      completed: false,
-      createdAt: new Date(),
-    };
-    todosDatabase.push(newTodo);
-    return newTodo;
+  async createTodo(title: string, userId: string): Promise<ITodo> {
+    return await this.todoRepository.createTodo(title, userId);
   }
 
   // UPDATE TODO
-  static updateTodo(id: string, data: Partial<Todo>): Todo {
-    const index = todosDatabase.findIndex((t) => t.id === id);
-    if (index === -1) {
-      throw new AppError(404, 4041, "Todo not found");
-    }
-
-    todosDatabase[index] = { ...todosDatabase[index], ...data };
-    return todosDatabase[index];
+  async updateTodo(id: string, data: Partial<ITodo>): Promise<ITodo | null> {
+    return await this.todoRepository.updateTodo(id, data);
   }
 
   // DELETE TODO
-  static deleteTodo(id: string): void {
-    const index = todosDatabase.findIndex((t) => t.id === id);
-    if (index === -1) {
-      throw new AppError(404, 4041, "Todo not found");
-    }
-
-    todosDatabase.splice(index, 1);
+  async deleteTodo(id: string): Promise<ITodo | null> {
+    return await this.todoRepository.deleteTodo(id);
   }
 }

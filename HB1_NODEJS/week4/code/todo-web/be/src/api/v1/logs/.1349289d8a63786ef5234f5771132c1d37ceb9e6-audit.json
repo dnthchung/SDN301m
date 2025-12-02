@@ -1,0 +1,25 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 14
+    },
+    "auditLog": "D:\\github-hblab\\SDN301m\\HB1_NODEJS\\week4\\code\\todo-web\\be\\src\\api\\v1\\logs\\.1349289d8a63786ef5234f5771132c1d37ceb9e6-audit.json",
+    "files": [
+        {
+            "date": 1764658423634,
+            "name": "D:\\github-hblab\\SDN301m\\HB1_NODEJS\\week4\\code\\todo-web\\be\\src\\api\\v1\\logs\\application-2025-12-02-13.error.log",
+            "hash": "2fb9c8c09d19581ce0ca3dc7c7a3d680165f09adaa30a62271e867857e38ebae"
+        },
+        {
+            "date": 1764659385251,
+            "name": "D:\\github-hblab\\SDN301m\\HB1_NODEJS\\week4\\code\\todo-web\\be\\src\\api\\v1\\logs\\application-2025-12-02-14.error.log",
+            "hash": "d3a53fc8fdb8cb0422735b3a826e03e1258dad5ea2e731a7cc6577754c6dd2dd"
+        },
+        {
+            "date": 1764663194359,
+            "name": "D:\\github-hblab\\SDN301m\\HB1_NODEJS\\week4\\code\\todo-web\\be\\src\\api\\v1\\logs\\application-2025-12-02-15.error.log",
+            "hash": "1f358a489f2377f064b8b54db2fc32cab7176dafc5bd1d3290cb245a35cbca62"
+        }
+    ],
+    "hashType": "sha256"
+}

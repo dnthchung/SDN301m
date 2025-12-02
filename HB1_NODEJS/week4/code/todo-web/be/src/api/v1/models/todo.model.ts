@@ -1,4 +1,4 @@
-import { Schema } from "mongoose";
+import { Schema, model } from "mongoose";
 import { TodoMessage, UserMessage } from "~/api/v1/constants/messages.constant";
 import { ITodo } from "~/api/v1/types/todo.type";
 
@@ -19,3 +19,5 @@ export const todoSchema = new Schema<ITodo>(
     toObject: { virtuals: true },
   },
 );
+
+export const Todo = model<ITodo>("Todo", todoSchema);

@@ -10,74 +10,57 @@ export class TodoController {
     this.todoService = new TodoService();
   }
 
-  //Get all todo 2
-  getTodos2 = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const todos = await this.todoService.getAllTodos();
-
-    } catch (error) {
-      next(error);
-    }
-  }
-
   // GET ALL TODOS
-  static getTodos = (req: Request, res: Response, next: NextFunction) => {
+  getTodos = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const todos = TodoService.getAllTodos();
-      res.status(200).json({
-        success: true,
-        message: "Get list OK",
-        data: todos,
-      });
+      const userId = req.headers["x-user-id"] as string;
+      if (!userId) {
+        throw new UnauthorizedError("User ID is required");
+      }
+      const todos = await this.todoService.getAllTodos(userId);
+      new SuccessResponse('Get list OK', 200, todos).send(res);
     } catch (error) {
       next(error);
     }
   };
 
   // CREATE TODO
-  static createTodo = async (req: Request, res: Response, next: NextFunction) => {
+  createTodo = async (req: Request, res: Response, next: NextFunction) => {
     try {
+      const userId = req.headers["x-user-id"] as string;
+      if (!userId) {
+        throw new UnauthorizedError("User ID is required");
+      }
       const validated = await createTodoSchema.parseAsync({ body: req.body });
 
-      const todo = TodoService.createTodo(validated.body.title);
-      res.status(201).json({
-        success: true,
-        message: "Created OK",
-        data: todo,
-      });
+      const todo = await this.todoService.createTodo(validated.body.title, userId);
+      new SuccessResponse('Created OK', 201, todo).send(res);
     } catch (error) {
       next(error);
     }
   };
 
   // UPDATE TODO
-  static updateTodo = async (req: Request, res: Response, next: NextFunction) => {
+  updateTodo = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const validated = await updateTodoSchema.parseAsync({
         body: req.body,
         params: req.params,
       });
 
-      const updatedTodo = TodoService.updateTodo(validated.params.id, validated.body);
-      res.status(200).json({
-        success: true,
-        message: "Updated OK",
-        data: updatedTodo,
-      });
+      const updatedTodo = await this.todoService.updateTodo(validated.params.id, validated.body);
+      new SuccessResponse('Updated OK', 200, updatedTodo).send(res);
     } catch (error) {
       next(error);
     }
   };
 
   // DELETE TODO
-  static deleteTodo = (req: Request, res: Response, next: NextFunction) => {
+  deleteTodo = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { id } = req.params;
-      TodoService.deleteTodo(id);
-      res.status(200).json({
-        success: true,
-        message: "Deleted OK",
-      });
+      await this.todoService.deleteTodo(id);
+      new SuccessResponse('Deleted OK', 200).send(res);
     } catch (error) {
       next(error);
     }

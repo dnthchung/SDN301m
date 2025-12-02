@@ -10,6 +10,7 @@ export interface IUser extends Document {
   dateOfBirth?: Date;
   avatar?: string;
   gender: Gender;
+  role: "user" | "admin";
 
   // Address
   // address: IAddress[];

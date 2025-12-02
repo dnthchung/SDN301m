@@ -2,10 +2,11 @@ import { Router } from "express";
 import { TodoController } from "~/api/v1/controllers/todo.controller";
 
 const router = Router();
+const todoController = new TodoController();
 
-router.get("/", TodoController.getTodos);
-router.post("/", TodoController.createTodo);
-router.patch("/:id", TodoController.updateTodo);
-router.delete("/:id", TodoController.deleteTodo);
+router.get("/", todoController.getTodos);
+router.post("/", todoController.createTodo);
+router.patch("/:id", todoController.updateTodo);
+router.delete("/:id", todoController.deleteTodo);
 
 export default router;

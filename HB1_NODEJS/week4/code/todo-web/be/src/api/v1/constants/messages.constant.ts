@@ -1,4 +1,5 @@
 export const UserMessage = {
+  FULL_NAME_IS_REQUIRED: "Full name is required",
   EMAIL_ALREADY_EXISTS: "Email already exists",
   EMAIL_IS_REQUIRED: "Email is required",
   EMAIL_IS_INVALID: "Email is invalid",
@@ -23,6 +24,8 @@ export const UserMessage = {
 
   PHONE_NUMBER_INVALID: "Phone number is invalid",
   DATE_OF_BIRTH_INVALID: "Date of birth is invalid",
+
+  USER_ID_IS_REQUIRED: "User ID is required",
 } as const;
 
 export const TodoMessage = {

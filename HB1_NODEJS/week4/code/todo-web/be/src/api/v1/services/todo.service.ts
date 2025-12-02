@@ -1,8 +1,10 @@
+import { v4 as uuidv4 } from "uuid";
 import { Todo, todosDatabase } from "~/api/v1/models/todo.model";
 import { AppError } from "~/api/v1/utils/AppError";
-import { v4 as uuidv4 } from "uuid";
 
 export class TodoService {
+  private todoRepository: TodoRepository;
+
   // GET ALL TODOS
   static getAllTodos(): Todo[] {
     return todosDatabase;

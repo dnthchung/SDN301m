@@ -1,8 +1,25 @@
-import { Request, Response, NextFunction } from "express";
+import { NextFunction, Request, Response } from "express";
 import { TodoService } from "~/api/v1/services/todo.service";
 import { createTodoSchema, updateTodoSchema } from "~/api/v1/validations/todo.validation";
+import { SuccessResponse, UnauthorizedError } from '~/api/v1/utils/response.util'
 
 export class TodoController {
+  private todoService: TodoService;
+
+  constructor() {
+    this.todoService = new TodoService();
+  }
+
+  //Get all todo 2
+  getTodos2 = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const todos = await this.todoService.getAllTodos();
+
+    } catch (error) {
+      next(error);
+    }
+  }
+
   // GET ALL TODOS
   static getTodos = (req: Request, res: Response, next: NextFunction) => {
     try {

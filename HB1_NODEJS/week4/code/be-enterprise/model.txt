@@ -1,0 +1,947 @@
+API_Ecommerce\src\api\v1\models\users.model.ts
+import mongoose, { Schema } from 'mongoose'
+import { IUser } from '~/api/v1/types/user.type'
+import { UserMessage } from '~/api/v1/constants/messages.constant'
+import { ISocialAccounts } from '~/api/v1/types/user.type'
+import { addressSchema } from '~/api/v1/models/address.model'
+import { GenderObject, StatusUser } from '~/api/v1/constants/common.constant'
+
+const socialAccountsSchema = new Schema<ISocialAccounts>({
+facebookId: {
+type: String
+},
+googleId: {
+type: String
+}
+})
+
+export const userSchema = new Schema<IUser>({
+email: {
+type: String,
+required: [true, UserMessage.EMAIL_IS_REQUIRED],
+unique: true,
+lowercase: true,
+trim: true,
+match: [/^\w+([.-]?\w+)_@\w+([.-]?\w+)_(\.\w{2,3})+$/, UserMessage.EMAIL_IS_INVALID]
+},
+password: {
+type: String,
+required: [true, UserMessage.PASSWORD_IS_REQUIRED],
+minlength: [6, UserMessage.PASSWORD_LENGTH_MUST_BE_FROM_6_TO_50]
+},
+firstName: {
+type: String,
+required: [true, UserMessage.FIRST_NAME_IS_REQUIRED],
+trim: true,
+maxlength: [50, UserMessage.FIRST_NAME_LENGTH_MUST_BE_FROM_6_TO_50]
+},
+
+lastName: {
+type: String,
+required: [true, UserMessage.LAST_NAME_IS_REQUIRED],
+trim: true,
+maxlength: [50, UserMessage.LAST_NAME_LENGTH_MUST_BE_FROM_6_TO_50]
+},
+
+phoneNumber: {
+type: String,
+trim: true,
+match: [/^[0-9+\-\s()]+$/, UserMessage.PHONE_NUMBER_INVALID]
+},
+
+dateOfBirth: {
+type: Date,
+validate: {
+validator: function (date: Date) {
+return date < new Date()
+},
+message: UserMessage.DATE_OF_BIRTH_INVALID
+}
+},
+
+gender: {
+type: String,
+enum: {
+values: [GenderObject.male, GenderObject.female, GenderObject.other]
+},
+default: GenderObject.other
+},
+
+avatar: {
+type: String,
+default: null
+},
+
+// Account Status
+isEmailVerified: {
+type: Boolean,
+default: false
+},
+
+isPhoneVerified: {
+type: Boolean,
+default: false
+},
+
+status: {
+type: String,
+enum: {
+values: [StatusUser.active, StatusUser.inactive, StatusUser.suspended, StatusUser.deleted],
+message: 'Trạng thái không hợp lệ'
+},
+default: StatusUser.active
+},
+
+role: {
+type: String,
+enum: {
+values: ['customer', 'admin', 'seller'],
+message: 'Vai trò không hợp lệ'
+},
+default: 'customer'
+},
+
+// Statistics
+totalOrders: {
+type: Number,
+default: 0,
+min: [0, 'Tổng đơn hàng không được âm']
+},
+
+totalSpent: {
+type: Number,
+default: 0,
+min: [0, 'Tổng chi tiêu không được âm']
+},
+
+address: [addressSchema],
+wishList: [
+{
+type: mongoose.Types.ObjectId,
+ref: 'Product'
+}
+],
+
+// Security Fields
+emailVerificationToken: String,
+emailVerificationExpires: Date,
+
+passwordResetOTP: String, // Lưu OTP đã hash
+passwordResetOTPExpires: Date, // Thời gian hết hạn của OTP
+passwordResetToken: String, // Backup: Email reset thay vì OTP
+passwordResetAttempts: Number, // Số lần nhập sai OTP
+passwordResetLastAttempts: Date, // Thời gian mới nhất nhập OTP
+passwordChangeAt: Date, // Password thay đổi ngày nào
+isOTPVerified: {
+type: Boolean
+},
+
+accountLockUntils: Date, // Tạm khóa tài khoản trong khoảng thời gian
+loginAttempts: Number, // Đếm số lần login sai
+
+// Social Accounts
+socialAccounts: {
+type: socialAccountsSchema,
+default: () => ({})
+}
+})
+
+````
+
+```API_Ecommerce\src\api\v1\models\tokensBlackList.model.ts
+import { Schema } from 'mongoose'
+import { IBlackListsType } from '~/api/v1/types/tokensBlackList.type'
+
+export const tokenBlackListsSchema = new Schema<IBlackListsType>({
+  token: {
+    type: String,
+    required: true,
+    unique: true,
+    index: true
+  },
+  userId: {
+    type: String,
+    required: true,
+    index: true
+  },
+  blacklistedAt: {
+    type: Date,
+    default: Date.now
+  },
+  expiresAt: {
+    type: Date,
+    required: true,
+    index: {
+      expireAfterSeconds: 0
+    }
+  }
+})
+
+````
+
+```API_Ecommerce\src\api\v1\models\shop.model.ts
+import { Schema } from 'mongoose'
+import { IShop } from '~/api/v1/types/shop.type'
+
+export const shopSchema = new Schema<IShop>(
+  {
+    user_id: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+      required: true,
+      unique: true
+    },
+    shop_name: {
+      type: String,
+      required: true,
+      unique: true,
+      trim: true,
+      maxlength: 100
+    },
+    shop_phone: {
+      type: String,
+      required: true
+    },
+    shop_email: {
+      type: String,
+      required: true
+    },
+    shop_slug: {
+      type: String,
+      required: true,
+      unique: true,
+      lowercase: true
+    },
+    shop_description: {
+      type: String,
+      maxlength: 500
+    },
+    shop_logo: {
+      type: String,
+      default: null
+    },
+    shop_banner: {
+      type: String,
+      default: null
+    },
+    business_type: {
+      type: String,
+      enum: ['individual', 'company'],
+      default: 'individual'
+    },
+    owner_info: {
+      full_name: {
+        type: String,
+        required: true,
+        trim: true
+      },
+      avatar: {
+        type: String // URL to uploaded avatar
+      }
+    },
+    tax_id: {
+      type: String,
+      sparse: true
+    },
+
+    address: {
+      street: String,
+      city: String,
+      state: String,
+      country: String,
+      postal_code: String
+    },
+    shop_ratings: {
+      type: Number,
+      default: 0,
+      min: 0,
+      max: 5
+    },
+    total_products: {
+      type: Number,
+      default: 0
+    },
+    total_sales: {
+      type: Number,
+      default: 0
+    },
+    is_verify_email: {
+      type: Boolean,
+      default: false
+    },
+    is_verify_phone: {
+      type: Boolean,
+      default: false
+    },
+    is_verified: {
+      type: Boolean,
+      default: false
+    },
+    verified_at: {
+      type: Date,
+      default: null
+    },
+    status: {
+      type: String,
+      enum: ['active', 'inactive', 'suspended'],
+      default: 'active'
+    }
+  },
+  {
+    timestamps: true
+  }
+)
+
+```
+
+```API_Ecommerce\src\api\v1\models\refreshtoken.model.ts
+import { Schema } from 'mongoose'
+import { IRefreshToken } from '~/api/v1/types/auth.type'
+
+export const refreshTokenModelSchema = new Schema<IRefreshToken>(
+  {
+    userId: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+      required: true,
+      index: true
+    },
+    token: {
+      type: String,
+      required: true,
+      unique: true,
+      index: true
+    },
+    exp: {
+      type: Date,
+      required: true,
+      index: {
+        expireAfterSeconds: 0
+      }
+    },
+    iat: {
+      type: Date,
+      required: true
+    },
+    isActive: {
+      type: Boolean,
+      default: true,
+      index: true
+    },
+    deviceInfo: {
+      userAgent: String,
+      ip: String
+    }
+  },
+  {
+    timestamps: true
+  }
+)
+
+```
+
+```API_Ecommerce\src\api\v1\models\product.model.ts
+import { Schema } from 'mongoose'
+import { IClothing, IElectronics, IFurniture, IProduct } from '~/api/v1/types/product.type'
+
+export const productSchema = new Schema<IProduct>(
+  {
+    product_name: {
+      type: String,
+      required: [true, 'Product name is required'],
+      trim: true,
+      maxlength: [200, 'Productname cannot exeed 200 characters'],
+      index: 'text'
+    },
+
+    product_thumb: {
+      type: String,
+      required: [true, 'Product thumbnail is required'],
+      validate: {
+        validator: (v: string) => {
+          return /^https?:\/\/.+\.(jpg|jpeg|png)$/i.test(v)
+        },
+        message: ' Product thumbnail must be a valid image URL'
+      }
+    },
+    product_description: {
+      type: String,
+      required: [true, 'Product description is required'],
+      maxlength: [2000, 'Description cannot exceed 2000 characters'],
+      index: 'text'
+    },
+    product_price: {
+      type: Number,
+      required: [true, 'Product price is required'],
+      min: [0, 'Price cannot be negative'],
+      set: (v: number) => Math.round(v * 100) / 100 // Round to 2 decimal places
+    },
+    product_quantity: {
+      type: Number,
+      required: [true, 'Product quantity is required'],
+      min: [0, 'Quantity cannot be negative'],
+      default: 0
+    },
+    product_type: {
+      type: String,
+      required: [true, 'Product type is required'],
+      enum: {
+        values: ['Electronics', 'Clothing', 'Furniture'],
+        message: 'Product type must be Electronics, Clothing, or Furniture'
+      },
+      index: true
+    },
+    shop_id: {
+      type: Schema.Types.ObjectId,
+      ref: 'Shop',
+      required: [true, 'Product shop is required'],
+      index: true
+    },
+    attributes_id: { type: Schema.Types.ObjectId, required: false, default: null },
+    product_ratingsAverage: {
+      type: Number,
+      default: 0,
+      min: [0, 'Rating cannot be less than 0'],
+      max: [5, 'Rating cannot be more than 5'],
+      set: (value: number) => Math.round(value * 10) / 10 // Round to 1 decimal
+    },
+    product_ratingsCount: {
+      type: Number,
+      default: 0,
+      min: [0, 'Ratings count cannot be negative']
+    },
+    product_variations: [
+      {
+        name: {
+          type: String,
+          required: true,
+          trim: true
+        },
+        options: [
+          {
+            type: String,
+            required: true,
+            trim: true
+          }
+        ]
+      }
+    ],
+    product_slug: {
+      type: String,
+      unique: true,
+      index: true
+    },
+
+    // Status fields for better product management
+    isDraft: {
+      type: Boolean,
+      default: true,
+      index: true,
+      select: false // When we query (document.findOne) => attribute 'select' display none if value is 'false'
+    },
+    isPublished: {
+      type: Boolean,
+      default: false,
+      index: true
+    }
+  },
+  {
+    collection: 'Product',
+    timestamps: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true }
+  }
+)
+
+productSchema.index({
+  isPublished: 1,
+  isDraft: 1
+})
+
+productSchema.index(
+  {
+    product_name: 'text',
+    product_description: 'text'
+  },
+  {
+    weights: {
+      product_name: 10,
+      product_description: 5
+    },
+    name: 'product_text_search'
+  }
+)
+
+export const furnitureSchema = new Schema<IFurniture>(
+  {
+    product_id: { type: Schema.Types.ObjectId, ref: 'Product', required: true },
+    brand: { type: String, required: true },
+    material: { type: String, required: true },
+    dimensions: {
+      length: { type: Number, required: true },
+      width: { type: Number, required: true },
+      height: { type: Number, required: true },
+      unit: { type: String, enum: ['cm', 'inch'], default: 'cm' },
+      weight: { type: Number, required: true }
+    }
+  },
+  {
+    collection: 'Furniture',
+    timestamps: true
+  }
+)
+
+export const clothingSchema = new Schema<IClothing>(
+  {
+    product_id: { type: Schema.Types.ObjectId, ref: 'Product', required: true },
+    brand: {
+      type: String,
+      required: true,
+      trim: true
+    },
+    size: {
+      type: [String],
+      required: true
+    },
+    material: {
+      type: String,
+      required: true,
+      trim: true
+    },
+    color: {
+      type: [String],
+      required: true,
+      trim: true
+    },
+    style: {
+      type: String,
+      required: true,
+      trim: true
+    }
+  },
+  {
+    collection: 'Clothing',
+    timestamps: true
+  }
+)
+
+export const electronicSchema = new Schema<IElectronics>(
+  {
+    product_id: { type: Schema.Types.ObjectId, ref: 'Product', required: true },
+    brand: {
+      type: String,
+      required: true,
+      trim: true
+    },
+    model: {
+      type: String,
+      required: true,
+      trim: true
+    },
+    warranty: {
+      type: String,
+      required: true,
+      trim: true
+    },
+    specifications: {
+      type: Map,
+      of: String, // key is String
+      required: true,
+      trim: true,
+      default: {}
+    }
+  },
+  {
+    collection: 'Electronic',
+    timestamps: true
+  }
+)
+
+```
+
+```API_Ecommerce\src\api\v1\models\order.model.ts
+import type { IOrder } from "~/api/v1/types/order.type";
+import { Schema } from "mongoose";
+
+export const orderSchema = new Schema<IOrder>({
+  order_userId: {
+    type: String,
+    required: true
+  },
+  order_shipping: {
+    type: Object,
+    default: {}
+  },
+  order_payment: {
+    type: Object,
+    default: {}
+  },
+  order_products: {
+    type: [],
+    required: true
+  },
+  order_trackingNumber: {
+    type: Number
+  },
+  order_status: {
+    type: String,
+    enum: ['pending', 'confirm', 'shipped', 'cancelled'],
+    default: 'pending'
+  },
+  order_checkout: {
+    type: Object,
+    default: {}
+  }
+}, {
+  timestamps: true
+})
+
+
+```
+
+```API_Ecommerce\src\api\v1\models\notification.model.ts
+import { Schema, Types } from 'mongoose'
+
+/**
+ * ORDER-001: Order successfully
+ * ORDER-002: Order failed
+ * PROMOTION-001: new Promotion
+ * SHOP-001: new product by User following
+ */
+
+export const notificationSchema = new Schema(
+  {
+    noti_type: {
+      type: String,
+      enum: ['ORDER-001', 'ORDER-002', 'PROMOTION-001', 'SHOP-001']
+    },
+    shop_id: {
+      type: Types.ObjectId,
+      ref: 'shops'
+    },
+    user_id: {
+      type: Types.ObjectId,
+      ref: 'users'
+    },
+    noti_content: {
+      type: String,
+      require: true
+    },
+    noti_options: {
+      type: Object,
+      default: {}
+    }
+  },
+  {
+    timestamps: true,
+    collection: 'Notification'
+  }
+)
+
+```
+
+```API_Ecommerce\src\api\v1\models\inventory.model.ts
+import { Schema } from 'mongoose'
+import { IInventory } from '~/api/v1/types/inventory.type'
+
+export const InventotySchema = new Schema<IInventory>(
+  {
+    product_id: {
+      type: Schema.Types.ObjectId,
+      ref: 'Product',
+      required: true
+    },
+    shop_id: {
+      type: Schema.Types.ObjectId,
+      ref: 'shops',
+      required: true
+    },
+    inven_stock: {
+      type: Number,
+      required: [true, 'Stock is required']
+    },
+    inven_reservations: {
+      type: [String],
+      default: [],
+      validate: (reservations: string[]) => Array.isArray(reservations)
+    }
+  },
+  {
+    collection: 'Inventory',
+    timestamps: true
+  }
+)
+
+InventotySchema.index(
+  {
+    product_id: 1,
+    shop_id: 1
+  },
+  {
+    unique: true
+  }
+)
+
+```
+
+```API_Ecommerce\src\api\v1\models\discount.model.ts
+import { Schema } from 'mongoose'
+import { IDiscount } from '~/api/v1/types/discount.type'
+
+export const discountSchema = new Schema<IDiscount>(
+  {
+    shop_id: {
+      type: Schema.Types.ObjectId,
+      ref: 'shops',
+      required: true,
+      index: true
+    },
+    discount_name: {
+      type: String,
+      required: [true, 'discount_name is required']
+    },
+    discount_description: {
+      type: String,
+      required: [true, 'discount_desc is required']
+    },
+    discount_type: {
+      type: String,
+      required: true,
+      default: 'fixed_amount'
+    },
+    discount_value: {
+      type: Number,
+      required: [true, 'discount_value is required']
+    },
+    discount_code: {
+      type: String,
+      required: [true, 'discount_code is required']
+    },
+    discount_start_date: {
+      type: Date,
+      required: [true, 'discount_start_date is required']
+    },
+    discount_end_date: {
+      type: Date,
+      required: [true, 'discount_end_date is required']
+    },
+    discount_max_uses: {
+      type: Number,
+      required: [true, 'discount_max_uses is required']
+    },
+    discount_uses_count: {
+      type: Number,
+      required: [true, 'discount_uses_count is required'],
+      default: 0
+    },
+    discount_users_used: {
+      type: [String],
+      default: []
+    },
+    discount_max_uses_per_user: {
+      type: Number,
+      required: [true, 'discount_max_uses_per_user is required']
+    },
+    discount_min_order_value: {
+      type: Number,
+      required: [true, 'discount_min_order_value is required']
+    },
+    discount_is_active: {
+      type: Boolean,
+      default: true
+    },
+    discount_applies_to: {
+      type: String,
+      required: true,
+      enum: ['all', 'specific']
+    },
+    discount_product_ids: {
+      type: [String],
+      default: []
+    }
+  },
+  {
+    timestamps: true,
+    collection: 'Discounts'
+  }
+)
+
+```
+
+```API_Ecommerce\src\api\v1\models\comment.model.ts
+import { Schema } from 'mongoose'
+import { IComment } from '~/api/v1/types/comment.type'
+
+export const commentSchema = new Schema<IComment>(
+  {
+    comment_productId: { type: Schema.Types.ObjectId, ref: 'Product' },
+    comment_userId: { type: Schema.Types.ObjectId, ref: 'users' },
+    comment_content: { type: String, default: 'text' },
+    comment_left: { type: Number, default: 0 },
+    comment_right: { type: Number, default: 0 },
+    comment_parentId: { type: Schema.Types.ObjectId, ref: 'Comment' },
+    isDeleted: { type: Boolean, default: false },
+    comment_level: { type: Number, default: 0 },
+    comment_tree_id: { type: String }
+  },
+  {
+    timestamps: true,
+    collection: 'Comments'
+  }
+)
+
+```
+
+```API_Ecommerce\src\api\v1\models\cart.model.ts
+import { Schema } from 'mongoose'
+import { ICartItem, ICartProducts, ICartVariant } from '~/api/v1/types/cart.type'
+
+const cartVariantSchema = new Schema<ICartVariant>(
+  {
+    color: {
+      type: String,
+      required: true
+    },
+    size: {
+      type: String,
+      required: true
+    },
+    style: {
+      type: String,
+      required: false
+    }
+  },
+  {
+    _id: false
+  }
+)
+
+const cartProductsSchema = new Schema<ICartProducts>(
+  {
+    product_id: {
+      type: Schema.Types.ObjectId,
+      ref: 'Product',
+      required: true
+    },
+    shop_id: {
+      type: Schema.Types.ObjectId,
+      ref: 'shops',
+      required: true
+    },
+    product_name: {
+      type: String,
+      trim: true,
+      required: true
+    },
+    product_price: {
+      type: Number,
+      required: true,
+      default: 0
+    },
+    product_quantity: {
+      type: Number,
+      required: true,
+      min: 1,
+      default: 0
+    },
+    product_stock: {
+      type: Number,
+      required: true,
+      min: 0
+    },
+    product_variant: {
+      type: cartVariantSchema,
+      default: undefined
+    }
+  },
+  {
+    _id: false
+  }
+)
+
+export const cartSchema = new Schema<ICartItem>(
+  {
+    user_id: {
+      type: Schema.Types.ObjectId,
+      ref: 'users',
+      require: true,
+      unique: true
+    },
+    cart_state: {
+      type: String,
+      enum: ['active', 'pending', 'failed'],
+      default: 'active',
+      lowercase: true
+    },
+    cart_count_products: {
+      type: Number,
+      default: 0
+    },
+    cart_total_item: {
+      type: Number,
+      default: 0
+    },
+    cart_products: {
+      type: [cartProductsSchema],
+      default: []
+    }
+  },
+  {
+    collection: 'Cart',
+    timestamps: true
+  }
+)
+
+```
+
+```API_Ecommerce\src\api\v1\models\address.model.ts
+import { Schema } from 'mongoose'
+import { IAddress } from '~/api/v1/types/address.type'
+
+export const addressSchema = new Schema<IAddress>({
+  type: {
+    type: String,
+    enum: ['home', 'work'],
+    default: 'home'
+  },
+  fullName: {
+    type: String,
+    required: [true, 'Tên người nhận là bắt buộc'],
+    trim: true,
+    maxlength: [100, 'Tên không được quá 100 ký tự']
+  },
+  phoneNumber: {
+    type: String,
+    required: [true, 'Số điện thoại là bắt buộc'],
+    match: [/^[0-9+\-\s()]+$/, 'Số điện thoại không hợp lệ']
+  },
+  addressLine1: {
+    type: String,
+    required: [true, 'Địa chỉ là bắt buộc'],
+    trim: true
+  },
+  addressLine2: {
+    type: String,
+    trim: true
+  },
+  city: {
+    type: String,
+    required: [true, 'Thành phố là bắt buộc'],
+    trim: true
+  },
+  state: {
+    type: String,
+    required: [true, 'Tỉnh/Thành là bắt buộc'],
+    trim: true
+  },
+  isDefault: {
+    type: Boolean,
+    default: false
+  },
+  country: {
+    type: String,
+    required: [true, 'Quốc gia là bắt buộc'],
+    default: 'Vietnam'
+  }
+})
+```

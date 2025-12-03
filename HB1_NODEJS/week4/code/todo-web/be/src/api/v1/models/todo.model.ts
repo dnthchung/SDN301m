@@ -1,23 +1,34 @@
-import { Schema, model } from "mongoose";
-import { TodoMessage, UserMessage } from "~/api/v1/constants/messages.constant";
-import { ITodo } from "~/api/v1/types/todo.type";
+import mongoose, { Schema, Document } from "mongoose";
 
-export const todoSchema = new Schema<ITodo>(
+export interface ITodo extends Document {
+  title: string;
+  description?: string;
+  status: "pending" | "in-progress" | "completed";
+  priority: "low" | "medium" | "high";
+  dueDate?: Date;
+  ownerId: mongoose.Types.ObjectId;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+const TodoSchema: Schema = new Schema(
   {
-    title: { type: String, required: [true, TodoMessage.TITLE_IS_REQUIRED], trim: true, index: true, maxlength: [200, TodoMessage.TITLE_LENGTH_MUST_BE_FROM_3_TO_50] },
-    completed: { type: Boolean, default: false },
-    createdAt: { type: Date, default: Date.now },
-    updatedAt: { type: Date, default: Date.now },
-    userId: { type: Schema.Types.ObjectId, ref: "User", required: [true, UserMessage.USER_ID_IS_REQUIRED] },
-  },
-  {
-    collection: "Todo",
-    timestamps: true,
-    toJSON: {
-      virtuals: true,
+    title: { type: String, required: true },
+    description: { type: String },
+    status: {
+      type: String,
+      enum: ["pending", "in-progress", "completed"],
+      default: "pending",
     },
-    toObject: { virtuals: true },
+    priority: {
+      type: String,
+      enum: ["low", "medium", "high"],
+      default: "medium",
+    },
+    dueDate: { type: Date },
+    ownerId: { type: Schema.Types.ObjectId, ref: "User", required: true },
   },
+  { timestamps: true }
 );
 
-export const Todo = model<ITodo>("Todo", todoSchema);
+export default mongoose.model<ITodo>("Todo", TodoSchema);

@@ -1,14 +1,14 @@
 import { Router } from "express";
-import { UserController } from "~/api/v1/controllers/user.controller";
+import * as userController from "../controllers/user.controller";
+import { requireAuth, requireRole } from "../middlewares/auth.middleware";
 
 const router = Router();
-const userController = new UserController();
 
-router.post("/login", userController.login);
-router.get("/", userController.getAllUsers);
-router.get("/:id", userController.getUserById);
-router.post("/", userController.createUser);
-router.patch("/:id", userController.updateUser);
-router.delete("/:id", userController.deleteUser);
+// Admin routes
+router.get("/admin/users", requireAuth, requireRole("admin"), userController.getAllUsers);
+router.delete("/admin/users/:id", requireAuth, requireRole("admin"), userController.deleteUser);
+
+// User routes
+router.put("/users/profile", requireAuth, userController.updateProfile);
 
 export default router;

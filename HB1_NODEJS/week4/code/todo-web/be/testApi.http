@@ -1,83 +1,64 @@
 @baseUrl = http://localhost:3000/api/v1
-@contentType = application/json
-@email = test_user_02@example.com
 
-### -------------------------------------------------------
-### 1. Create User
-# @name createUserRequest
-POST {{baseUrl}}/users
-Content-Type: {{contentType}}
+### 1. Register User
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
 
 {
-    "email": "{{email}}",
-    "role": "user",
-    "fullName": "Test User 02"
+  "fullName": "Test User",
+  "email": "test@example.com",
+  "password": "password123"
 }
 
-### -------------------------------------------------------
-### 2. Login
-# @name loginRequest
-POST {{baseUrl}}/users/login
-Content-Type: {{contentType}}
+### 2. Login User
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
 
 {
-    "email": "{{email}}"
+  "email": "test@example.com",
+  "password": "password123"
 }
 
-### -------------------------------------------------------
-### 3. Extract User ID
-@userId = {{loginRequest.response.body.data.id}}
+### 3. Get Me
+GET {{baseUrl}}/auth/me
 
-### -------------------------------------------------------
-### 4. Get Todos (Initially Empty)
-GET {{baseUrl}}/todos
-x-user-id: {{userId}}
+### 4. Update Profile
+PUT {{baseUrl}}/users/profile
+Content-Type: application/json
 
-### -------------------------------------------------------
-### 5. Create Todo 1 (Learn TypeScript)
-# @name createTodo1
+{
+  "fullName": "Updated Name"
+}
+
+### 5. Create Todo
 POST {{baseUrl}}/todos
-Content-Type: {{contentType}}
-x-user-id: {{userId}}
+Content-Type: application/json
 
 {
-    "title": "Learn TypeScript"
+  "title": "Learn Node.js",
+  "description": "Complete the course",
+  "priority": "high",
+  "dueDate": "2025-12-31"
 }
 
-### -------------------------------------------------------
-### 6. Create Todo 2 (Learn Docker)
-# @name createTodo2
-POST {{baseUrl}}/todos
-Content-Type: {{contentType}}
-x-user-id: {{userId}}
+### 6. Get My Todos
+GET {{baseUrl}}/todos/my
+
+### 7. Logout
+POST {{baseUrl}}/auth/logout
+
+### 8. Login Admin (Run seed script first)
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
 
 {
-    "title": "Learn Docker"
+  "email": "admin@example.com",
+  "password": "adminpassword"
 }
 
-### -------------------------------------------------------
-### 7. Search Todos (Filter by 'Docker')
-GET {{baseUrl}}/todos?search=Docker
-x-user-id: {{userId}}
+### 9. Get All Users (Admin)
+GET {{baseUrl}}/admin/users
 
-### -------------------------------------------------------
-### 8. Update Todo 1 (Mark as completed)
-@todoId1 = {{createTodo1.response.body.data.id}}
-PATCH {{baseUrl}}/todos/{{todoId1}}
-Content-Type: {{contentType}}
-x-user-id: {{userId}}
-
-{
-    "completed": true
-}
-
-### -------------------------------------------------------
-### 9. Delete Todo 2
-@todoId2 = {{createTodo2.response.body.data.id}}
-DELETE {{baseUrl}}/todos/{{todoId2}}
-x-user-id: {{userId}}
-
-### -------------------------------------------------------
-### 10. Get Todos (Verify Todo 2 is deleted)
-GET {{baseUrl}}/todos
-x-user-id: {{userId}}
+### 10. Delete User (Admin)
+# Replace :id with actual user ID
+DELETE {{baseUrl}}/admin/users/:id

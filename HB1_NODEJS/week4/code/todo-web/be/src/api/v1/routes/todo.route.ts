@@ -1,12 +1,17 @@
 import { Router } from "express";
-import { TodoController } from "~/api/v1/controllers/todo.controller";
+import * as todoController from "../controllers/todo.controller";
+import { requireAuth, checkTodoOwner } from "../middlewares/auth.middleware";
 
 const router = Router();
-const todoController = new TodoController();
 
-router.get("/", todoController.getTodos);
+router.use(requireAuth); // All todo routes require auth
+
+router.get("/my", todoController.getMyTodos);
 router.post("/", todoController.createTodo);
-router.patch("/:id", todoController.updateTodo);
-router.delete("/:id", todoController.deleteTodo);
+
+router.get("/:id", checkTodoOwner, todoController.getTodoById);
+router.put("/:id", checkTodoOwner, todoController.updateTodo);
+router.delete("/:id", checkTodoOwner, todoController.deleteTodo);
+router.patch("/:id/toggle", checkTodoOwner, todoController.toggleStatus);
 
 export default router;

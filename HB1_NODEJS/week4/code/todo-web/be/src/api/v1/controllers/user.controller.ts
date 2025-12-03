@@ -1,72 +1,73 @@
-import { NextFunction, Request, Response } from "express";
-import { UserService } from "~/api/v1/services/user.service";
-import { SuccessResponse } from "~/api/v1/utils/response.util";
+import { Request, Response } from "express";
+import bcrypt from "bcryptjs";
+import User from "../models/user.model";
+import Todo from "../models/todo.model";
+import Session from "../models/session.model";
 
-export class UserController {
-    private userService: UserService;
+export const getAllUsers = async (req: Request, res: Response) => {
+  try {
+    const users = await User.find().select("-passwordHash");
+    res.status(200).json(users);
+  } catch (error) {
+    console.error("Get All Users Error:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
 
-    constructor() {
-        this.userService = new UserService();
+export const deleteUser = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    // Cascade delete
+    await Todo.deleteMany({ ownerId: id });
+    await Session.deleteMany({ userId: id });
+    await User.findByIdAndDelete(id);
+
+    res.status(200).json({ message: "User deleted successfully" });
+  } catch (error) {
+    console.error("Delete User Error:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
+export const updateProfile = async (req: Request, res: Response) => {
+  try {
+    const userId = req.user!.userId;
+    const { fullName, password, newPassword } = req.body;
+
+    const user = await User.findById(userId);
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    if (fullName) user.fullName = fullName;
+
+    if (newPassword) {
+      if (!password) {
+        return res.status(400).json({ message: "Current password required" });
+      }
+      const isMatch = await bcrypt.compare(password, user.passwordHash);
+      if (!isMatch) {
+        return res.status(400).json({ message: "Incorrect current password" });
+      }
+
+      if (newPassword.length < 6) {
+        return res
+          .status(400)
+          .json({ message: "New password must be at least 6 characters" });
+      }
+      user.passwordHash = await bcrypt.hash(newPassword, 10);
     }
 
-    login = async (req: Request, res: Response, next: NextFunction) => {
-        try {
-            const { email } = req.body;
-            if (!email) {
-                throw new Error("Email is required123");
-            }
-            const user = await this.userService.login(email);
-            new SuccessResponse("Login success", 200, user).send(res);
-        } catch (error) {
-            next(error);
-        }
-    };
-
-    getAllUsers = async (req: Request, res: Response, next: NextFunction) => {
-        try {
-            const users = await this.userService.getAllUsers();
-            new SuccessResponse("Get all users success", 200, users).send(res);
-        } catch (error) {
-            next(error);
-        }
-    };
-
-    getUserById = async (req: Request, res: Response, next: NextFunction) => {
-        try {
-            const { id } = req.params;
-            const user = await this.userService.getUserById(id);
-            new SuccessResponse("Get user success", 200, user).send(res);
-        } catch (error) {
-            next(error);
-        }
-    };
-
-    createUser = async (req: Request, res: Response, next: NextFunction) => {
-        try {
-            const user = await this.userService.createUser(req.body);
-            new SuccessResponse("Create user success", 201, user).send(res);
-        } catch (error) {
-            next(error);
-        }
-    };
-
-    updateUser = async (req: Request, res: Response, next: NextFunction) => {
-        try {
-            const { id } = req.params;
-            const user = await this.userService.updateUser(id, req.body);
-            new SuccessResponse("Update user success", 200, user).send(res);
-        } catch (error) {
-            next(error);
-        }
-    };
-
-    deleteUser = async (req: Request, res: Response, next: NextFunction) => {
-        try {
-            const { id } = req.params;
-            await this.userService.deleteUser(id);
-            new SuccessResponse("Delete user success", 200).send(res);
-        } catch (error) {
-            next(error);
-        }
-    };
-}
+    await user.save();
+    res.status(200).json({
+      message: "Profile updated successfully",
+      user: {
+        id: user._id,
+        fullName: user.fullName,
+        email: user.email,
+        role: user.role,
+      },
+    });
+  } catch (error) {
+    console.error("Update Profile Error:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};

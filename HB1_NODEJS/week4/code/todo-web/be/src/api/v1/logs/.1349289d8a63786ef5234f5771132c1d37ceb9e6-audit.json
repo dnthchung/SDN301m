@@ -24,6 +24,21 @@
             "date": 1764666382636,
             "name": "D:\\github-hblab\\SDN301m\\HB1_NODEJS\\week4\\code\\todo-web\\be\\src\\api\\v1\\logs\\application-2025-12-02-16.error.log",
             "hash": "e342d33e1d1a4ad947f9fd460304f91dce6e08ae7c9689d4e90ab77be937e98a"
+        },
+        {
+            "date": 1764727956367,
+            "name": "D:\\github-hblab\\SDN301m\\HB1_NODEJS\\week4\\code\\todo-web\\be\\src\\api\\v1\\logs\\application-2025-12-03-09.error.log",
+            "hash": "db7a406904bd2530368c8369177bf22e042fc786a223cc6f09fa9a18c00b036a"
+        },
+        {
+            "date": 1764731893682,
+            "name": "D:\\github-hblab\\SDN301m\\HB1_NODEJS\\week4\\code\\todo-web\\be\\src\\api\\v1\\logs\\application-2025-12-03-10.error.log",
+            "hash": "642bf21ac0aaa7426f2ee21ffca091a3386a07e422e970d98a921d7bb8fd1832"
+        },
+        {
+            "date": 1764747178243,
+            "name": "D:\\github-hblab\\SDN301m\\HB1_NODEJS\\week4\\code\\todo-web\\be\\src\\api\\v1\\logs\\application-2025-12-03-14.error.log",
+            "hash": "97479853644f62cc301a853eed93bd946383363a99c543fd870ddd6277fd003d"
         }
     ],
     "hashType": "sha256"

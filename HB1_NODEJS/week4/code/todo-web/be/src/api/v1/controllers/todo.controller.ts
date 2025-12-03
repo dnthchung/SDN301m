@@ -1,69 +1,104 @@
-import { NextFunction, Request, Response } from "express";
-import { TodoService } from "~/api/v1/services/todo.service";
-import { createTodoSchema, updateTodoSchema } from "~/api/v1/validations/todo.validation";
-import { SuccessResponse, UnauthorizedError } from '~/api/v1/utils/response.util'
+import { Request, Response } from "express";
+import Todo from "../models/todo.model";
 
-export class TodoController {
-  private todoService: TodoService;
+export const createTodo = async (req: Request, res: Response) => {
+  try {
+    const { title, description, priority, dueDate } = req.body;
+    if (!title) {
+      return res.status(400).json({ message: "Title is required" });
+    }
 
-  constructor() {
-    this.todoService = new TodoService();
+    const todo = new Todo({
+      title,
+      description,
+      priority,
+      dueDate,
+      ownerId: req.user!.userId,
+    });
+    await todo.save();
+    res.status(201).json(todo);
+  } catch (error) {
+    console.error("Create Todo Error:", error);
+    res.status(500).json({ message: "Internal Server Error" });
   }
+};
 
-  // GET ALL TODOS
-  getTodos = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const userId = req.headers["x-user-id"] as string;
-      const search = req.query.search as string;
-      if (!userId) {
-        throw new UnauthorizedError("User ID is required");
-      }
-      const todos = await this.todoService.getAllTodos(userId, search);
-      new SuccessResponse('Get list OK', 200, todos).send(res);
-    } catch (error) {
-      next(error);
+export const getMyTodos = async (req: Request, res: Response) => {
+  try {
+    const { status, priority, search, startDue, endDue } = req.query;
+    const query: any = { ownerId: req.user!.userId };
+
+    if (status) query.status = status;
+    if (priority) query.priority = priority;
+    if (search) query.title = { $regex: search, $options: "i" };
+
+    if (startDue || endDue) {
+      query.dueDate = {};
+      if (startDue) query.dueDate.$gte = new Date(startDue as string);
+      if (endDue) query.dueDate.$lte = new Date(endDue as string);
     }
-  };
 
-  // CREATE TODO
-  createTodo = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const userId = req.headers["x-user-id"] as string;
-      if (!userId) {
-        throw new UnauthorizedError("User ID is required");
-      }
-      const validated = await createTodoSchema.parseAsync({ body: req.body });
+    const todos = await Todo.find(query).sort({ createdAt: -1 });
+    res.status(200).json(todos);
+  } catch (error) {
+    console.error("Get My Todos Error:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
 
-      const todo = await this.todoService.createTodo(validated.body.title, userId);
-      new SuccessResponse('Created OK', 201, todo).send(res);
-    } catch (error) {
-      next(error);
-    }
-  };
+export const getTodoById = async (req: Request, res: Response) => {
+  try {
+    const todo = await Todo.findById(req.params.id);
+    if (!todo) return res.status(404).json({ message: "Todo not found" });
+    res.status(200).json(todo);
+  } catch (error) {
+    console.error("Get Todo By Id Error:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
 
-  // UPDATE TODO
-  updateTodo = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const validated = await updateTodoSchema.parseAsync({
-        body: req.body,
-        params: req.params,
-      });
+export const updateTodo = async (req: Request, res: Response) => {
+  try {
+    const { title, description, status, priority, dueDate } = req.body;
+    const todo = await Todo.findByIdAndUpdate(
+      req.params.id,
+      { title, description, status, priority, dueDate },
+      { new: true }
+    );
+    res.status(200).json(todo);
+  } catch (error) {
+    console.error("Update Todo Error:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
 
-      const updatedTodo = await this.todoService.updateTodo(validated.params.id, validated.body);
-      new SuccessResponse('Updated OK', 200, updatedTodo).send(res);
-    } catch (error) {
-      next(error);
-    }
-  };
+export const deleteTodo = async (req: Request, res: Response) => {
+  try {
+    await Todo.findByIdAndDelete(req.params.id);
+    res.status(200).json({ message: "Todo deleted successfully" });
+  } catch (error) {
+    console.error("Delete Todo Error:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
 
-  // DELETE TODO
-  deleteTodo = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const { id } = req.params;
-      await this.todoService.deleteTodo(id);
-      new SuccessResponse('Deleted OK', 200).send(res);
-    } catch (error) {
-      next(error);
-    }
-  };
-}
+export const toggleStatus = async (req: Request, res: Response) => {
+  try {
+    const todo = await Todo.findById(req.params.id);
+    if (!todo) return res.status(404).json({ message: "Todo not found" });
+
+    // pending -> in-progress -> completed -> pending
+    const statusMap: Record<string, string> = {
+      pending: "in-progress",
+      "in-progress": "completed",
+      completed: "pending",
+    };
+
+    todo.status = statusMap[todo.status] as any;
+    await todo.save();
+    res.status(200).json(todo);
+  } catch (error) {
+    console.error("Toggle Status Error:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};

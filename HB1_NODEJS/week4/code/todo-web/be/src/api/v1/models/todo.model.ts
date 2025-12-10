@@ -1,4 +1,4 @@
-import mongoose, { Schema, Document } from "mongoose";
+import mongoose, { Document, Schema } from "mongoose";
 
 export interface ITodo extends Document {
   title: string;
@@ -28,7 +28,7 @@ const TodoSchema: Schema = new Schema(
     dueDate: { type: Date },
     ownerId: { type: Schema.Types.ObjectId, ref: "User", required: true },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 export default mongoose.model<ITodo>("Todo", TodoSchema);

@@ -19,7 +19,7 @@ export const errorHandler = (err: Error, req: Request, res: Response, next: Next
     });
   }
 
-  // validate từ Zod
+  // Zod validate 
   if (err instanceof ZodError) {
     return res.status(400).json({
       status: 'error',

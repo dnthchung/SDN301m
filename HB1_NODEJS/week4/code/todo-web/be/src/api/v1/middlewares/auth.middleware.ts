@@ -18,7 +18,6 @@ export const deserializeUser = async (
       return next();
     }
 
-    // Check expiry
     if (new Date() > session.expiresAt) {
       await Session.findByIdAndDelete(sessionId);
       return next();
@@ -73,12 +72,10 @@ export const checkTodoOwner = async (
     const todo = await Todo.findById(todoId);
     if (!todo) return res.status(404).json({ message: "Todo not found" });
 
-    // Admin can access everything
     if (user.role === "admin") {
       return next();
     }
 
-    // User can only access their own
     if (todo.ownerId.toString() !== user.userId) {
       return res.status(403).json({ message: "Forbidden" });
     }

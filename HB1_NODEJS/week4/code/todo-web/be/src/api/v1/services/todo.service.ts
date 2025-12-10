@@ -1,4 +1,4 @@
-import { ITodo } from "~/api/v1/types/todo.type";
+import { ITodo } from "~/api/v1/models/todo.model";
 import { TodoRepository } from "~/api/v1/repositories/todo.repository";
 
 export class TodoService {

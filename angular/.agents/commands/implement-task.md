@@ -1,6 +1,18 @@
 # Implement Task Command
 
-Use this command when the user asks to implement a feature, fix a bug, refactor code, add docs, or complete any concrete task in this repository.
+Use this command only when the user explicitly invokes this command file.
+
+Do not apply this workflow automatically just because the user asks to implement a feature, fix a bug, refactor code, add docs, or complete a concrete task. For normal user requests, handle the request normally and do not require the daily-log workflow from this command unless the invocation pattern below is present.
+
+Explicit invocation examples:
+
+```txt
+.agents/commands/implement-task.md: implement task A
+[implement-task.md](.agents/commands/implement-task.md): implement task A
+implement-task.md: fix bug B
+```
+
+If the user references this file only as background context, an open tab, or a file to edit, do not run the workflow. Run the workflow only when the user clearly asks to use this command to perform a task.
 
 The goal is to finish the task end to end, apply the right local rules/skills, verify the result, and record the completed work in `docs/daily/`.
 
@@ -11,7 +23,7 @@ The goal is to finish the task end to end, apply the right local rules/skills, v
 Expected user input:
 
 ```txt
-Implement: <task title or description>
+<explicit command invocation>: <task title or description>
 ```
 
 Optional details:

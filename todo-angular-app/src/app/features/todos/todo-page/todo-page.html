@@ -1,0 +1,162 @@
+<main class="todo-page">
+  <section class="hero" aria-labelledby="page-title">
+    <div class="hero__content">
+      <p class="eyebrow">Angular 21.2 learning project</p>
+      <h1 id="page-title">Todo Angular App</h1>
+      <p class="hero__description">
+        Một workspace nhỏ để luyện standalone component, signals, computed state và template control
+        flow theo phong cách GitHub.
+      </p>
+    </div>
+
+    <dl class="stats" aria-label="Todo summary">
+      <div>
+        <dt>Open</dt>
+        <dd>{{ activeCount() }}</dd>
+      </div>
+      <div>
+        <dt>Done</dt>
+        <dd>{{ completedCount() }}</dd>
+      </div>
+      <div>
+        <dt>Total</dt>
+        <dd>{{ totalCount() }}</dd>
+      </div>
+    </dl>
+  </section>
+
+  <section class="composer" aria-labelledby="new-task-title">
+    <div class="section-heading">
+      <h2 id="new-task-title">New task</h2>
+      <p>Thêm một việc học hoặc checklist ngắn.</p>
+    </div>
+
+    <form
+      class="composer__form"
+      (submit)="addTodo(); $event.preventDefault()"
+      aria-label="Create todo"
+    >
+      <label for="todo-title">Task title</label>
+      <div class="composer__row">
+        <input
+          #todoTitleInput
+          id="todo-title"
+          type="text"
+          [value]="newTitle()"
+          (input)="updateDraft(todoTitleInput.value)"
+          placeholder="Ví dụ: Hoàn thành bài tập về signal"
+          autocomplete="off"
+        />
+        <button class="button button--primary" type="submit" [disabled]="!newTitle().trim()">
+          Add task
+        </button>
+      </div>
+    </form>
+  </section>
+
+  <section class="todo-board" aria-labelledby="todo-list-title">
+    <div class="todo-board__header">
+      <div>
+        <h2 id="todo-list-title">Tasks</h2>
+        <p>{{ activeCount() }} open, {{ completedCount() }} done</p>
+      </div>
+
+      <button
+        class="button button--subtle"
+        type="button"
+        [disabled]="completedCount() === 0"
+        (click)="clearCompleted()"
+      >
+        Clear done
+      </button>
+    </div>
+
+    <div class="filters" role="tablist" aria-label="Task filters">
+      @for (option of filterOptions; track option.value) {
+        <button
+          type="button"
+          role="tab"
+          [attr.aria-selected]="activeFilter() === option.value"
+          [class.is-active]="activeFilter() === option.value"
+          (click)="setFilter(option.value)"
+        >
+          {{ option.label }}
+          <span>{{ countForFilter(option.value) }}</span>
+        </button>
+      }
+    </div>
+
+    @if (filteredTodos().length > 0) {
+      <ul class="todo-list" aria-label="Todo items">
+        @for (todo of filteredTodos(); track todo.id) {
+          <li class="todo-item" [class.todo-item--done]="todo.completed">
+            <label class="todo-check">
+              <input
+                #completedInput
+                type="checkbox"
+                [checked]="todo.completed"
+                (change)="toggleTodo(todo.id, completedInput.checked)"
+              />
+              <span></span>
+            </label>
+
+            <div class="todo-item__body">
+              @if (editingTodoId() === todo.id) {
+                <form
+                  class="edit-form"
+                  (submit)="saveEdit(todo.id); $event.preventDefault()"
+                  aria-label="Edit todo"
+                >
+                  <label [for]="'edit-todo-' + todo.id">Edit task</label>
+                  <input
+                    #editTitleInput
+                    [id]="'edit-todo-' + todo.id"
+                    type="text"
+                    [value]="editingTitle()"
+                    (input)="updateEditingTitle(editTitleInput.value)"
+                    autocomplete="off"
+                  />
+                  <div class="edit-form__actions">
+                    <button class="button button--primary" type="submit">Save</button>
+                    <button class="button button--subtle" type="button" (click)="cancelEdit()">
+                      Cancel
+                    </button>
+                  </div>
+                </form>
+              } @else {
+                <p>{{ todo.title }}</p>
+                <span>{{ todo.completed ? 'Done' : 'Open' }}</span>
+              }
+            </div>
+
+            @if (editingTodoId() !== todo.id) {
+              <div class="todo-item__actions" aria-label="Task actions">
+                <button
+                  class="icon-button"
+                  type="button"
+                  (click)="startEdit(todo)"
+                  aria-label="Edit task"
+                >
+                  Edit
+                </button>
+                <button
+                  class="icon-button icon-button--danger"
+                  type="button"
+                  (click)="removeTodo(todo.id)"
+                  aria-label="Delete task"
+                >
+                  Delete
+                </button>
+              </div>
+            }
+          </li>
+        }
+      </ul>
+    } @else {
+      <div class="empty-state">
+        <h3>No tasks found</h3>
+        <p>Không có task nào trong filter hiện tại.</p>
+      </div>
+    }
+  </section>
+</main>

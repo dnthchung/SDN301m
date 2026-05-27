@@ -4,13 +4,20 @@ This project was generated using [Angular CLI](https://github.com/angular/angula
 
 ## Development server
 
-To start a local development server, run:
+Start the mock REST API first:
 
 ```bash
-ng serve
+npm run server:mock
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+In another terminal, start the Angular development server:
+
+```bash
+npm start
+```
+
+Open `http://localhost:4200/` for the Angular app. JSON Server exposes the todo REST
+endpoint at `http://localhost:3000/todos`.
 
 ## Code scaffolding
 

@@ -43,28 +43,46 @@
           id="todo-title"
           type="text"
           [value]="newTitle()"
+          [disabled]="isSaving()"
           (input)="updateDraft(todoTitleInput.value)"
           placeholder="Ví dụ: Hoàn thành bài tập về signal"
           autocomplete="off"
         />
-        <button class="button button--primary" type="submit" [disabled]="!newTitle().trim()">
-          Add task
+        <button
+          class="button button--primary"
+          type="submit"
+          [disabled]="isSaving() || !newTitle().trim()"
+        >
+          {{ isSaving() ? 'Saving...' : 'Add task' }}
         </button>
       </div>
     </form>
   </section>
 
+  @if (errorMessage()) {
+    <div class="notice" role="alert">
+      <p>{{ errorMessage() }}</p>
+      <button class="button button--subtle" type="button" (click)="loadTodos()">Retry</button>
+    </div>
+  }
+
   <section class="todo-board" aria-labelledby="todo-list-title">
     <div class="todo-board__header">
       <div>
         <h2 id="todo-list-title">Tasks</h2>
-        <p>{{ activeCount() }} open, {{ completedCount() }} done</p>
+        <p>
+          @if (isLoading()) {
+            Loading from REST API...
+          } @else {
+            {{ activeCount() }} open, {{ completedCount() }} done
+          }
+        </p>
       </div>
 
       <button
         class="button button--subtle"
         type="button"
-        [disabled]="completedCount() === 0"
+        [disabled]="isSaving() || isLoading() || completedCount() === 0"
         (click)="clearCompleted()"
       >
         Clear done
@@ -95,6 +113,7 @@
                 #completedInput
                 type="checkbox"
                 [checked]="todo.completed"
+                [disabled]="isSaving()"
                 (change)="toggleTodo(todo.id, completedInput.checked)"
               />
               <span></span>
@@ -113,12 +132,20 @@
                     [id]="'edit-todo-' + todo.id"
                     type="text"
                     [value]="editingTitle()"
+                    [disabled]="isSaving()"
                     (input)="updateEditingTitle(editTitleInput.value)"
                     autocomplete="off"
                   />
                   <div class="edit-form__actions">
-                    <button class="button button--primary" type="submit">Save</button>
-                    <button class="button button--subtle" type="button" (click)="cancelEdit()">
+                    <button class="button button--primary" type="submit" [disabled]="isSaving()">
+                      Save
+                    </button>
+                    <button
+                      class="button button--subtle"
+                      type="button"
+                      [disabled]="isSaving()"
+                      (click)="cancelEdit()"
+                    >
                       Cancel
                     </button>
                   </div>
@@ -134,6 +161,7 @@
                 <button
                   class="icon-button"
                   type="button"
+                  [disabled]="isSaving()"
                   (click)="startEdit(todo)"
                   aria-label="Edit task"
                 >
@@ -142,6 +170,7 @@
                 <button
                   class="icon-button icon-button--danger"
                   type="button"
+                  [disabled]="isSaving()"
                   (click)="removeTodo(todo.id)"
                   aria-label="Delete task"
                 >
@@ -154,8 +183,13 @@
       </ul>
     } @else {
       <div class="empty-state">
-        <h3>No tasks found</h3>
-        <p>Không có task nào trong filter hiện tại.</p>
+        @if (isLoading()) {
+          <h3>Loading tasks</h3>
+          <p>Đang tải dữ liệu từ JSON Server.</p>
+        } @else {
+          <h3>No tasks found</h3>
+          <p>Không có task nào trong filter hiện tại.</p>
+        }
       </div>
     }
   </section>

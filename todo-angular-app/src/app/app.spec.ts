@@ -17,11 +17,12 @@ describe('App', () => {
     expect(app).toBeTruthy();
   });
 
-  it('should render the router outlet', async () => {
+  it('should render the shared header and router outlet', async () => {
     const fixture = TestBed.createComponent(App);
     fixture.detectChanges();
     await fixture.whenStable();
     const compiled = fixture.nativeElement as HTMLElement;
+    expect(compiled.querySelector('app-header')).toBeTruthy();
     expect(compiled.querySelector('router-outlet')).toBeTruthy();
   });
 });

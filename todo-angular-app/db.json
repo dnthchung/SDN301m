@@ -1,0 +1,38 @@
+{
+  "users": [
+    {
+      "id": "seed-admin",
+      "username": "Admin Demo",
+      "email": "admin@example.com",
+      "role": "admin",
+      "password": "admin123",
+      "createdAt": "2026-05-27T02:00:00.000Z"
+    },
+    {
+      "id": "seed-user",
+      "username": "User Demo",
+      "email": "user@example.com",
+      "role": "user",
+      "password": "user123",
+      "createdAt": "2026-05-27T02:05:00.000Z"
+    },
+    {
+      "id": "bfedf454-c400-4a3e-b469-9f8dc8b1de8f",
+      "username": "Local Learner",
+      "email": "learner@example.com",
+      "role": "user",
+      "password": "123456",
+      "createdAt": "2026-05-27T08:38:00.000Z"
+    },
+    {
+      "id": "q5blfRGObBA",
+      "username": "haha",
+      "email": "haha@gmail.com",
+      "role": "user",
+      "password": "123",
+      "createdAt": "2026-05-27T09:30:46.728Z"
+    }
+  ],
+  "todos": [],
+  "$schema": "./node_modules/json-server/schema.json"
+}

@@ -195,6 +195,25 @@ input[type='text']:focus {
   opacity: 0.55;
 }
 
+.notice {
+  align-items: center;
+  background: #fff8c5;
+  border: 1px solid rgba(154, 103, 0, 0.28);
+  border-radius: 8px;
+  color: #7d4e00;
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+  margin: 16px auto 0;
+  padding: 12px 16px;
+  width: min(960px, 100%);
+}
+
+.notice p {
+  font-size: 0.875rem;
+  line-height: 1.45;
+}
+
 .todo-board {
   margin-top: 16px;
   overflow: hidden;
@@ -343,6 +362,11 @@ input[type='text']:focus {
   color: var(--color-danger);
 }
 
+.icon-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
 .edit-form {
   display: grid;
   gap: 8px;
@@ -396,7 +420,8 @@ input[type='text']:focus {
   }
 
   .todo-item__actions,
-  .edit-form__actions {
+  .edit-form__actions,
+  .notice {
     flex-wrap: wrap;
   }
 }

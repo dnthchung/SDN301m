@@ -1,0 +1,100 @@
+<main class="users-page">
+  <section class="hero" aria-labelledby="users-title">
+    <div>
+      <p class="eyebrow">Admin</p>
+      <h1 id="users-title">User management</h1>
+      <p class="description">Quản lý user trong hệ thống: xem role, đổi role và xoá user.</p>
+    </div>
+
+    <dl class="stats" aria-label="User summary">
+      <div>
+        <dt>Admins</dt>
+        <dd>{{ adminCount() }}</dd>
+      </div>
+      <div>
+        <dt>Users</dt>
+        <dd>{{ userCount() }}</dd>
+      </div>
+      <div>
+        <dt>Total</dt>
+        <dd>{{ users().length }}</dd>
+      </div>
+    </dl>
+  </section>
+
+  <section class="users-board" aria-labelledby="users-list-title">
+    <div class="toolbar">
+      <div>
+        <h2 id="users-list-title">Users</h2>
+        <p>{{ filteredUsers().length }} users found</p>
+      </div>
+
+      <label class="search">
+        <span>Search users</span>
+        <input
+          #searchInput
+          type="search"
+          [value]="searchTerm()"
+          (input)="updateSearchTerm(searchInput.value)"
+          placeholder="Search by username or email"
+        />
+      </label>
+    </div>
+
+    <div class="role-filter" aria-label="Role filter">
+      @for (role of roleOptions; track role) {
+        <button
+          type="button"
+          [class.is-active]="selectedRole() === role"
+          (click)="selectRole(role)"
+        >
+          {{ role }}
+        </button>
+      }
+    </div>
+
+    <div class="table" role="table" aria-label="System users">
+      <div class="table-row table-row--head" role="row">
+        <span role="columnheader">User</span>
+        <span role="columnheader">Role</span>
+        <span role="columnheader">Actions</span>
+      </div>
+
+      @for (user of filteredUsers(); track user.id) {
+        <div class="table-row" role="row">
+          <div class="identity" role="cell">
+            <strong>{{ user.username }}</strong>
+            <span>{{ user.email }}</span>
+          </div>
+          <label class="role-select" role="cell">
+            <span>Role</span>
+            <select
+              #roleSelect
+              [value]="user.role"
+              [disabled]="currentUser()?.id === user.id"
+              (change)="updateUserRole(user.id, roleSelect.value === 'admin' ? 'admin' : 'user')"
+            >
+              <option value="admin">admin</option>
+              <option value="user">user</option>
+            </select>
+          </label>
+          <div role="cell">
+            <button
+              class="danger-button"
+              type="button"
+              [disabled]="currentUser()?.id === user.id"
+              (click)="removeUser(user.id)"
+            >
+              Delete
+            </button>
+          </div>
+        </div>
+      } @empty {
+        <div class="empty-state">
+          <h3>No users found</h3>
+          <p>Không tìm thấy user phù hợp với bộ lọc hiện tại.</p>
+        </div>
+      }
+    </div>
+  </section>
+</main>

@@ -1,0 +1,39 @@
+<main class="auth-page">
+  <section class="auth-card" aria-labelledby="sign-in-title">
+    <p class="eyebrow">Authentication</p>
+    <h1 id="sign-in-title">Sign in</h1>
+    <p class="description">Đăng nhập bằng email và mật khẩu. Session có hiệu lực trong 5 phút.</p>
+
+    @if (errorMessage()) {
+      <p class="alert" role="alert">{{ errorMessage() }}</p>
+    }
+
+    <form (submit)="signIn(); $event.preventDefault()" aria-label="Sign in form">
+      <label for="email">Email</label>
+      <input
+        #emailInput
+        id="email"
+        type="email"
+        [value]="email()"
+        (input)="updateEmail(emailInput.value)"
+        autocomplete="email"
+        required
+      />
+
+      <label for="password">Password</label>
+      <input
+        #passwordInput
+        id="password"
+        type="password"
+        [value]="password()"
+        (input)="updatePassword(passwordInput.value)"
+        autocomplete="current-password"
+        required
+      />
+
+      <button class="button button--primary" type="submit">Sign in</button>
+    </form>
+
+    <p class="switch-link">Chưa có tài khoản? <a routerLink="/sign-up">Sign up</a></p>
+  </section>
+</main>

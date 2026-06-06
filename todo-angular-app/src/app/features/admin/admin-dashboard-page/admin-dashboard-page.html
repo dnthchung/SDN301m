@@ -1,0 +1,34 @@
+<main class="admin-page">
+  <section class="hero" aria-labelledby="admin-title">
+    <div>
+      <p class="eyebrow">Admin</p>
+      <h1 id="admin-title">System overview</h1>
+      <p class="description">Xem totals hệ thống và truy cập nhanh màn quản lý user.</p>
+    </div>
+
+    <a class="button" routerLink="/users">Manage users</a>
+  </section>
+
+  @if (errorMessage()) {
+    <p class="alert" role="alert">{{ errorMessage() }}</p>
+  }
+
+  <section class="metrics" aria-label="System totals">
+    <article>
+      <span>Total users</span>
+      <strong>{{ totalUsers() }}</strong>
+    </article>
+    <article>
+      <span>Admins</span>
+      <strong>{{ adminCount() }}</strong>
+    </article>
+    <article>
+      <span>Users</span>
+      <strong>{{ userCount() }}</strong>
+    </article>
+    <article>
+      <span>Total todos</span>
+      <strong>{{ totalTodos() }}</strong>
+    </article>
+  </section>
+</main>

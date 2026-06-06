@@ -1,0 +1,56 @@
+<main class="auth-page">
+  <section class="auth-card" aria-labelledby="sign-up-title">
+    <p class="eyebrow">Authentication</p>
+    <h1 id="sign-up-title">Sign up</h1>
+    <p class="description">Tạo tài khoản học tập bằng username, email và mật khẩu.</p>
+
+    @if (errorMessage()) {
+      <p class="alert" role="alert">{{ errorMessage() }}</p>
+    }
+
+    <form (submit)="signUp(); $event.preventDefault()" aria-label="Sign up form">
+      <label for="username">Username</label>
+      <input
+        #usernameInput
+        id="username"
+        type="text"
+        [value]="username()"
+        (input)="updateUsername(usernameInput.value)"
+        autocomplete="username"
+        required
+      />
+
+      <label for="email">Email</label>
+      <input
+        #emailInput
+        id="email"
+        type="email"
+        [value]="email()"
+        (input)="updateEmail(emailInput.value)"
+        autocomplete="email"
+        required
+      />
+
+      <label for="role">Role</label>
+      <select #roleSelect id="role" [value]="role()" (change)="updateRole(roleSelect.value)">
+        <option value="user">User</option>
+        <option value="admin">Admin</option>
+      </select>
+
+      <label for="password">Password</label>
+      <input
+        #passwordInput
+        id="password"
+        type="password"
+        [value]="password()"
+        (input)="updatePassword(passwordInput.value)"
+        autocomplete="new-password"
+        required
+      />
+
+      <button class="button button--primary" type="submit">Sign up</button>
+    </form>
+
+    <p class="switch-link">Đã có tài khoản? <a routerLink="/sign-in">Sign in</a></p>
+  </section>
+</main>

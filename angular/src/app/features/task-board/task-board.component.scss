@@ -1,0 +1,159 @@
+.board-shell {
+  display: grid;
+  gap: 1rem;
+  padding: 1.25rem;
+}
+
+.board-header,
+.controls,
+.create-task form,
+.column-header {
+  align-items: center;
+  display: flex;
+  gap: 1rem;
+}
+
+.board-header {
+  justify-content: space-between;
+}
+
+.eyebrow {
+  color: #4c6f5d;
+  font-size: 0.75rem;
+  font-weight: 700;
+  margin: 0 0 0.25rem;
+  text-transform: uppercase;
+}
+
+h1,
+h2,
+p {
+  margin: 0;
+}
+
+h1 {
+  font-size: clamp(1.6rem, 3vw, 2.25rem);
+}
+
+.controls {
+  flex-wrap: wrap;
+}
+
+.controls mat-form-field {
+  flex: 1 1 240px;
+}
+
+.create-task form {
+  align-items: start;
+  flex-wrap: wrap;
+}
+
+.create-task mat-form-field {
+  flex: 1 1 180px;
+}
+
+.create-task .description-field {
+  flex-basis: 280px;
+}
+
+.create-task button {
+  height: 56px;
+}
+
+.error-state {
+  background: #fff0f0;
+  border: 1px solid #d83b3b;
+  border-radius: 8px;
+  color: #8b1d1d;
+  padding: 0.75rem 1rem;
+}
+
+.board {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.column {
+  background: #f4f6f8;
+  border: 1px solid #d8dee4;
+  border-radius: 8px;
+  display: grid;
+  gap: 0.75rem;
+  min-height: 360px;
+  padding: 0.75rem;
+}
+
+.column-header {
+  justify-content: space-between;
+}
+
+.column-header h2 {
+  font-size: 1rem;
+}
+
+.column-header span {
+  background: #dbe7ff;
+  border-radius: 999px;
+  min-width: 2rem;
+  padding: 0.2rem 0.5rem;
+  text-align: center;
+}
+
+.task-list {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.task-card {
+  border-radius: 8px;
+  cursor: grab;
+}
+
+.task-card mat-card-header {
+  align-items: start;
+  justify-content: space-between;
+}
+
+.task-card mat-card-title {
+  font-size: 1rem;
+  line-height: 1.35;
+}
+
+.task-card p {
+  color: #4f5b66;
+  margin: 0.5rem 0 0.75rem;
+}
+
+.assignee {
+  color: #275d49;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.empty-state {
+  border: 1px dashed #b8c2cc;
+  border-radius: 8px;
+  color: #66717d;
+  padding: 1rem;
+  text-align: center;
+}
+
+.cdk-drag-preview {
+  box-shadow: 0 8px 24px rgb(0 0 0 / 18%);
+}
+
+.cdk-drag-placeholder {
+  opacity: 0.35;
+}
+
+.cdk-drag-animating,
+.cdk-drop-list-dragging .cdk-drag {
+  transition: transform 160ms ease;
+}
+
+@media (max-width: 900px) {
+  .board {
+    grid-template-columns: 1fr;
+  }
+}

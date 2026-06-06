@@ -12,52 +12,8 @@ import { AuthService } from '../../core/auth/auth.service';
 @Component({
   selector: 'app-login',
   imports: [MatButtonModule, MatCardModule, MatFormFieldModule, MatIconModule, MatInputModule, ReactiveFormsModule],
-  template: `
-    <section class="login-page">
-      <mat-card class="login-card">
-        <mat-card-header>
-          <mat-card-title>TaskFlow</mat-card-title>
-          <mat-card-subtitle>Fake login for the RxJS learning board</mat-card-subtitle>
-        </mat-card-header>
-
-        <mat-card-content>
-          <form [formGroup]="form" (ngSubmit)="submit()">
-            <mat-form-field appearance="outline">
-              <mat-label>Your name</mat-label>
-              <mat-icon matPrefix>person</mat-icon>
-              <input matInput formControlName="name" autocomplete="name" />
-              @if (form.controls.name.hasError('required')) {
-                <mat-error>Name is required</mat-error>
-              }
-            </mat-form-field>
-
-            <button mat-flat-button type="submit" [disabled]="form.invalid">Enter board</button>
-          </form>
-        </mat-card-content>
-      </mat-card>
-    </section>
-  `,
-  styles: `
-    .login-page {
-      align-items: center;
-      display: flex;
-      justify-content: center;
-      min-height: calc(100vh - 64px);
-      padding: 1rem;
-    }
-
-    .login-card {
-      border-radius: 8px;
-      max-width: 420px;
-      width: 100%;
-    }
-
-    form {
-      display: grid;
-      gap: 1rem;
-      padding-top: 1.25rem;
-    }
-  `,
+  templateUrl: './login.component.html',
+  styleUrl: './login.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginComponent {

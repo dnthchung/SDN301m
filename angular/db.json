@@ -1,0 +1,26 @@
+{
+  "tasks": [
+    {
+      "id": "1",
+      "title": "Learn RxJS streams",
+      "description": "Practice debounceTime, switchMap, combineLatest, and shareReplay through the task board.",
+      "status": "todo",
+      "assignee": "Chung"
+    },
+    {
+      "id": "2",
+      "title": "Create TaskFlow board",
+      "description": "Build the first CRUD board with Angular Material and CDK drag/drop.",
+      "status": "done",
+      "assignee": "Doan"
+    },
+    {
+      "id": "3",
+      "title": "Document learning notes",
+      "description": "Capture RxJS patterns discovered while implementing the pet project.",
+      "status": "done",
+      "assignee": "Chung"
+    }
+  ],
+  "notifications": []
+}

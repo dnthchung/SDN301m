@@ -1,0 +1,28 @@
+.app-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.brand {
+  align-items: center;
+  color: inherit;
+  display: inline-flex;
+  font-size: 1rem;
+  font-weight: 700;
+  gap: 0.5rem;
+  text-decoration: none;
+}
+
+.toolbar-spacer {
+  flex: 1;
+}
+
+.user-name {
+  font-size: 0.9rem;
+  margin-right: 0.25rem;
+}
+
+main {
+  min-height: calc(100vh - 64px);
+}

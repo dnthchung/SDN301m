@@ -1,0 +1,19 @@
+<mat-toolbar class="app-toolbar">
+  <a class="brand" routerLink="/board" aria-label="TaskFlow board">
+    <mat-icon aria-hidden="true">view_kanban</mat-icon>
+    <span>TaskFlow</span>
+  </a>
+
+  <span class="toolbar-spacer"></span>
+
+  @if (auth.user(); as user) {
+    <span class="user-name">{{ user.name }}</span>
+    <button mat-icon-button type="button" aria-label="Log out" (click)="logout()">
+      <mat-icon>logout</mat-icon>
+    </button>
+  }
+</mat-toolbar>
+
+<main>
+  <router-outlet />
+</main>

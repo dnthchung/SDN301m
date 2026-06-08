@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>PinLog – UI Preview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Serif+Display&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css"/>
+<style>
+:root {
+  --bg: #F5F3EE;
+  --surface: #FFFFFF;
+  --surface2: #F0EDE7;
+  --border: rgba(0,0,0,0.08);
+  --border2: rgba(0,0,0,0.14);
+  --text: #1A1916;
+  --text2: #6B6860;
+  --text3: #A8A49E;
+  --accent: #534AB7;
+  --accent-light: #EEEDFE;
+  --accent-mid: #AFA9EC;
+  --teal: #0F6E56;
+  --teal-light: #E1F5EE;
+  --amber: #854F0B;
+  --amber-light: #FAEEDA;
+  --amber-mid: #EF9F27;
+  --coral: #993C1D;
+  --coral-light: #FAECE7;
+  --green: #3B6D11;
+  --green-light: #EAF3DE;
+  --red: #A32D2D;
+  --red-light: #FCEBEB;
+  --blue: #185FA5;
+  --blue-light: #E6F1FB;
+  --radius: 12px;
+  --radius-sm: 8px;
+  --radius-lg: 20px;
+  --shadow: 0 2px 12px rgba(0,0,0,0.06);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,0.12);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  padding: 24px 16px 48px;
+}
+
+/* Layout */
+.page-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 28px;
+  color: var(--text);
+  margin-bottom: 4px;
+  letter-spacing: -0.5px;
+}
+.page-subtitle {
+  font-size: 14px;
+  color: var(--text3);
+  margin-bottom: 32px;
+}
+
+.screens-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 32px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.screen-wrap { display: flex; flex-direction: column; gap: 10px; }
+.screen-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text3);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding-left: 4px;
+}
+
+/* Phone frame */
+.phone {
+  background: #E8E5E0;
+  border-radius: 40px;
+  padding: 12px;
+  box-shadow: var(--shadow-lg), inset 0 1px 0 rgba(255,255,255,0.4);
+  max-width: 360px;
+  width: 100%;
+}
+.screen {
+  background: var(--surface);
+  border-radius: 30px;
+  overflow: hidden;
+  min-height: 640px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+/* Status bar */
+.statusbar {
+  padding: 10px 20px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.statusbar-time { font-size: 12px; font-weight: 600; color: var(--text); }
+.statusbar-icons { display: flex; gap: 4px; align-items: center; }
+.statusbar-icons i { font-size: 12px; color: var(--text); }
+
+/* Top bar */
+.topbar {
+  padding: 8px 16px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.topbar-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 20px;
+  color: var(--text);
+  letter-spacing: -0.3px;
+}
+.topbar-action {
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  background: var(--surface2);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  border: none;
+}
+.topbar-action i { font-size: 16px; color: var(--text2); }
+.avatar-circle {
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  background: var(--accent-light);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+/* Map placeholder */
+.map-area {
+  position: relative;
+  height: 220px;
+  background: #E8ECEB;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.map-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(rgba(200,210,205,0.4) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(200,210,205,0.4) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+.map-road-h {
+  position: absolute;
+  height: 6px;
+  background: rgba(255,255,255,0.7);
+  border-radius: 3px;
+}
+.map-road-v {
+  position: absolute;
+  width: 6px;
+  background: rgba(255,255,255,0.7);
+  border-radius: 3px;
+}
+.map-pin {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  transform: translateX(-50%);
+}
+.map-pin-dot {
+  width: 32px; height: 32px;
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg);
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+}
+.map-pin-dot i {
+  transform: rotate(45deg);
+  font-size: 14px;
+  color: white;
+}
+.map-pin-label {
+  background: white;
+  font-size: 10px;
+  font-weight: 500;
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin-top: 3px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+  color: var(--text);
+  white-space: nowrap;
+}
+.map-pin.active .map-pin-dot {
+  width: 38px; height: 38px;
+}
+.map-fab {
+  position: absolute;
+  bottom: 12px; right: 12px;
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  background: var(--accent);
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 12px rgba(83,74,183,0.4);
+  cursor: pointer;
+  border: none;
+}
+.map-fab i { font-size: 20px; color: white; }
+.my-loc {
+  position: absolute;
+  bottom: 12px; left: 12px;
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: white;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: var(--shadow);
+}
+.my-loc i { font-size: 16px; color: var(--accent); }
+
+/* Bottom sheet */
+.bottom-sheet {
+  flex: 1;
+  padding: 0 0 8px;
+  overflow: hidden;
+}
+.sheet-handle {
+  width: 36px; height: 4px;
+  background: var(--border2);
+  border-radius: 2px;
+  margin: 10px auto 12px;
+}
+.sheet-header {
+  padding: 0 16px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.sheet-title { font-size: 15px; font-weight: 500; }
+.count-badge {
+  background: var(--surface2);
+  color: var(--text2);
+  font-size: 12px;
+  font-weight: 500;
+  padding: 3px 8px;
+  border-radius: 20px;
+}
+
+/* Filter pills */
+.filter-row {
+  display: flex;
+  gap: 6px;
+  padding: 0 16px 10px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.filter-row::-webkit-scrollbar { display: none; }
+.filter-pill {
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+  border: 0.5px solid var(--border2);
+  color: var(--text2);
+  background: var(--surface);
+  flex-shrink: 0;
+}
+.filter-pill.active {
+  background: var(--accent);
+  color: white;
+  border-color: var(--accent);
+}
+
+/* Place card */
+.place-list { display: flex; flex-direction: column; padding: 0 12px; gap: 6px; overflow-y: auto; max-height: 260px; }
+.place-card {
+  background: var(--surface);
+  border: 0.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: 10px 12px;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  cursor: pointer;
+  transition: background 0.1s;
+}
+.place-card:hover { background: var(--surface2); }
+.place-card.highlighted {
+  border-color: var(--accent-mid);
+  background: var(--accent-light);
+}
+.cat-icon {
+  width: 36px; height: 36px;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+.place-name { font-size: 13px; font-weight: 500; color: var(--text); line-height: 1.3; }
+.place-addr { font-size: 11px; color: var(--text3); margin-top: 1px; }
+.place-meta { display: flex; align-items: center; gap: 6px; margin-top: 4px; flex-wrap: wrap; }
+.stars { display: flex; gap: 1px; }
+.star-i { font-size: 10px; color: var(--amber-mid); }
+.star-i.empty { color: var(--border2); }
+.tag-chip {
+  font-size: 10px;
+  font-weight: 500;
+  padding: 2px 7px;
+  border-radius: 10px;
+}
+.place-date { font-size: 10px; color: var(--text3); }
+.place-user { display: flex; align-items: center; gap: 3px; font-size: 10px; color: var(--text3); }
+.user-dot { width: 14px; height: 14px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 7px; font-weight: 600; }
+
+/* Bottom nav */
+.bottom-nav {
+  padding: 8px 0 12px;
+  display: flex;
+  justify-content: space-around;
+  border-top: 0.5px solid var(--border);
+  background: var(--surface);
+  flex-shrink: 0;
+}
+.nav-item {
+  display: flex; flex-direction: column;
+  align-items: center; gap: 2px;
+  font-size: 10px;
+  color: var(--text3);
+  cursor: pointer;
+  padding: 0 12px;
+}
+.nav-item i { font-size: 20px; }
+.nav-item.active { color: var(--accent); }
+
+/* ======= ADD PLACE FORM ======= */
+.form-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0 16px 80px;
+}
+.form-body::-webkit-scrollbar { width: 0; }
+.field-group { margin-top: 16px; }
+.field-label {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--text3);
+  margin-bottom: 6px;
+}
+.input-box {
+  background: var(--surface2);
+  border: 0.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  font-size: 13px;
+  font-family: 'DM Sans', sans-serif;
+  color: var(--text);
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.input-box i { font-size: 15px; color: var(--text3); flex-shrink: 0; }
+.input-val { flex: 1; }
+.input-hint { color: var(--text3); }
+.selected-card {
+  background: var(--accent-light);
+  border: 0.5px solid var(--accent-mid);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  display: flex; gap: 8px; align-items: center;
+}
+.selected-card i { font-size: 14px; color: var(--accent); }
+.selected-name { font-size: 13px; font-weight: 500; color: var(--accent); }
+.selected-addr { font-size: 11px; color: #534AB7; opacity: 0.7; }
+.suggestions {
+  border: 0.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  margin-top: 4px;
+}
+.sug-item {
+  padding: 9px 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-bottom: 0.5px solid var(--border);
+  cursor: pointer;
+  transition: background 0.1s;
+}
+.sug-item:last-child { border-bottom: none; }
+.sug-item:hover { background: var(--surface2); }
+.sug-item.active { background: var(--accent-light); }
+.sug-ico {
+  width: 28px; height: 28px;
+  border-radius: 7px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  font-size: 13px;
+}
+.sug-name { font-size: 12px; font-weight: 500; }
+.sug-addr { font-size: 10px; color: var(--text3); }
+.or-divider {
+  display: flex; align-items: center; gap: 8px;
+  margin: 8px 0;
+  font-size: 11px; color: var(--text3);
+}
+.or-divider::before, .or-divider::after {
+  content: ''; flex: 1;
+  height: 0.5px; background: var(--border);
+}
+
+.star-rating { display: flex; gap: 8px; }
+.star-btn {
+  font-size: 32px;
+  cursor: pointer;
+  color: var(--border2);
+  border: none;
+  background: none;
+  padding: 0;
+  transition: transform 0.1s;
+}
+.star-btn.filled { color: var(--amber-mid); }
+.star-btn:hover { transform: scale(1.15); }
+.rating-label { font-size: 12px; color: var(--amber); font-weight: 500; margin-top: 4px; }
+
+.date-row { display: flex; gap: 8px; }
+.date-box {
+  flex: 1;
+  background: var(--surface2);
+  border: 0.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 9px 12px;
+  display: flex; align-items: center; gap: 6px;
+}
+.date-box i { font-size: 14px; color: var(--text3); }
+.date-lbl { font-size: 10px; color: var(--text3); }
+.date-val { font-size: 13px; font-weight: 500; color: var(--text); }
+
+.tags-row { display: flex; flex-wrap: wrap; gap: 6px; }
+.tag-btn {
+  padding: 5px 11px;
+  border-radius: 20px;
+  font-size: 12px; font-weight: 500;
+  font-family: 'DM Sans', sans-serif;
+  border: 0.5px solid var(--border2);
+  background: var(--surface);
+  color: var(--text2);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.tag-btn.active-cafe { background: var(--teal-light); color: var(--teal); border-color: transparent; }
+.tag-btn.active-food { background: var(--amber-light); color: var(--amber); border-color: transparent; }
+.tag-btn.active-culture { background: var(--accent-light); color: var(--accent); border-color: transparent; }
+.tag-btn.active-nature { background: var(--green-light); color: var(--green); border-color: transparent; }
+.tag-btn.active-stay { background: var(--blue-light); color: var(--blue); border-color: transparent; }
+
+.note-area {
+  background: var(--surface2);
+  border: 0.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  min-height: 64px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--text);
+}
+
+.photo-opts { display: flex; gap: 8px; }
+.photo-opt {
+  flex: 1;
+  background: var(--surface2);
+  border: 0.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 10px 6px;
+  display: flex; flex-direction: column;
+  align-items: center; gap: 4px;
+  cursor: pointer;
+}
+.photo-opt.active {
+  background: var(--accent-light);
+  border-color: var(--accent-mid);
+}
+.photo-opt i { font-size: 18px; color: var(--text3); }
+.photo-opt.active i { color: var(--accent); }
+.photo-opt-lbl { font-size: 10px; color: var(--text3); text-align: center; }
+.photo-opt.active .photo-opt-lbl { color: var(--accent); }
+
+.photo-thumbs {
+  display: flex; gap: 6px;
+  margin-top: 8px;
+}
+.thumb {
+  width: 64px; height: 56px;
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px;
+}
+.thumb.add {
+  border: 0.5px dashed var(--border2);
+  background: transparent;
+}
+.thumb.add i { font-size: 16px; color: var(--text3); }
+
+.col-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.col-chip {
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 12px; font-weight: 500;
+  font-family: 'DM Sans', sans-serif;
+  display: flex; align-items: center; gap: 4px;
+  cursor: pointer;
+  border: 0.5px solid var(--border2);
+  color: var(--text2);
+  background: var(--surface);
+}
+.col-chip.active {
+  background: var(--teal-light);
+  color: var(--teal);
+  border-color: transparent;
+}
+.col-chip.add-new {
+  border-style: dashed;
+  color: var(--text3);
+}
+.col-chip i { font-size: 12px; }
+
+.form-bottom {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  background: var(--surface);
+  border-top: 0.5px solid var(--border);
+  padding: 10px 16px 16px;
+  display: flex; gap: 8px;
+}
+.btn-primary {
+  flex: 1;
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 12px;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: 'DM Sans', sans-serif;
+  cursor: pointer;
+}
+.btn-ghost {
+  padding: 12px 14px;
+  border: 0.5px solid var(--border2);
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-family: 'DM Sans', sans-serif;
+  color: var(--text2);
+  background: transparent;
+  cursor: pointer;
+}
+
+/* ======= DETAIL SCREEN ======= */
+.detail-hero {
+  height: 160px;
+  background: linear-gradient(135deg, #E1F5EE 0%, #EEEDFE 100%);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 48px;
+  position: relative;
+  flex-shrink: 0;
+}
+.detail-back {
+  position: absolute;
+  top: 12px; left: 12px;
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.85);
+  display: flex; align-items: center; justify-content: center;
+}
+.detail-back i { font-size: 16px; color: var(--text); }
+.detail-more {
+  position: absolute;
+  top: 12px; right: 12px;
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.85);
+  display: flex; align-items: center; justify-content: center;
+}
+.detail-body { padding: 16px; flex: 1; overflow-y: auto; }
+.detail-name {
+  font-family: 'DM Serif Display', serif;
+  font-size: 22px;
+  letter-spacing: -0.4px;
+  line-height: 1.2;
+  color: var(--text);
+}
+.detail-addr { font-size: 12px; color: var(--text3); margin-top: 3px; }
+.detail-row { display: flex; align-items: center; gap: 6px; margin-top: 12px; }
+.detail-divider { height: 0.5px; background: var(--border); margin: 14px 0; }
+.detail-section-title { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text3); margin-bottom: 8px; }
+.detail-note { font-size: 13px; line-height: 1.6; color: var(--text); }
+.col-list { display: flex; flex-direction: column; gap: 6px; }
+.col-item {
+  display: flex; align-items: center; gap: 8px;
+  background: var(--surface2);
+  border-radius: 8px;
+  padding: 8px 10px;
+}
+.col-item i { font-size: 14px; color: var(--teal); }
+.col-item-name { font-size: 13px; font-weight: 500; }
+.col-item-count { font-size: 11px; color: var(--text3); margin-left: auto; }
+
+.who-added {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 12px; color: var(--text3);
+}
+.who-avatar {
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 9px; font-weight: 600;
+}
+
+/* Scrollbar */
+.place-list::-webkit-scrollbar { width: 0; }
+.detail-body::-webkit-scrollbar { width: 0; }
+.form-body::-webkit-scrollbar { width: 0; }
+</style>
+</head>
+<body>
+
+<div style="max-width:1100px;margin:0 auto;">
+  <h1 class="page-title">PinLog</h1>
+  <p class="page-subtitle">UI Preview · Mobile-first · HTML/CSS prototype</p>
+
+  <div class="screens-grid">
+
+    <!-- ===== SCREEN 1: HOME MAP ===== -->
+    <div class="screen-wrap">
+      <div class="screen-label">1 · Màn hình chính</div>
+      <div class="phone">
+        <div class="screen">
+          <div class="statusbar">
+            <span class="statusbar-time">9:41</span>
+            <div class="statusbar-icons">
+              <i class="ti ti-wifi"></i>
+              <i class="ti ti-battery-2"></i>
+            </div>
+          </div>
+          <div class="topbar">
+            <div>
+              <div class="topbar-title">PinLog</div>
+            </div>
+            <div style="display:flex;gap:6px;">
+              <button class="topbar-action"><i class="ti ti-search"></i></button>
+              <div class="avatar-circle">TM</div>
+            </div>
+          </div>
+
+          <!-- Map -->
+          <div class="map-area">
+            <div class="map-bg"></div>
+            <div class="map-road-h" style="top:35%;left:0;right:0;"></div>
+            <div class="map-road-h" style="top:65%;left:0;right:0;opacity:0.5;height:4px;"></div>
+            <div class="map-road-v" style="left:30%;top:0;bottom:0;"></div>
+            <div class="map-road-v" style="left:65%;top:0;bottom:0;opacity:0.5;width:4px;"></div>
+
+            <div class="map-pin active" style="left:31%;top:22%;">
+              <div class="map-pin-dot" style="background:var(--teal);">
+                <i class="ti ti-coffee"></i>
+              </div>
+              <div class="map-pin-label">Cafe Giang</div>
+            </div>
+            <div class="map-pin" style="left:64%;top:30%;">
+              <div class="map-pin-dot" style="background:var(--amber);">
+                <i class="ti ti-tools-kitchen-2"></i>
+              </div>
+              <div class="map-pin-label">Bún bò O Xuân</div>
+            </div>
+            <div class="map-pin" style="left:48%;top:58%;">
+              <div class="map-pin-dot" style="background:var(--accent);">
+                <i class="ti ti-building"></i>
+              </div>
+            </div>
+            <div class="map-pin" style="left:78%;top:62%;">
+              <div class="map-pin-dot" style="background:var(--teal);">
+                <i class="ti ti-coffee"></i>
+              </div>
+            </div>
+
+            <button class="map-fab"><i class="ti ti-plus"></i></button>
+            <div class="my-loc"><i class="ti ti-current-location"></i></div>
+          </div>
+
+          <!-- Bottom sheet -->
+          <div class="bottom-sheet">
+            <div class="sheet-handle"></div>
+            <div class="sheet-header">
+              <span class="sheet-title">Địa điểm của tôi</span>
+              <span class="count-badge">24 nơi</span>
+            </div>
+            <div class="filter-row">
+              <div class="filter-pill active">Tất cả</div>
+              <div class="filter-pill">☕ Cafe</div>
+              <div class="filter-pill">🍜 Ăn uống</div>
+              <div class="filter-pill">⭐ 4+ sao</div>
+              <div class="filter-pill">📅 Tuần này</div>
+            </div>
+            <div class="place-list">
+              <!-- Card 1 highlighted -->
+              <div class="place-card highlighted">
+                <div class="cat-icon" style="background:var(--teal-light);">☕</div>
+                <div style="flex:1;min-width:0;">
+                  <div class="place-name">Cafe Giang</div>
+                  <div class="place-addr">39 Nguyễn Hữu Huân, Hoàn Kiếm</div>
+                  <div class="place-meta">
+                    <div class="stars">
+                      <i class="ti ti-star-filled star-i"></i>
+                      <i class="ti ti-star-filled star-i"></i>
+                      <i class="ti ti-star-filled star-i"></i>
+                      <i class="ti ti-star-filled star-i"></i>
+                      <i class="ti ti-star star-i empty"></i>
+                    </div>
+                    <span class="tag-chip" style="background:var(--teal-light);color:var(--teal);">Cafe</span>
+                    <span class="place-date">12/05</span>
+                  </div>
+                </div>
+                <i class="ti ti-chevron-right" style="font-size:16px;color:var(--text3);flex-shrink:0;"></i>
+              </div>
+              <!-- Card 2 -->
+              <div class="place-card">
+                <div class="cat-icon" style="background:var(--amber-light);">🍜</div>
+                <div style="flex:1;min-width:0;">
+                  <div class="place-name">Bún bò O Xuân</div>
+                  <div class="place-addr">24 Lê Văn Hưu, Hai Bà Trưng</div>
+                  <div class="place-meta">
+                    <div class="stars">
+                      <i class="ti ti-star-filled star-i"></i>
+                      <i class="ti ti-star-filled star-i"></i>
+                      <i class="ti ti-star-filled star-i"></i>
+                      <i class="ti ti-star-filled star-i"></i>
+                      <i class="ti ti-star-filled star-i"></i>
+                    </div>
+                    <span class="tag-chip" style="background:var(--amber-light);color:var(--amber);">Ăn uống</span>
+                    <div class="place-user">
+                      <div class="user-dot" style="background:var(--teal-light);color:var(--teal);">NA</div>
+                      Ngọc Anh
+                    </div>
+                  </div>
+                </div>
+                <i class="ti ti-chevron-right" style="font-size:16px;color:var(--text3);flex-shrink:0;"></i>
+              </div>
+              <!-- Card 3 -->
+              <div class="place-card">
+                <div class="cat-icon" style="background:var(--accent-light);">🏛</div>
+                <div style="flex:1;min-width:0;">
+                  <div class="place-name">Bảo tàng Hà Nội</div>
+                  <div class="place-addr">Phạm Hùng, Nam Từ Liêm</div>
+                  <div class="place-meta">
+                    <div class="stars">
+                      <i class="ti ti-star-filled star-i"></i>
+                      <i class="ti ti-star-filled star-i"></i>
+                      <i class="ti ti-star-filled star-i"></i>
+                      <i class="ti ti-star star-i empty"></i>
+                      <i class="ti ti-star star-i empty"></i>
+                    </div>
+                    <span class="tag-chip" style="background:var(--accent-light);color:var(--accent);">Văn hoá</span>
+                  </div>
+                </div>
+                <i class="ti ti-chevron-right" style="font-size:16px;color:var(--text3);flex-shrink:0;"></i>
+              </div>
+            </div>
+          </div>
+
+          <div class="bottom-nav">
+            <div class="nav-item active"><i class="ti ti-map"></i>Bản đồ</div>
+            <div class="nav-item"><i class="ti ti-list"></i>Danh sách</div>
+            <div class="nav-item"><i class="ti ti-folders"></i>Collection</div>
+            <div class="nav-item"><i class="ti ti-user"></i>Tôi</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== SCREEN 2: ADD PLACE ===== -->
+    <div class="screen-wrap">
+      <div class="screen-label">2 · Thêm địa điểm</div>
+      <div class="phone">
+        <div class="screen">
+          <div class="statusbar">
+            <span class="statusbar-time">9:41</span>
+            <div class="statusbar-icons"><i class="ti ti-wifi"></i><i class="ti ti-battery-2"></i></div>
+          </div>
+          <div class="topbar">
+            <button class="topbar-action"><i class="ti ti-x"></i></button>
+            <div class="topbar-title" style="font-size:16px;font-family:'DM Sans';font-weight:500;">Thêm địa điểm</div>
+            <span style="font-size:13px;font-weight:500;color:var(--accent);cursor:pointer;">Lưu</span>
+          </div>
+
+          <div class="form-body">
+
+            <!-- Search -->
+            <div class="field-group">
+              <div class="field-label">Tìm địa điểm</div>
+              <div class="selected-card">
+                <i class="ti ti-map-pin"></i>
+                <div>
+                  <div class="selected-name">Cafe Giang</div>
+                  <div class="selected-addr">39 Nguyễn Hữu Huân, Hoàn Kiếm</div>
+                </div>
+                <i class="ti ti-check" style="font-size:14px;color:var(--accent);margin-left:auto;"></i>
+              </div>
+              <div class="or-divider">hoặc</div>
+              <div class="input-box" style="cursor:pointer;">
+                <i class="ti ti-current-location" style="color:var(--accent);"></i>
+                <span style="font-size:13px;color:var(--accent);">Tap trên bản đồ để lấy toạ độ</span>
+              </div>
+            </div>
+
+            <!-- Rating -->
+            <div class="field-group">
+              <div class="field-label">Đánh giá của bạn</div>
+              <div class="star-rating">
+                <button class="star-btn filled">★</button>
+                <button class="star-btn filled">★</button>
+                <button class="star-btn filled">★</button>
+                <button class="star-btn filled">★</button>
+                <button class="star-btn">★</button>
+              </div>
+              <div class="rating-label">4 sao · Rất tốt</div>
+            </div>
+
+            <!-- Date -->
+            <div class="field-group">
+              <div class="field-label">Ngày & giờ đến</div>
+              <div class="date-row">
+                <div class="date-box">
+                  <i class="ti ti-calendar"></i>
+                  <div>
+                    <div class="date-lbl">Ngày</div>
+                    <div class="date-val">12/05/2025</div>
+                  </div>
+                </div>
+                <div class="date-box">
+                  <i class="ti ti-clock"></i>
+                  <div>
+                    <div class="date-lbl">Giờ</div>
+                    <div class="date-val">09:30</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Category -->
+            <div class="field-group">
+              <div class="field-label">Danh mục</div>
+              <div class="tags-row">
+                <button class="tag-btn active-cafe">☕ Cafe</button>
+                <button class="tag-btn">🍜 Ăn uống</button>
+                <button class="tag-btn">🏛 Văn hoá</button>
+                <button class="tag-btn">🌿 Thiên nhiên</button>
+                <button class="tag-btn">🛏 Lưu trú</button>
+                <button class="tag-btn">+ Thêm</button>
+              </div>
+            </div>
+
+            <!-- Note -->
+            <div class="field-group">
+              <div class="field-label">Ghi chú cá nhân</div>
+              <div class="note-area">
+                Cà phê trứng ngon, hơi ngọt nhưng đậm đà. Nên đến sáng sớm tránh đông. Tầng 2 view đẹp hơn.
+              </div>
+            </div>
+
+            <!-- Photo -->
+            <div class="field-group">
+              <div class="field-label">Ảnh</div>
+              <div class="photo-opts">
+                <div class="photo-opt active">
+                  <i class="ti ti-photo"></i>
+                  <span class="photo-opt-lbl">Thư viện</span>
+                </div>
+                <div class="photo-opt">
+                  <i class="ti ti-link"></i>
+                  <span class="photo-opt-lbl">URL ảnh</span>
+                </div>
+                <div class="photo-opt">
+                  <i class="ti ti-x"></i>
+                  <span class="photo-opt-lbl">Bỏ qua</span>
+                </div>
+              </div>
+              <div class="photo-thumbs">
+                <div class="thumb" style="background:var(--teal-light);">📷</div>
+                <div class="thumb" style="background:var(--amber-light);">📷</div>
+                <div class="thumb add"><i class="ti ti-plus"></i></div>
+              </div>
+            </div>
+
+            <!-- Collections -->
+            <div class="field-group">
+              <div class="field-label">Thêm vào Collection</div>
+              <div class="col-chips">
+                <div class="col-chip active"><i class="ti ti-check"></i> Hà Nội food</div>
+                <div class="col-chip active"><i class="ti ti-check"></i> Cafe tour</div>
+                <div class="col-chip">Weekend HN</div>
+                <div class="col-chip">Muốn quay lại</div>
+                <div class="col-chip add-new"><i class="ti ti-plus"></i> Tạo mới</div>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="form-bottom">
+            <button class="btn-ghost">Huỷ</button>
+            <button class="btn-primary">Lưu địa điểm</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== SCREEN 3: PLACE DETAIL ===== -->
+    <div class="screen-wrap">
+      <div class="screen-label">3 · Chi tiết địa điểm</div>
+      <div class="phone">
+        <div class="screen">
+          <div class="statusbar" style="position:absolute;top:0;left:0;right:0;z-index:2;">
+            <span class="statusbar-time">9:41</span>
+            <div class="statusbar-icons"><i class="ti ti-wifi"></i><i class="ti ti-battery-2"></i></div>
+          </div>
+
+          <div class="detail-hero">
+            ☕
+            <div class="detail-back"><i class="ti ti-arrow-left"></i></div>
+            <div class="detail-more"><i class="ti ti-dots"></i></div>
+          </div>
+
+          <div class="detail-body">
+            <div class="detail-name">Cafe Giang</div>
+            <div class="detail-addr">39 Nguyễn Hữu Huân, Hoàn Kiếm, Hà Nội</div>
+
+            <div class="detail-row">
+              <div class="stars" style="gap:2px;">
+                <i class="ti ti-star-filled star-i" style="font-size:14px;"></i>
+                <i class="ti ti-star-filled star-i" style="font-size:14px;"></i>
+                <i class="ti ti-star-filled star-i" style="font-size:14px;"></i>
+                <i class="ti ti-star-filled star-i" style="font-size:14px;"></i>
+                <i class="ti ti-star star-i empty" style="font-size:14px;"></i>
+              </div>
+              <span style="font-size:13px;font-weight:500;color:var(--amber);">4 sao</span>
+              <span style="width:4px;height:4px;border-radius:50%;background:var(--border2);"></span>
+              <span class="tag-chip" style="background:var(--teal-light);color:var(--teal);">☕ Cafe</span>
+            </div>
+
+            <div class="detail-row" style="margin-top:6px;">
+              <i class="ti ti-calendar" style="font-size:13px;color:var(--text3);"></i>
+              <span style="font-size:12px;color:var(--text3);">Thứ Hai, 12/05/2025 · 09:30</span>
+            </div>
+
+            <div class="detail-divider"></div>
+
+            <div class="detail-section-title">Ghi chú</div>
+            <div class="detail-note">
+              Cà phê trứng ngon, hơi ngọt nhưng đậm đà. Nên đến sáng sớm tránh đông. Chỗ ngồi tầng 2 view đẹp hơn, có thể ngắm phố cổ.
+            </div>
+
+            <div class="detail-divider"></div>
+
+            <div class="detail-section-title">Thuộc Collection</div>
+            <div class="col-list">
+              <div class="col-item">
+                <i class="ti ti-folders"></i>
+                <span class="col-item-name">Hà Nội food tour</span>
+                <span class="col-item-count">12 nơi</span>
+              </div>
+              <div class="col-item">
+                <i class="ti ti-folders"></i>
+                <span class="col-item-name">Cafe chill Hà Nội</span>
+                <span class="col-item-count">8 nơi</span>
+              </div>
+            </div>
+
+            <div class="detail-divider"></div>
+
+            <div class="who-added">
+              <div class="who-avatar" style="background:var(--accent-light);color:var(--accent);">TM</div>
+              Được thêm bởi <strong>Tú Minh</strong> · 3 ngày trước
+            </div>
+
+            <div style="display:flex;gap:8px;margin-top:14px;">
+              <button class="btn-ghost" style="flex:1;display:flex;align-items:center;justify-content:center;gap:6px;">
+                <i class="ti ti-edit" style="font-size:15px;"></i> Sửa
+              </button>
+              <button class="btn-ghost" style="flex:1;display:flex;align-items:center;justify-content:center;gap:6px;">
+                <i class="ti ti-map-pin" style="font-size:15px;"></i> Chỉ đường
+              </button>
+              <button class="btn-ghost" style="padding:12px;border-color:var(--red-light);">
+                <i class="ti ti-trash" style="font-size:15px;color:var(--red);"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="bottom-nav">
+            <div class="nav-item"><i class="ti ti-map"></i>Bản đồ</div>
+            <div class="nav-item"><i class="ti ti-list"></i>Danh sách</div>
+            <div class="nav-item"><i class="ti ti-folders"></i>Collection</div>
+            <div class="nav-item active"><i class="ti ti-user"></i>Tôi</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div style="margin-top:40px;padding:16px 20px;background:var(--surface);border-radius:var(--radius);border:0.5px solid var(--border);max-width:1100px;margin-left:auto;margin-right:auto;">
+    <div style="font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--text3);margin-bottom:10px;">Color System</div>
+    <div style="display:flex;flex-wrap:wrap;gap:8px;">
+      <div style="display:flex;align-items:center;gap:6px;font-size:12px;"><div style="width:20px;height:20px;border-radius:5px;background:var(--accent);"></div> Accent / Primary</div>
+      <div style="display:flex;align-items:center;gap:6px;font-size:12px;"><div style="width:20px;height:20px;border-radius:5px;background:var(--teal);"></div> Cafe</div>
+      <div style="display:flex;align-items:center;gap:6px;font-size:12px;"><div style="width:20px;height:20px;border-radius:5px;background:var(--amber);"></div> Ăn uống</div>
+      <div style="display:flex;align-items:center;gap:6px;font-size:12px;"><div style="width:20px;height:20px;border-radius:5px;background:var(--green);"></div> Thiên nhiên</div>
+      <div style="display:flex;align-items:center;gap:6px;font-size:12px;"><div style="width:20px;height:20px;border-radius:5px;background:var(--blue);"></div> Lưu trú</div>
+      <div style="display:flex;align-items:center;gap:6px;font-size:12px;"><div style="width:20px;height:20px;border-radius:5px;background:var(--coral);"></div> Văn hoá</div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

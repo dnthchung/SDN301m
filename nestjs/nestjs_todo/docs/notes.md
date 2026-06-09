@@ -61,3 +61,12 @@ hoặc tự gửi những field đáng lẽ server phải xử lý.
 ## Bài 19
 
 - nestjs/mapped-types -> PartialType(truyền vào 1 DTO)
+
+## Bài 23
+
+- trong class thì constructure là 1 func đặc biệt - vì nó tự
+  động chạy khi mà một thực thể của class dc tạo ra
+
+## Bài 24 : Hiểu Cơ Chế Đảo Ngược Điều Khiển (Inversion of Control)
+
+- 1 class không nên tự tạo những thứ mà nó phụ thuộc vào

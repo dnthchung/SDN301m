@@ -70,3 +70,56 @@ hoặc tự gửi những field đáng lẽ server phải xử lý.
 ## Bài 24 : Hiểu Cơ Chế Đảo Ngược Điều Khiển (Inversion of Control)
 
 - 1 class không nên tự tạo những thứ mà nó phụ thuộc vào
+
+## Bài 26
+
+- DI Container (Ịnector) - nó sẽ quản lý 3 thứ
+  1. Các Class đã đăng ký trong ứng dụng
+  2. Mỗi class cần những di gì
+  3. Những thực thể mà nó đã tạo ra rồi để nó ko tạo lại ra nữa
+
+- Flow hoạt động khi mà ứng dụng nestjs khởi tạo
+
+```
+1. Ứng dụng khởi động
+        ↓
+2. NestJS quét providers trong module
+   → Ghi nhận class/provider nào đã được đăng ký trong `providers`
+        ↓
+3. Container đọc constructor của từng class
+   → Xác định class đó cần dependency nào
+        ↓
+4. Container cần tạo `TodosService`
+   → Thấy constructor của `TodosService` cần `TodosRepository`
+        ↓
+5. Container kiểm tra `TodosRepository`
+   ├─ Nếu chưa có instance:
+   │    → Tạo mới `TodosRepository`
+   │
+   └─ Nếu đã có instance:
+        → Lấy lại instance đã tạo trước đó
+        ↓
+6. Inject `TodosRepository` vào `TodosService`
+        ↓
+7. Tạo xong `TodosService`
+
+---
+
+Mặc định, provider trong NestJS có scope là singleton.
+
+Nghĩa là khi `UsersService` được đăng ký trong DI Container, NestJS chỉ tạo **một instance duy nhất** của `UsersService`.
+
+Sau đó, nếu `TodosService`, `CategoriesService` hoặc service khác cần dùng `UsersService`, container sẽ không tạo mới nữa mà sẽ inject lại cùng một instance đã có.
+
+Vì vậy, toàn bộ ứng dụng đang dùng chung một `UsersService`.
+
+```
+
+## Bài 29
+
+- trong nest các module chia sẻ với nhau bằng module -> khi import thì phải import module
+- Muốn dùng service của module khác:
+  Module A có Service A
+  → Module A export Service A
+  → Module B import Module A
+  → Service B inject được Service A
